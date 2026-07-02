@@ -285,7 +285,33 @@ complete_prizes_PA <- read_rds("complete_funding_PA.rds")
 
 # Geospatial data
 sf_countries <- read_sf("sf_countries_PA.geojson")   # pipeline input; not compacted
-complete_spacy_PA_geo <- read_rds("complete_spacy_PA_geo.rds")
+complete_spacy_PA_geo <- local({
+  g <- read_rds("complete_spacy_PA_geo.rds")
+  # Post-hoc coordinate fix (the data-generation script clean_mining.R is left
+  # unchanged by request): these regions were geocoded to bogus points — e.g.
+  # "Western China" on the east coast (~120E, 32N), "Central Asia" in the Indian
+  # Ocean (~102E, 3N), "South Asia" east of the Philippines (~125E, 11N).
+  # Reassign every occurrence to a representative location at app bootup only.
+  # All targets are kept inside the project bbox (clean_mining.R config: lon
+  # 80-150, lat 0-50). Central Asia's and South Asia's true centres lie at/near
+  # lon <80, so they are placed at their eastern, in-bbox extent.
+  fixes <- list(
+    "western china" = c(90, 36),   # Qinghai / Tibetan Plateau (western interior China)
+    "central asia"  = c(82, 45),   # eastern Kazakhstan (Central Asia's eastern, in-bbox edge)
+    "south asia"    = c(85, 24)    # eastern Ganges plain (India / Bangladesh)
+  )  # c(lon, lat)
+  key   <- tolower(trimws(g$text))
+  geom  <- sf::st_geometry(g)
+  for (nm in names(fixes)) {
+    idx <- which(key == nm)
+    if (length(idx)) {
+      pt <- sf::st_sfc(sf::st_point(fixes[[nm]]), crs = sf::st_crs(g))
+      geom[idx] <- pt[rep(1L, length(idx))]
+    }
+  }
+  sf::st_geometry(g) <- geom
+  g
+})
 
 # Citation-network data (paper -> reference edge list + reference metadata).
 # OPTIONAL: produced by clean_mining.R §21. If absent, the citation tab shows a
@@ -734,12 +760,53 @@ author_cocit_infobox <- function(author_name) {
 
 
 # ==============================================================================
+# ACCESSIBILITY HELPERS
+# ==============================================================================
+# Give each (unchanged) visualization a screen-reader-only text alternative.
+# alt_viz() tags the output element as role="img" referring to a hidden caption;
+# alt_desc() renders that caption, whose text a matching output$<id>_desc fills in
+# server-side from the same reactive data. Sighted users see only the
+# visualization; assistive technology announces it via the dynamic description.
+alt_viz <- function(viz, id) {
+  attrs <- list(role = "img", `aria-labelledby` = paste0(id, "_cap"))
+  if (inherits(viz, "shiny.tag")) {
+    do.call(tagAppendAttributes, c(list(viz), attrs))
+  } else {
+    # htmlwidget outputs (leaflet, visNetwork, wordcloud2) return a shiny.tag.list
+    # wrapper; attach the ARIA attributes to the widget's actual <div>, not the list.
+    idx <- which(vapply(viz, function(el) inherits(el, "shiny.tag"), logical(1)))[1]
+    if (!is.na(idx)) viz[[idx]] <- do.call(tagAppendAttributes, c(list(viz[[idx]]), attrs))
+    viz
+  }
+}
+alt_desc <- function(id, label) {
+  tags$div(id = paste0(id, "_cap"), class = "sr-only",
+           paste0(label, ". "),
+           textOutput(paste0(id, "_desc"), inline = TRUE))
+}
+# Compact "label (count)" list of the top-k categories, for the descriptions.
+fmt_top <- function(labels, counts, k = 5) {
+  labels <- as.character(labels)
+  keep <- !is.na(labels) & nzchar(labels) & !is.na(counts)
+  labels <- labels[keep]; counts <- counts[keep]
+  if (length(labels) == 0) return("keine")
+  ord <- order(-counts); labels <- labels[ord]; counts <- counts[ord]
+  k <- min(k, length(labels))
+  paste(sprintf("%s (%s)", labels[seq_len(k)],
+                formatC(round(counts[seq_len(k)]), format = "d", big.mark = ".", decimal.mark = ",")),
+        collapse = ", ")
+}
+
+
+# ==============================================================================
 # UI DEFINITION
 # ==============================================================================
 ui <- fluidPage(
+  lang = "de",
   useShinyjs(),
   tags$head(
     tags$meta(charset = "UTF-8"),
+    tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
     tags$meta(name = "author", content = "Thorben Pelzer"),
     tags$meta(name = "description", content = "Interaktive Analyse Ostasien-bezogener Forschung in Norddeutschland – basierend auf Profildaten, NLP und Kartenvisualisierung."),
     tags$meta(property = "og:title", content = "Atlas der Ostasien-Forschung in Norddeutschland"),
@@ -779,17 +846,26 @@ ui <- fluidPage(
                           '; expires=' + d.toUTCString() +
                           '; path=/; SameSite=Lax';
       }
+      var welcomeLastFocused = null;
+      function getWelcomeFocusable(overlay) {
+        return Array.prototype.slice.call(
+          overlay.querySelectorAll('button, [href], input, select, textarea')
+        ).filter(function(el) { return !el.disabled && el.offsetParent !== null; });
+      }
       function hideWelcome() {
         var overlay = document.getElementById('welcome-modal');
         if (overlay) overlay.classList.remove('is-visible');
+        if (welcomeLastFocused && welcomeLastFocused.focus) welcomeLastFocused.focus();
       }
       document.addEventListener('DOMContentLoaded', function() {
         if (readCookie('chikon_skip_intro') === '1') return;
         var overlay = document.getElementById('welcome-modal');
         if (!overlay) return;
+        welcomeLastFocused = document.activeElement;
         overlay.classList.add('is-visible');
         var okBtn = document.getElementById('welcome-modal-ok');
         if (okBtn) {
+          okBtn.focus();
           okBtn.addEventListener('click', function() {
             var cb = document.getElementById('welcome-modal-dont-show');
             if (cb && cb.checked) {
@@ -798,6 +874,18 @@ ui <- fluidPage(
             hideWelcome();
           });
         }
+        // Keep keyboard focus inside the dialog while it is open (focus trap)
+        overlay.addEventListener('keydown', function(e) {
+          if (e.key !== 'Tab') return;
+          var f = getWelcomeFocusable(overlay);
+          if (!f.length) return;
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+          }
+        });
         overlay.addEventListener('click', function(e) {
           // backdrop click does NOT dismiss — user must click button
           if (e.target === overlay) e.stopPropagation();
@@ -806,6 +894,47 @@ ui <- fluidPage(
     })();
   ")),
     
+    # Keyboard-accessibility enhancements (tooltips, skip link, table rows)
+    tags$script(HTML("
+    $(function() {
+      // Make the hover tooltips (tutorial screenshots, maps) keyboard-reachable:
+      // focusable + exposed as buttons. The CSS :focus-within rule reveals them.
+      document.querySelectorAll('.tooltip-image').forEach(function(el) {
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+      });
+      // Skip link: move keyboard focus into the main content, past the navbar.
+      $(document).on('click', '#skip-to-content', function(e) {
+        e.preventDefault();
+        var main = document.querySelector('.tab-content');
+        if (main) { main.setAttribute('tabindex', '-1'); main.focus(); }
+      });
+      // Result tables: make rows focusable on each draw and let Enter/Space
+      // select the focused row (previously only a mouse click worked).
+      $(document).on('draw.dt', function(e) {
+        $(e.target).find('tbody tr').attr('tabindex', '0');
+      });
+      $(document).on('keydown', 'table.dataTable tbody tr', function(e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+          e.preventDefault();
+          var tr = this;
+          var tableEl = tr.closest('table');
+          var host = tr.closest('.datatables');   // Shiny DT output wrapper; its id is the outputId
+          if (!tableEl || !host || !window.Shiny || !($.fn && $.fn.dataTable)) return;
+          var api = $(tableEl).DataTable();
+          var idx = api.row(tr).index();           // 0-based data index (survives paging/sorting)
+          if (idx == null || idx < 0) return;
+          // Mirror DataTables single-row selection, then set the same inputs a
+          // mouse click would (DT ignores scripted clicks, so drive Shiny directly).
+          $(tableEl).find('tbody tr.selected').removeClass('selected');
+          $(tr).addClass('selected');
+          Shiny.setInputValue(host.id + '_rows_selected', [idx + 1], {priority: 'event'});
+          Shiny.setInputValue(host.id + '_row_last_clicked', idx + 1, {priority: 'event'});
+        }
+      });
+    });
+  ")),
+
     # Custom CSS styling
     tags$style(HTML("
     
@@ -862,8 +991,16 @@ ui <- fluidPage(
     
     max-width: 90vw;       /* never exceed viewport width */
 }
-.tooltip-image:hover .tooltip-content {
+.tooltip-image:hover .tooltip-content,
+.tooltip-image:focus .tooltip-content,
+.tooltip-image:focus-within .tooltip-content {
     visibility: visible;
+}
+/* Visible keyboard focus for the tooltip triggers (made focusable via JS). */
+.tooltip-image:focus-visible {
+    outline: 2px solid #428bca;
+    outline-offset: 2px;
+    border-radius: 3px;
 }
 /* Right-anchored variant: pops out leftward (for right-floated triggers like
    the Dokumentation map) so the popup doesn't overflow the right edge. */
@@ -1088,6 +1225,39 @@ ui <- fluidPage(
 @keyframes loading-spin {
     to { transform: rotate(360deg); }
 }
+/* Screen-reader-only text: visually hidden, still announced by assistive tech.
+   Carries the dynamic text alternatives (alt text) of the visualizations. */
+.sr-only {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+/* Strong, consistent keyboard focus indicator (keyboard users only, not mouse). */
+a:focus-visible, button:focus-visible, .btn:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible,
+[tabindex]:focus-visible, .nav > li > a:focus-visible {
+    outline: 3px solid #428bca !important;
+    outline-offset: 2px;
+}
+/* Skip-to-content link: off-screen until it receives keyboard focus. */
+.skip-link {
+    position: absolute;
+    left: 8px;
+    top: -48px;
+    z-index: 10060;
+    background: #9b0a7d;
+    color: #fff !important;
+    padding: 8px 14px;
+    border-radius: 0 0 6px 6px;
+    transition: top 0.15s ease-in;
+}
+.skip-link:focus { top: 0; }
+/* The skip-link target is a focus landing zone, not a control — no big ring. */
+.tab-content:focus { outline: none; }
 /* First-start welcome modal */
 .welcome-modal-overlay {
     display: none;
@@ -1138,13 +1308,19 @@ ui <- fluidPage(
   title = "Atlas der Ostasien-Forschung in Norddeutschland",
   theme = shinytheme("united"),
 
+  # Skip link — lets keyboard users jump past the navbar to the main content.
+  tags$a(id = "skip-to-content", href = "#", class = "skip-link", "Zum Inhalt springen"),
+
   # First-visit welcome modal (shown unless the chikon_skip_intro cookie is set)
   tags$div(
     id = "welcome-modal",
     class = "welcome-modal-overlay",
+    role = "dialog",
+    `aria-modal` = "true",
+    `aria-labelledby` = "welcome-modal-title",
     tags$div(
       class = "welcome-modal-content",
-      tags$h3("Willkommen im Atlas der Ostasien-Forschung in Norddeutschland"),
+      tags$h3(id = "welcome-modal-title", "Willkommen im Atlas der Ostasien-Forschung in Norddeutschland"),
       tags$p(
         "Diese Datenbank bündelt Forschungsaktivitäten zu Ostasien an Universitäten in ",
         "Norddeutschland und macht sie durchsuchbar und visualisierbar. Die zugrundeliegenden ",
@@ -1448,7 +1624,7 @@ ui <- fluidPage(
                                                       div(class = "center-content full-width-plot",
                                                                    wellPanel(
                                                                      div(id = "sfPlotWrapper",
-                                                                         withSpinner(leafletOutput("sfPlot", width = "100%", height = "80vh"))
+                                                                         withSpinner(alt_viz(leafletOutput("sfPlot", width = "100%", height = "80vh"), "sfPlot")), alt_desc("sfPlot", "Interaktive Karte der in den Publikationen genannten Orte")
                                                                      ),
                                                                      div(id = "sfPlotUnavailable",
                                                                          tags$p("Karte auf kleinen Bildschirmen nicht verfügbar.", style = "text-align:center; font-weight:bold;")
@@ -1464,7 +1640,7 @@ ui <- fluidPage(
                                                    class = "center-content",
                                                    wellPanel(
                                                      class = "dynamic-height-network center-content",
-                                                     visNetworkOutput("mynetworkid", height = "95%"),
+                                                     alt_viz(visNetworkOutput("mynetworkid", height = "95%"), "mynetworkid"), alt_desc("mynetworkid", "Interaktiver Netzwerkgraph aus Personen, Publikationen, Einrichtungen und Fördermittelgebern"),
                                                      div(
                                                        id = "networkUnavailable",
                                                        style = "display: none; text-align: center; font-weight: bold;",
@@ -1493,7 +1669,7 @@ ui <- fluidPage(
                                                    class = "center-content",
                                                    wellPanel(
                                                      class = "dynamic-height-network center-content",
-                                                     visNetworkOutput("cocitNetwork", height = "95%")
+                                                     alt_viz(visNetworkOutput("cocitNetwork", height = "95%"), "cocitNetwork"), alt_desc("cocitNetwork", "Interaktives Zitationsnetzwerk")
                                                    )
                                                  )
                                                ),
@@ -1511,7 +1687,7 @@ ui <- fluidPage(
                                                          "Direkte Zitationen (Publikationen)" = "direct",
                                                          "Bibliogr. Kopplung (Publikationen)" = "coupling"
                                                        ),
-                                                       selected = "author_cocit"
+                                                       selected = "author"
                                                      ),
                                                      sliderInput("cocit_cap", "Max. Knoten",
                                                                  min = 30, max = 400, value = 150, step = 10),
@@ -1550,7 +1726,7 @@ ui <- fluidPage(
                                                                     wellPanel(
                                                                       tags$p(tags$b("Gefilterte Publikationen nach Herkunftsregion der Fördereinheit"),
                                                                              style = "text-align:center; font-size:0.85em; margin-bottom:0.4em;"),
-                                                                      withSpinner(plotOutput("foerderRegionPie", height = "320px"))
+                                                                      withSpinner(alt_viz(plotOutput("foerderRegionPie", height = "320px"), "foerderRegionPie")), alt_desc("foerderRegionPie", "Kreisdiagramm der Herkunftsländer der Fördermittelgeber")
                                                                     )
                                                       )
                                                       ),
@@ -1562,14 +1738,14 @@ ui <- fluidPage(
                                                         column(6,
                                                                div(class = "center-content scrollable-content",
                                                                    wellPanel(
-                                                                     withSpinner(plotOutput("barChart_disziplin", width = "100%"))
+                                                                     withSpinner(alt_viz(plotOutput("barChart_disziplin", width = "100%"), "barChart_disziplin")), alt_desc("barChart_disziplin", "Balkendiagramm: Publikationen je Fachrichtung")
                                                                    )
                                                                )
                                                         ),
                                                         column(6,
                                                                div(class = "center-content scrollable-content",
                                                                    wellPanel(
-                                                                     withSpinner(plotOutput("barChart_zeit", width = "100%"))
+                                                                     withSpinner(alt_viz(plotOutput("barChart_zeit", width = "100%"), "barChart_zeit")), alt_desc("barChart_zeit", "Liniendiagramm: Publikationen pro Jahr")
                                                                    )
                                                                )
                                                         )
@@ -1579,7 +1755,7 @@ ui <- fluidPage(
                                                         column(12,
                                                                div(class = "center-content scrollable-content",
                                                                    wellPanel(
-                                                                     withSpinner(plotOutput("barChart_koop", width = "100%"))
+                                                                     withSpinner(alt_viz(plotOutput("barChart_koop", width = "100%"), "barChart_koop")), alt_desc("barChart_koop", "Liniendiagramm: Kooperationsländer der Ko-Autor:innen im Zeitverlauf")
                                                                    )
                                                                )
                                                         )
@@ -1589,14 +1765,14 @@ ui <- fluidPage(
                                                         column(6,
                                                                div(class = "center-content scrollable-content",
                                                                    wellPanel(
-                                                                     withSpinner(plotOutput("barChart_region", width = "100%"))
+                                                                     withSpinner(alt_viz(plotOutput("barChart_region", width = "100%"), "barChart_region")), alt_desc("barChart_region", "Balkendiagramm: Publikationen je Forschungsregion")
                                                                    )
                                                                )
                                                         ),
                                                         column(6,
                                                                div(class = "center-content scrollable-content",
                                                                    wellPanel(
-                                                                     withSpinner(plotOutput("barChart_standort", width = "100%"))
+                                                                     withSpinner(alt_viz(plotOutput("barChart_standort", width = "100%"), "barChart_standort")), alt_desc("barChart_standort", "Balkendiagramm: Forschende je Standort")
                                                                    )
                                                                )
                                                         )
@@ -1613,7 +1789,7 @@ ui <- fluidPage(
                                                                                          fontawesome::fa("info-circle", a11y = "sem", title = "Visualisierung erkannter Eigennamen (inhaltlich & geografisch) in Titeln und Abstracts der gefilterten Publikationen. Der Algorithmus entfernt Begriffe, wenn es der Darstellung dient."),
                                                                                          "Visualisierung erkannter Eigennamen (inhaltlich & geografisch) in Titeln und Abstracts der gefilterten Publikationen. Der Algorithmus entfernt Begriffe, wenn es der Darstellung dient."
                                                                                        )),
-                                                                                       withSpinner(wordcloud2Output("wordCloud", width = "100%"))
+                                                                                       withSpinner(alt_viz(wordcloud2Output("wordCloud", width = "100%"), "wordCloud")), alt_desc("wordCloud", "Wortwolke der häufigsten Schlagwörter")
                                                                          ),
                                                                          ))
                                              )),
@@ -1647,43 +1823,43 @@ ui <- fluidPage(
                                          <p><b>Expertisen-Recherche</b></p>
                                          <p>Eine Hamburger Journalistin möchte eine Interview-Partnerin zum Thema „Südchinesisches Meer“ finden. Sie
                                          aktiviert in der <span class='tooltip-image'>Suchmaske<span class='tooltip-content'>
-                                        <img src='anl_1_1.jpg'></span></span> alle Forschungsregionen und Fachrichtungen, selektiert nur Hamburg als Standort
-                                         und gibt die <span class='tooltip-image'>Suchbegriffe<span class='tooltip-content'><img src='anl_1_2.jpg'></span></span> „south china sea“ ein. Sie wählt die Option <span class='tooltip-image'>„alle“<span class='tooltip-content'><img src='anl_1_2.jpg'></span></span>️️, damit nur Publikationen gefunden
+                                        <img src='anl_1_1.jpg' alt='Screenshot der Suchmaske mit Filteroptionen'></span></span> alle Forschungsregionen und Fachrichtungen, selektiert nur Hamburg als Standort
+                                         und gibt die <span class='tooltip-image'>Suchbegriffe<span class='tooltip-content'><img src='anl_1_2.jpg' alt='Screenshot des Suchbegriff-Felds mit UND/ODER-Auswahl'></span></span> „south china sea“ ein. Sie wählt die Option <span class='tooltip-image'>„alle“<span class='tooltip-content'><img src='anl_1_2.jpg' alt='Screenshot des Suchbegriff-Felds mit UND/ODER-Auswahl'></span></span>️️, damit nur Publikationen gefunden
                                          werden, die alle drei Wörter beinhalten. Die Ergebnis-Tabelle mit den relevanten Personen sortiert sie nach
                                          <span class='tooltip-image'>„Publikationen“<span class='tooltip-content'>
-                                        <img src='anl_1_3.jpg'></span></span>, um die Personen auszumachen, die in der Vergangenheit besonders häufig zum Thema geschrieben haben.
-                                         Sie selektiert eine führende Person und klickt in der rechten Spalte auf <span class='tooltip-image'>„Publikationen anzeigen“<span class='tooltip-content'><img src='anl_1_4.jpg'></span></span>, um sich über
+                                        <img src='anl_1_3.jpg' alt='Screenshot der nach Publikationszahl sortierten Ergebnistabelle'></span></span>, um die Personen auszumachen, die in der Vergangenheit besonders häufig zum Thema geschrieben haben.
+                                         Sie selektiert eine führende Person und klickt in der rechten Spalte auf <span class='tooltip-image'>„Publikationen anzeigen“<span class='tooltip-content'><img src='anl_1_4.jpg' alt='Screenshot der Schaltfläche „Publikationen anzeigen“'></span></span>, um sich über
                                          die Titel der Veröffentlichungen ein genaueres Bild von der Expertise der Person zu machen. Anschließend klickt
                                          die Journalistin noch auf den <span class='tooltip-image'>ORCiD-Link<span class='tooltip-content'>
-                                        <img src='anl_1_5.jpg'></span></span>, um eine Kontaktadresse des Forschenden ausfindig zu machen.</p>
+                                        <img src='anl_1_5.jpg' alt='Screenshot des ORCiD-Links in der Ergebnisspalte'></span></span>, um eine Kontaktadresse des Forschenden ausfindig zu machen.</p>
                                          <p><b>Forschungssicherheit</b></p>
                                          <p>Ein Verwaltungsangestellter aus Kiel ist damit beauftragt, herauszufinden, an welchen Stellen in der Vergangenheit
                                          an seiner Universität mit Drittmitteln des „China Scholarship Council“ (CSC) geforscht wurde. Da er sich nicht sicher sein
                                          kann, ob vorhandene Informationen vollständig sind und sich die Einzelbefragung der Professor:innen als nicht ergiebig
                                          erweist, möchte er seine vorhandenen Daten mit externen Daten abgleichen, um mögliche Lücken zu füllen. Er wählt
                                          daher als <span class='tooltip-image'>Standort-Filter<span class='tooltip-content'>
-                                        <img src='anl_2_1.jpg'></span></span> nur Kiel aus, lässt aber bei den anderen Filtern alle Optionen aktiv. Nachdem er die Suchanfrage
+                                        <img src='anl_2_1.jpg' alt='Screenshot des Standort-Filters'></span></span> nur Kiel aus, lässt aber bei den anderen Filtern alle Optionen aktiv. Nachdem er die Suchanfrage
                                          abgeschickt hat, klickt er in der Ergebnis-Spalte auf den Reiter <span class='tooltip-image'>„Förderungen“<span class='tooltip-content'>
-                                        <img src='anl_2_2.jpg'></span></span> und sieht die Anzahl der Kieler
+                                        <img src='anl_2_2.jpg' alt='Screenshot des Reiters „Förderungen“'></span></span> und sieht die Anzahl der Kieler
                                          Publikationen je Fördermittelgeber. Es findet hier also all jene Publikationen, bei denen eine CSC-Förderung angegeben
                                          und maschinell erkannt wurde. Er markiert den CSC-Eintrag und wählt in der rechten Spalte <span class='tooltip-image'>„Publikationen anzeigen“<span class='tooltip-content'>
-                                        <img src='anl_2_3.jpg'></span></span>,
+                                        <img src='anl_2_3.jpg' alt='Screenshot der Schaltfläche „Publikationen anzeigen“'></span></span>,
                                          um seine Informationen mittels des externen Datensatzes des <i>Atlas</i> zu ergänzen.</p>
                                          <p><b>Forschungsschwerpunkte</b></p>
                                          <p>In Bremen möchte eine Wissenschaftlerin ein neues interdisziplinäres Verbundprojekt in Norddeutschland aufbauen und sucht
                                          Mitstreiter:innen, die das Forschungsgebiet „Klimawandel“ aus sozio-kultureller Perspektive erforschen. Für eine globale Perspektive
                                          fehlt dem Projektvorhaben bislang noch Expertise zur Rezeption des Klimawandels in ost- und südostasiatischen Regionen. Aufgrund des
                                          sozio-kulturellen Fokus begrenzt sie in den Filter-Einstellungen die <span class='tooltip-image'>Fachrichtungen<span class='tooltip-content'>
-                                        <img src='anl_3_1.jpg'></span></span> auf die zwei Optionen „Geisteswissenschaften“ und „Wirtschaft & Soziales“.
+                                        <img src='anl_3_1.jpg' alt='Screenshot des Fachrichtungs-Filters'></span></span> auf die zwei Optionen „Geisteswissenschaften“ und „Wirtschaft & Soziales“.
                                          Bei den Suchbegriffen wählt sie <span class='tooltip-image'>thematisch passende Begriffe<span class='tooltip-content'>
-                                        <img src='anl_3_2.jpg'></span></span>, die sie mit Leerzeichen trennt. Da sie die Option
+                                        <img src='anl_3_2.jpg' alt='Screenshot der Suchbegriff-Eingabe mit Verknüpfungsoption'></span></span>, die sie mit Leerzeichen trennt. Da sie die Option
                                          <span class='tooltip-image'>„Mindestens ein Begriff“<span class='tooltip-content'>
-                                        <img src='anl_3_2.jpg'></span></span> gewählt hat, werden alle Publikationen gefunden, die zumindest einen der Begriffe in der Überschrift oder als
+                                        <img src='anl_3_2.jpg' alt='Screenshot der Suchbegriff-Eingabe mit Verknüpfungsoption'></span></span> gewählt hat, werden alle Publikationen gefunden, die zumindest einen der Begriffe in der Überschrift oder als
                                          Schlüsselwort aufzählen. In den Suchergebnissen klickt die Forscherin auf den Reiter <span class='tooltip-image'>„Netzwerk“<span class='tooltip-content'>
-                                        <img src='anl_3_3.jpg'></span></span>, um sich einen visuellen
+                                        <img src='anl_3_3.jpg' alt='Screenshot des Reiters „Netzwerk“'></span></span>, um sich einen visuellen
                                          Ersteinruck davon zu machen, an welchen Institutionen passende Forschungsschwerpunkte zu finden sind. Sie wählt im Netzwerk-Graph
                                          einzelne Publikationen aus und klickt auf den <span class='tooltip-image'>DOI-Link<span class='tooltip-content'>
-                                        <img src='anl_3_4.jpg'></span></span>, um automatisch mittels der elektronischen Lizenzen ihrer Universitätsbibliothek
+                                        <img src='anl_3_4.jpg' alt='Screenshot des DOI-Links im Netzwerk-Graphen'></span></span>, um automatisch mittels der elektronischen Lizenzen ihrer Universitätsbibliothek
                                          ausgewählte Artikel herunterzuladen und einen Eindruck von der Forschung zu bekommen.
                                          </p>")))))),
                         column(6, div(class = "dynamic-height", style = "padding-left: 6px;",
@@ -1712,11 +1888,11 @@ ui <- fluidPage(
                                       wellPanel(tags$small(HTML(paste0(
                                         "<p><h4>Rohdaten</h4></p>
                <p>Das komplette Datenset kann über das Online-Repositorium
-               <a href=\"https://zenodo.org/search?q=metadata.creators.person_or_org.name%3A%22Pelzer%2C%20Thorben%22&f=resource_type%3Adataset&l=list&p=1&s=10&sort=bestmatch\">Zenodo</a>
+               <a href=\"https://doi.org/10.5281/zenodo.17745729\">Zenodo</a>
                heruntergeladen werden.</p>
                <p><h4>Programmcode</h4></p>
                <p>Die Programmcodes für die Datenschürfung sowie für das Online-Interface sind über das Versionsverwaltungs-Portal
-               <a href=\"https://github.com/tp451\">GitHub</a> einsehbar.</p>"
+               <a href=\"https://github.com/tp451/chikon_atlas\">GitHub</a> einsehbar.</p>"
                                       ))))
                                       )),
                       )),
@@ -1730,8 +1906,8 @@ ui <- fluidPage(
                                          <p>Die Datenerhebung fasst zehn universitäre Standorte ins Auge, die für den Raum Norddeutschland fächerübergreifend von besonderer Relevanz sind. Die Liste dieser Standorte ergibt sich aus der Kombination aller deutscher Universitäten, die Mitglied des Verbunds Norddeutscher Universitäten (<a href=\"https://www.uni-nordverbund.de/\">VNU</a>) sind und/oder als Partner des Projekts „Chinakompetenz im Norden“ (<a href=\"https://www.uni-kiel.de/de/international/chikon\">ChiKoN</a>), in dessen Kontext diese Erhebung entstanden ist, auftreten. Die Liste der Standorte spiegelt also nicht die vollständige Hochschullandschaft Norddeutschlands wieder, jedoch wäre dies auch kaum realisierbar, da sich das Netz aus teils stark spezialisierten kleineren Fachhochschulen, Privatuniversitäten und Kunstakademien selbst für den begrenzten norddeutschen Raum als sehr unübersichtlich erweist.</p>
                                          <div style=\"float: right; margin-left: 15px; margin-bottom: 15px;\">
                                          <span class='tooltip-image tooltip-right'>
-                                         <img src=\"standorte.jpeg\" height=\"300px\" alt=\"DB Orte\">
-                                         <span class='tooltip-content'><img src=\"standorte.jpeg\"></span>
+                                         <img src=\"standorte.jpeg\" height=\"300px\" alt=\"Karte der zehn untersuchten Universitätsstandorte in Norddeutschland\">
+                                         <span class='tooltip-content'><img src=\"standorte.jpeg\" alt=\"Karte der zehn untersuchten Universitätsstandorte in Norddeutschland\"></span>
                                          </span>
                                          </div>
                                          <p>Für die Datenerhebung wurde die Schnittstelle („Application programming interface(s)“, kurz API) der <a href=\"https://orcid.org/\" target=\"_blank\">ORCiD</a>-Organisation, die die gleichnamige „Open researcher and contributor ID“ (ORCiD) vergibt und über dessen Webseite Forschende ihre Forschungsaktivitäten verwalten können, sowie die <a href=\"https://doi.org/10.48550/arXiv.2205.01833\" target=\"_blank\">OpenAlex</a>-Datenbank der <a href=\"https://ourresearch.org/\" target=\"_blank\">OurResearch</a>-Organisation ausgelesen. Dies erlaubte es im ersten Schritt, all jene Forschenden zu identifizieren, die entweder selbst einen der oben genannten Standorte als ihren Arbeitsplatz hinterlegt haben, oder die über bibliografische Informationen aus Publikationen dort verortbar sind. Selbstredend ist die Profilsammlung nicht vollständig, da nicht alle Forschenden ein ORCiD-Profil besitzen oder es ausreichend pflegen.
@@ -1778,7 +1954,7 @@ ui <- fluidPage(
                                           Leibnizstr. 10, 3. Etage</br>
                                           24118 Kiel</br>
                                           Telefon: +49 431 880-4571</br>
-                                          E-Mail: <a href=\"mailto:brokate@chinazentrum.uni-kiel.de\">brokate@chinazentrum.uni-kiel.de</a></p>
+                                          E-Mail: <a href=\"mailto:office@chinazentrum.uni-kiel.de\">office@chinazentrum.uni-kiel.de</a></p>
                                           <h3>Name und Anschrift des Datenschutzbeauftragten</h3>
                                           <p>Bitte wenden Sie sich in allen Fragen rund um das Thema Datenschutz und Datensicherheit direkt an unseren Datenschutzbeauftragten: </p>
                                           <p>actago GmbH</br>
@@ -1917,7 +2093,7 @@ ui <- fluidPage(
                                   Leibnizstr. 10, 3. Etage</br>
                                   24118 Kiel</br>
                                   Tel.: +49 (0)431 880-4571</br>
-                                  <a href=\"mailto:brokate@chinazentrum.uni-kiel.de\">brokate@chinazentrum.uni-kiel.de</a></p>
+                                  <a href=\"mailto:office@chinazentrum.uni-kiel.de\">office@chinazentrum.uni-kiel.de</a></p>
                                   <p><b>Drittmittelprojekt</b></p>
                               
                                   <p>ChiKoN - China-Kompetenz im Norden</br>
@@ -2207,9 +2383,10 @@ server <- function(input, output, session) {
       pal_c <- colorNumeric(c("#f7c7e3", "#9b0a7d"), domain = plotted_points_countries$n)
       m <- m %>% addPolygons(
         data = plotted_points_countries,
+        layerId = ~NAME,
         weight = 1.2, color = ~pal_c(n), fillColor = ~pal_c(n), fillOpacity = 0.2,
         label = ~lapply(paste0("<b>", htmltools::htmlEscape(NAME), "</b>: ", n,
-                               " Nennung(en)"), HTML))
+                               " Nennung(en)<br><i>Klicken: zu Suchbegriffen hinzufügen</i>"), HTML))
     }
 
     # Located places as circle markers: radius ~ count, exact count on hover.
@@ -2220,9 +2397,10 @@ server <- function(input, output, session) {
       } else 8
       m <- m %>% addCircleMarkers(
         data = plotted_points_summary,
+        layerId = ~text,
         radius = rad, stroke = FALSE, fillColor = "#9b0a7d", fillOpacity = 0.6,
         label = ~lapply(paste0("<b>", htmltools::htmlEscape(str_to_title(text)),
-                               "</b>: ", sum_n, " Nennung(en)"), HTML))
+                               "</b>: ", sum_n, " Nennung(en)<br><i>Klicken: zu Suchbegriffen hinzufügen</i>"), HTML))
     }
 
     if (has_countries) {
@@ -2392,6 +2570,25 @@ server <- function(input, output, session) {
     has_started("T")
     updateTabsetPanel(session, "main_tabs", selected = "Publikationen")
   })
+
+  # Clicking a place marker or country on the Karte appends that name to the
+  # existing Suchbegriffe (space-separated, de-duplicated), re-runs the filter,
+  # and returns to the Personen tab — drilling from the map straight to people.
+  add_map_term <- function(term) {
+    if (is.null(term) || !nzchar(term)) return(invisible())
+    current <- input$query_general
+    if (is.null(current)) current <- ""
+    have <- tolower(strsplit(trimws(current), "\\s+")[[1]])
+    have <- have[nzchar(have)]
+    new_query <- if (tolower(term) %in% have) trimws(current) else trimws(paste(current, term))
+    updateTextInput(session, "query_general", value = new_query)
+    filter_data(query_override = new_query)
+    has_started("T")
+    has_refiltered(NULL)                 # keep the main_tabs observer from re-filtering with a stale query
+    updateTabsetPanel(session, "main_tabs", selected = "tab_personen")
+  }
+  observeEvent(input$sfPlot_marker_click, add_map_term(input$sfPlot_marker_click$id))
+  observeEvent(input$sfPlot_shape_click,  add_map_term(input$sfPlot_shape_click$id))
 
   # Clicking an author name (in a publication's infobox) jumps to the Personen
   # tab and selects that researcher, loading their profile. Pub authors are in
@@ -3547,7 +3744,7 @@ server <- function(input, output, session) {
   # Verknüpfungsstärke" sliders make the display limits user-tunable per view.
   output$cocitNetwork <- renderVisNetwork({
     req(filtered_pubs())
-    mode <- if (is.null(input$cocit_mode)) "author_cocit" else input$cocit_mode
+    mode <- if (is.null(input$cocit_mode)) "author" else input$cocit_mode
     cap  <- if (is.null(input$cocit_cap)) 150 else input$cocit_cap
 
     # ---- Author co-citation (undirected; nodes = cited first authors) ----
@@ -3729,7 +3926,7 @@ server <- function(input, output, session) {
 
   output$dynamic_ui_cocit <- renderUI({
     id <- input$cocit_clicked_node
-    mode <- if (is.null(input$cocit_mode)) "author_cocit" else input$cocit_mode
+    mode <- if (is.null(input$cocit_mode)) "author" else input$cocit_mode
     if (is.null(id) || identical(id, "")) {
       return(h4("Klicken Sie auf einen Knoten für weiterführende Informationen."))
     }
@@ -3794,6 +3991,181 @@ server <- function(input, output, session) {
         p(tags$em("Metadaten zu dieser Referenz werden nach dem nächsten Daten-Update geladen."))
       )
     }
+  })
+
+  # ============================================================================
+  # Accessibility: dynamic text alternatives (alt text) for the visualizations.
+  # Each output$<id>_desc fills the visually-hidden caption created by alt_desc()
+  # from the SAME cached reactive data the plot uses, so screen-reader users get a
+  # data-driven summary that updates with the filters — without altering any plot.
+  # (Outputs are suspended while their tab is hidden, so they add no overhead.)
+  # ============================================================================
+
+  output$sfPlot_desc <- renderText({
+    tryCatch({
+      pts  <- plotted_points_var()
+      ctr  <- plotted_points_countries_var()
+      npub <- tryCatch(nrow(filtered_pubs_summed()), error = function(e) 0L)
+      n_places <- if (is.null(pts)) 0L else nrow(pts)
+      n_ctr    <- if (is.null(ctr)) 0L else nrow(ctr)
+      if (n_places == 0L && n_ctr == 0L)
+        return("Für die aktuelle Auswahl sind keine Orte verortet.")
+      parts <- sprintf("Weltkarte der in %s gefilterten Publikationen genannten Orte der Region Asien-Pazifik.",
+                       formatC(npub, format = "d", big.mark = ".", decimal.mark = ","))
+      if (n_places > 0L)
+        parts <- c(parts, sprintf("%d Orte als Punkte (Punktgröße = Häufigkeit); am häufigsten genannt: %s.",
+                                  n_places, fmt_top(str_to_title(pts$text), pts$n)))
+      if (n_ctr > 0L)
+        parts <- c(parts, sprintf("%d Länder flächig nach Nennungshäufigkeit eingefärbt; am häufigsten: %s.",
+                                  n_ctr, fmt_top(ctr$NAME, ctr$n)))
+      paste(parts, collapse = " ")
+    }, error = function(e) "Interaktive Karte der in den Publikationen genannten Orte.")
+  })
+
+  output$mynetworkid_desc <- renderText({
+    tryCatch({
+      nodes <- network_nodes_shared()
+      edges <- network_edges_shared()
+      if (is.null(nodes) || nrow(nodes) == 0L)
+        return("Für die aktuelle Auswahl liegt kein Netzwerk vor.")
+      g  <- table(nodes$group)
+      gv <- function(x) if (x %in% names(g)) as.integer(g[[x]]) else 0L
+      sprintf(paste0("Netzwerkgraph mit %d Knoten und %d Verbindungen: %d Personen, %d Publikationen, ",
+                     "%d Institutionen, %d Fachbereiche, %d Fördermittelgeber. Kanten verbinden Personen mit ",
+                     "ihren Publikationen, Einrichtungen und Förderungen. Diese Angaben sind auch in den Tabellen ",
+                     "„Personen“, „Publikationen“ und „Förderungen“ abrufbar."),
+              nrow(nodes), if (is.null(edges)) 0L else nrow(edges),
+              gv("person"), gv("publication"), gv("institution"), gv("institution_sm"), gv("funding"))
+    }, error = function(e) "Interaktiver Netzwerkgraph aus Personen, Publikationen, Einrichtungen und Fördermittelgebern.")
+  })
+
+  output$cocitNetwork_desc <- renderText({
+    tryCatch({
+      pubs <- filtered_pubs()
+      npub <- if (is.null(pubs)) 0L else length(unique(pubs$id))
+      mode <- if (is.null(input$cocit_mode)) "author" else input$cocit_mode
+      lab <- switch(mode,
+        author_cocit = "Ko-Zitation der Autor:innen – wer wird gemeinsam zitiert",
+        cocit        = "Ko-Zitation der Referenzen – welche zitierten Werke treten gemeinsam auf",
+        author       = "gerichtete Zitationen zwischen Autor:innen",
+        direct       = "gerichtete Zitationen zwischen Publikationen",
+        coupling     = "bibliografische Kopplung – Publikationen mit gemeinsamen Referenzen",
+        mode)
+      knoten <- if (mode %in% c("direct", "coupling")) "Publikationen"
+                else if (mode == "cocit") "zitierte Werke" else "Autor:innen"
+      sprintf(paste0("Interaktives Zitationsnetzwerk, Ansicht „%s“, auf Basis von %d gefilterten Publikationen. ",
+                     "Knoten sind %s; dickere Kanten bedeuten häufigere gemeinsame bzw. gerichtete Zitationen. ",
+                     "Die zugrunde liegenden Publikationen sind in der Publikationen-Tabelle einsehbar."),
+              lab, npub, knoten)
+    }, error = function(e) "Interaktives Zitationsnetzwerk der gefilterten Publikationen.")
+  })
+
+  output$foerderRegionPie_desc <- renderText({
+    tryCatch({
+      fp <- filtered_prizes()
+      if (is.null(fp) || nrow(fp) == 0L)
+        return("Keine Förderungen in der aktuellen Auswahl.")
+      rc <- fp %>% distinct(id, organization) %>%
+        left_join(funder_countries, by = "organization") %>%
+        filter(!is.na(country) & nzchar(trimws(country))) %>%
+        distinct(id, country) %>% count(country, name = "n") %>% arrange(desc(n))
+      if (nrow(rc) == 0L)
+        return("Für die geförderten Publikationen ist kein Herkunftsland der Mittelgeber bekannt.")
+      rc$region <- ifelse(rc$country %in% names(country_de_names),
+                          country_de_names[rc$country], rc$country)
+      sprintf("Kreisdiagramm der Herkunftsländer der Fördermittelgeber: %d Länder, %d geförderte Publikationen. Größte Anteile: %s.",
+              nrow(rc), length(unique(fp$id)), fmt_top(rc$region, rc$n))
+    }, error = function(e) "Kreisdiagramm der Herkunftsländer der Fördermittelgeber.")
+  })
+
+  output$barChart_standort_desc <- renderText({
+    tryCatch({
+      base <- filtered_complete_researchers_PA_latest()
+      if (is.null(base) || nrow(base) == 0L)
+        return("Keine Forschenden in der aktuellen Auswahl.")
+      rc <- base %>%
+        mutate(city = ifelse(is.na(organization_address_city) |
+                               !organization_address_city %in% unlist(city_mapping, use.names = FALSE),
+                             "außerhalb", organization_address_city)) %>%
+        count(city) %>% arrange(desc(n))
+      sprintf("Balkendiagramm der Anzahl Forschender je letztdokumentiertem Standort (%d Forschende gesamt): %s.",
+              sum(rc$n), fmt_top(rc$city, rc$n, k = 8))
+    }, error = function(e) "Balkendiagramm der Anzahl Forschender je Standort.")
+  })
+
+  output$barChart_disziplin_desc <- renderText({
+    tryCatch({
+      pubs <- filtered_pubs()
+      if (is.null(pubs) || nrow(pubs) == 0L)
+        return("Keine Publikationen in der aktuellen Auswahl.")
+      disz <- complete_researchers_PA %>%
+        filter(orcid %in% pubs$orcid) %>%
+        filter(faculties %in% filtered_faculties()) %>%
+        left_join(faculties_mapping_tbl, by = c("faculties" = "faculty_code")) %>%
+        select(faculty_label, orcid) %>% unique()
+      pc <- pubs %>% select(orcid, id) %>%
+        left_join(disz, by = "orcid", relationship = "many-to-many") %>%
+        select(faculty_label, id) %>% unique() %>%
+        filter(!is.na(faculty_label)) %>% count(faculty_label) %>% arrange(desc(n))
+      sprintf("Balkendiagramm der Anzahl Publikationen je Fachrichtung. Größte Fachrichtungen: %s.",
+              fmt_top(pc$faculty_label, pc$n))
+    }, error = function(e) "Balkendiagramm der Anzahl Publikationen je Fachrichtung.")
+  })
+
+  output$barChart_region_desc <- renderText({
+    tryCatch({
+      pubs <- filtered_pubs()
+      if (is.null(pubs) || nrow(pubs) == 0L)
+        return("Keine Publikationen in der aktuellen Auswahl.")
+      ua <- complete_spacy_PA_geo %>% st_drop_geometry() %>% select(id, ADMIN) %>% unique()
+      pc <- pubs %>% select(id) %>%
+        left_join(ua, by = "id", relationship = "many-to-many") %>%
+        filter(!is.na(ADMIN)) %>% unique() %>% count(ADMIN) %>% arrange(desc(n))
+      sprintf("Balkendiagramm der Anzahl Publikationen je Forschungsregion: %s.",
+              fmt_top(pc$ADMIN, pc$n))
+    }, error = function(e) "Balkendiagramm der Anzahl Publikationen je Forschungsregion.")
+  })
+
+  output$barChart_zeit_desc <- renderText({
+    tryCatch({
+      pubs <- filtered_pubs()
+      if (is.null(pubs) || nrow(pubs) == 0L)
+        return("Keine Publikationen in der aktuellen Auswahl.")
+      pubs <- pubs %>% group_by(id, publication_date_year_value) %>% slice(1) %>% ungroup()
+      yc <- table(pubs$publication_date_year_value)
+      if (length(yc) == 0L) return("Keine Publikationen in der aktuellen Auswahl.")
+      yrs <- as.numeric(names(yc)); cnt <- as.numeric(yc); peak <- which.max(cnt)
+      sprintf(paste0("Liniendiagramm der Publikationen pro Jahr von %d bis %d, insgesamt %d Publikationen. ",
+                     "Höchststand %d mit %d Publikationen. Eine gestrichelte Linie zeigt zusätzlich den Anteil ",
+                     "am gesamten norddeutschen Publikationsaufkommen."),
+              min(yrs), max(yrs), sum(cnt), yrs[peak], cnt[peak])
+    }, error = function(e) "Liniendiagramm der Publikationen pro Jahr.")
+  })
+
+  output$barChart_koop_desc <- renderText({
+    tryCatch({
+      pubs <- filtered_pubs()
+      if (is.null(pubs) || nrow(pubs) == 0L)
+        return("Keine Kooperationsländer in der aktuellen Auswahl.")
+      fc <- coop_countries %>% filter(id %in% pubs$id) %>% mutate(n = as.numeric(n))
+      if (nrow(fc) == 0L) return("Keine Kooperationsländer in der aktuellen Auswahl.")
+      tot <- fc %>% group_by(authorships_affiliations_country_code) %>%
+        summarise(total = sum(n, na.rm = TRUE), .groups = "drop") %>% arrange(desc(total))
+      sprintf(paste0("Liniendiagramm der Kooperationsländer (Institutionen der Ko-Autor:innen) im Zeitverlauf; ",
+                     "dargestellt sind die obersten 5 %% der Länder. Häufigste Länder insgesamt: %s."),
+              fmt_top(tot$authorships_affiliations_country_code, tot$total))
+    }, error = function(e) "Liniendiagramm der Kooperationsländer der Ko-Autor:innen im Zeitverlauf.")
+  })
+
+  output$wordCloud_desc <- renderText({
+    tryCatch({
+      dt <- filtered_pubs_summed()
+      if (is.null(dt) || nrow(dt) == 0L)
+        return("Keine Schlagwörter in der aktuellen Auswahl.")
+      paste0("Wortwolke der häufigsten in Titeln und Abstracts erkannten Schlagwörter; die Schriftgröße ",
+             "entspricht der Häufigkeit. Dieselben Begriffe stehen mit genauen Häufigkeiten in der Tabelle ",
+             "„Begriffshäufungen“ darüber.")
+    }, error = function(e) "Wortwolke der häufigsten Schlagwörter der gefilterten Publikationen.")
   })
 
 }
