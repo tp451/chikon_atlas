@@ -1286,6 +1286,22 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
     margin-top: 0;
     color: #9b0a7d;
 }
+/* 'Verstanden' button in the site violet to match the title (the 'united'
+   shinytheme colours .btn-primary orange by default). The #id selector beats
+   the .btn-primary class selector, so no !important is needed. */
+#welcome-modal-ok {
+    background-color: #9b0a7d;
+    border-color: #9b0a7d;
+    background-image: none;
+    color: #fff;
+}
+#welcome-modal-ok:hover,
+#welcome-modal-ok:focus,
+#welcome-modal-ok:active {
+    background-color: #7c0864;
+    border-color: #7c0864;
+    color: #fff;
+}
 .welcome-modal-content ul {
     padding-left: 1.2em;
 }
@@ -1568,7 +1584,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                               e.preventDefault();
                                               Shiny.setInputValue('keyword_search', {term: $(this).attr('data-term'), nonce: Math.random()}, {priority: 'event'});
                                             });
-                                            // Clickable author names: open that person on the Personen tab.
+                                            // Clickable author names: filter the Personen tab to that person.
                                             $(document).on('click', '.person-link', function(e) {
                                               e.preventDefault();
                                               Shiny.setInputValue('person_link', {name: $(this).attr('data-name'), nonce: Math.random()}, {priority: 'event'});
@@ -1662,7 +1678,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
 
                                              tabPanel(
                                                "Netzwerk (Zitationen)",
-                                               tab_intro("<b>Zitationsnetzwerke:</b> Fünf Sichten auf die Literaturbasis (Datengrundlage: OpenAlex). Standard ist die <i>Ko-Zitation der Autor:innen</i> – wer wird gemeinsam zitiert? Die Regler steuern Knotenzahl und Mindeststärke.", more = TRUE),
+                                               tab_intro("<b>Zitationsnetzwerke:</b> Fünf Sichten auf die Literaturbasis (Datengrundlage: OpenAlex). Standard sind die <i>Zitationen zw. Autor:innen</i> – wer zitiert wen direkt? Die Regler steuern Knotenzahl und Mindeststärke.", more = TRUE),
                                                column(
                                                  9,
                                                  div(
@@ -1681,9 +1697,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                                      radioButtons(
                                                        "cocit_mode", "Netzwerktyp",
                                                        choices = c(
+                                                         "Zitationen zw. Autor:innen" = "author",
                                                          "Ko-Zitation (Autor:innen)" = "author_cocit",
                                                          "Ko-Zitation (Referenzen)" = "cocit",
-                                                         "Zitationen zw. Autor:innen" = "author",
                                                          "Direkte Zitationen (Publikationen)" = "direct",
                                                          "Bibliogr. Kopplung (Publikationen)" = "coupling"
                                                        ),
@@ -1726,7 +1742,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                                                     wellPanel(
                                                                       tags$p(tags$b("Gefilterte Publikationen nach Herkunftsregion der Fördereinheit"),
                                                                              style = "text-align:center; font-size:0.85em; margin-bottom:0.4em;"),
-                                                                      withSpinner(alt_viz(plotOutput("foerderRegionPie", height = "320px"), "foerderRegionPie")), alt_desc("foerderRegionPie", "Kreisdiagramm der Herkunftsländer der Fördermittelgeber")
+                                                                      withSpinner(alt_viz(plotOutput("foerderRegionPie", height = "400px"), "foerderRegionPie")), alt_desc("foerderRegionPie", "Kreisdiagramm der Herkunftsländer der Fördermittelgeber")
                                                                     )
                                                       )
                                                       ),
@@ -2369,7 +2385,17 @@ server <- function(input, output, session) {
       " gefilterte Publikationen · Markergröße = Häufigkeit</span>")
 
     m <- leaflet(options = leafletOptions(minZoom = 2)) %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      # Base map served from the CAU Kiel tile cache (a CARTO-light proxy) rather
+      # than d.basemaps.cartocdn.com directly: client IPs no longer reach CARTO's
+      # CDN, so no separate Auftragsdatenverarbeitung/Datenschutzhinweis is needed
+      # for that host. Same look as the former providers$CartoDB.Positron tiles.
+      addTiles(
+        urlTemplate = "https://osm-tilecache.rz.uni-kiel.de/cartodb-light/{z}/{x}/{y}.png",
+        attribution = paste0(
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ',
+          'contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'),
+        options = tileOptions(maxZoom = 20)
+      ) %>%
       # Default view zoomed on the East/Southeast-Asia + India core. India's far
       # western tip (~68-70°E) and Sri Lanka's south sit just outside the initial
       # frame, but the polygons are complete now — pan/zoom out to see them.
@@ -2590,23 +2616,19 @@ server <- function(input, output, session) {
   observeEvent(input$sfPlot_marker_click, add_map_term(input$sfPlot_marker_click$id))
   observeEvent(input$sfPlot_shape_click,  add_map_term(input$sfPlot_shape_click$id))
 
-  # Clicking an author name (in a publication's infobox) jumps to the Personen
-  # tab and selects that researcher, loading their profile. Pub authors are in
-  # the filtered person list by construction, so no re-filter is needed.
-  person_table_proxy <- DT::dataTableProxy("dataTablePerson")
+  # Clicking an author name (in a publication's infobox) drops that person's name
+  # into the Suchbegriffe box and re-filters, so the Personen tab shows just that
+  # researcher (and their publications) instead of the full list. This works from
+  # any context — including co-authors of a funder's publications
+  # (Förderungen → "Publikationen anzeigen").
   observeEvent(input$person_link, {
     nm <- input$person_link$name
     if (is.null(nm) || !nzchar(nm)) return(invisible())
+    updateTextInput(session, "query_general", value = nm)
+    filter_data(query_override = nm)
+    has_started("T")
+    has_refiltered(NULL)          # we just filtered; stop the tab-switch observer redoing it
     updateTabsetPanel(session, "main_tabs", selected = "tab_personen")  # the Personen tab's value=, not its title
-    op <- ordered_persons()
-    if (is.null(op) || nrow(op) == 0 || !"name_value" %in% names(op)) return(invisible())
-    idx <- which(tolower(op$name_value) == tolower(nm))[1]
-    if (is.na(idx)) return(invisible())
-    # Let the tab switch + table render before selecting the row.
-    shinyjs::delay(300, {
-      try(DT::selectPage(person_table_proxy, ceiling(idx / 20)), silent = TRUE)
-      DT::selectRows(person_table_proxy, idx)
-    })
   })
 
   # Reset all filters to their defaults and re-run the (default) search.
@@ -3112,10 +3134,19 @@ server <- function(input, output, session) {
       geom_col(width = 1, color = "white", linewidth = 0.4) +
       coord_polar(theta = "y") +
       scale_fill_manual(values = pal) +
+      # Legend below the pie (not right of it): this panel lives in a narrow
+      # 25%-width column, so a right-hand legend steals the horizontal space the
+      # pie needs and shrinks it badly at 1080p and lower. A two-column legend
+      # underneath lets the pie use the full column width.
+      guides(fill = guide_legend(ncol = 2, byrow = TRUE)) +
       theme_void() +
-      theme(legend.position = "right",
+      theme(legend.position = "bottom",
             legend.title = element_blank(),
-            legend.text = element_text(size = 11),
+            legend.text = element_text(size = 9),
+            legend.key.size = unit(0.85, "lines"),
+            legend.spacing.x = unit(2, "pt"),
+            legend.margin = margin(t = 4),
+            plot.margin = margin(2, 2, 2, 2),
             plot.caption = element_text(size = 8, color = "grey50"),
             plot.background = element_rect(fill = "transparent", color = NA),
             panel.background = element_rect(fill = "transparent", color = NA),

@@ -1320,6 +1320,71 @@ chikon_pubs_unnest <- chikon_pubs_unnest %>%
   select(-org_count) %>%
   ungroup()
 
+# ── Guard: reject unreliable OpenAlex institution assignments ────────────────
+# Two OpenAlex disambiguation failures attach phantom employers to researchers:
+#
+#  (1) BARE-CITY guesses. An institution-LESS raw affiliation (just a city, e.g.
+#      "Kiel, Germany") gets resolved to a specific — often wrong — institution
+#      in that city (a political scientist who wrote only "Kiel" was tagged
+#      "Clinical Research Center Kiel"). When the raw string, stripped of country
+#      words and punctuation, is nothing more than the resolved institution's own
+#      city, we drop the guess.
+#
+#  (2) MAGNET RORs. A few OpenAlex institutions act as catch-alls that absorb
+#      many unrelated affiliations. `bad_rors` is a hand-curated, individually
+#      verified blocklist; every row resolved to one is dropped. Add an entry
+#      only after confirming its assigned raws are wildly unrelated AND none
+#      genuinely name that institution:
+#        - 05sw1mq09  "Clinical Research Center Kiel": OpenAlex inflates this tiny
+#          facility to ~11k works; in this corpus its 51 rows include a street
+#          address, "Planton GmbH", dairy research and an economics centre, and
+#          NONE name a clinical/molecular-biology unit. It is the origin of the
+#          spurious "Institute of Clinical Molecular Biology" affiliations that
+#          Section 17 then produces (economists Görg/Loy/Revilla Diez, etc.).
+#          Real IKMB biologists reach Kiel via other RORs, so they are unaffected.
+#
+# Rows that genuinely name an institution, or carry no raw string at all (a
+# structured match to a trustworthy ROR), are left untouched.
+# Ref: db-kiel affiliation audit 2026-08.
+bad_rors <- c("05sw1mq09")   # verified OpenAlex catch-all RORs — see note above
+if (!exists("insts_de")) insts_de <- readRDS("insts_de.rds")
+.aff_country <- c("germany","deutschland","usa","us","uk","china","prc","england","scotland",
+  "wales","france","italy","spain","india","japan","korea","switzerland","schweiz","austria",
+  "osterreich","österreich","netherlands","europe","de","gb","fr")
+.aff_norm <- function(x) {
+  x <- tolower(ifelse(is.na(x), "", x))
+  x <- str_replace_all(x, "[^a-zäöüß]+", " ")
+  vapply(str_split(str_squish(x), " "),
+         function(t) str_c(t[nzchar(t) & !t %in% .aff_country], collapse = " "),
+         character(1))
+}
+.ror_city <- insts_de %>%
+  transmute(ror = sub(".*org/", "", ror), geo) %>%
+  unnest(geo) %>%
+  transmute(ror, city_norm = .aff_norm(city)) %>%
+  filter(nzchar(city_norm)) %>%
+  distinct(ror, .keep_all = TRUE)
+chikon_pubs_unnest <- chikon_pubs_unnest %>%
+  left_join(.ror_city, by = "ror") %>%
+  mutate(
+    raw_norm     = .aff_norm(authorships_affiliation_raw),
+    is_city_only = !is.na(authorships_affiliation_raw) &
+                   nzchar(str_trim(authorships_affiliation_raw)) &
+                   !is.na(authorships_affiliations_display_name) &
+                   nzchar(authorships_affiliations_display_name) &
+                   (raw_norm == "" | (!is.na(city_norm) & raw_norm == city_norm)),
+    is_bad_ror   = !is.na(ror) & ror %in% bad_rors,
+    drop_org     = is_city_only | is_bad_ror)
+message(sprintf("Section 11: dropped %d bare-city + %d magnet-ROR institution guesses",
+                sum(chikon_pubs_unnest$is_city_only, na.rm = TRUE),
+                sum(chikon_pubs_unnest$is_bad_ror, na.rm = TRUE)))
+chikon_pubs_unnest <- chikon_pubs_unnest %>%
+  mutate(
+    authorships_affiliations_display_name =
+      if_else(drop_org, NA_character_, authorships_affiliations_display_name),
+    ror = if_else(drop_org, NA_character_, ror)) %>%
+  select(-city_norm, -raw_norm, -is_city_only, -is_bad_ror, -drop_org)
+
 # Extract funder names from funders list-column
 funder_names_str <- sapply(chikon_pubs_unnest$funders, function(x) {
   if (!is.data.frame(x)) return("")
@@ -2401,6 +2466,29 @@ complete_researchers_PA <- complete_researchers_PA %>%
 # Harmonise org/dept names via lookup tables.
 # Combine manual universities.csv with auto-confirmed pairs from Section 16a;
 # the manual file always wins on conflict.
+#
+# GUARD (2026-08): the Section-16a fuzzy/acronym generators occasionally link
+# two unrelated institutions that merely share a name fragment (e.g. the acronym
+# prefix "UM" of "University of Münster" matches "University Medical Center …").
+# Because the lookup below is iterated to a FIXED POINT, one bad edge lets whole
+# chains of unrelated universities collapse into a single sink — observed:
+# Trier → Münster → UKE → Universitätsklinikum Hamburg-Eppendorf, silently
+# rewriting correct affiliations. We therefore (a) keep an auto-merge only when
+# its two names share a substantive (non-generic) token, and (b) stop the walk
+# the moment a hop would drift to a name sharing nothing with the ORIGINAL org.
+# Manual universities.csv edges stay trusted (they cover legitimate acronym
+# expansions such as UKE → Universitätsklinikum Hamburg-Eppendorf).
+.org_generic <- c("university","universitat","universitaet","universities","universität",
+  "hochschule","hospital","klinik","klinikum","clinic","clinical","medical","medicine",
+  "center","centre","zentrum","institute","institut","research","forschung","school",
+  "college","faculty","fakultat","fakultät","department","abteilung","gmbh","foundation",
+  "stiftung","academy","akademie","laboratory","laboratorium")
+.org_subtok <- function(s) {
+  t <- str_split(tolower(ifelse(is.na(s), "", s)), "[^a-z0-9äöüß]+")[[1]]
+  unique(t[nchar(t) >= 4 & !t %in% .org_generic])
+}
+.org_share <- function(a, b) length(intersect(.org_subtok(a), .org_subtok(b))) > 0
+
 universities_combined <- universities
 if (file.exists(config$org_merge_cache)) {
   auto_merges <- read_csv(config$org_merge_cache, show_col_types = FALSE) %>%
@@ -2408,7 +2496,9 @@ if (file.exists(config$org_merge_cache)) {
     distinct(short, long) %>%
     rename(organization_name = short,
            organization_name_harmonised = long) %>%
-    anti_join(universities, by = "organization_name")
+    anti_join(universities, by = "organization_name") %>%
+    # Drop fuzzy merges whose two names share no substantive token (GUARD above).
+    filter(mapply(.org_share, organization_name, organization_name_harmonised))
   if (nrow(auto_merges) > 0) {
     # Manual file wins, and keep exactly ONE mapping per org key. Without the
     # distinct(), universities_combined held ~600 duplicate keys and the join
@@ -2431,16 +2521,31 @@ org_remap <- setNames(universities_combined$organization_name_harmonised,
                       universities_combined$organization_name)
 org_remap <- org_remap[!is.na(org_remap) &
                        !names(org_remap) %in% universities$organization_name_harmonised]
+# Trusted manual edges (always followed, even when the two names share no token,
+# e.g. an acronym and its expansion).
+.curated_keys <- paste0(universities$organization_name, " @@> ",
+                        universities$organization_name_harmonised)
+# Walk the lookup to a fixed point, but stop if a hop would drift to a name that
+# shares no substantive token with the ORIGINAL org (unless it is a curated edge).
+# This keeps legitimate multi-hop collapses — every variant of one institution
+# shares a token — while blocking the fuzzy chains that funnel unrelated
+# universities into one sink.
 resolve_org <- function(org, remap, max_iter = 20L) {
+  start <- org
   for (i in seq_len(max_iter)) {
-    nxt <- ifelse(org %in% names(remap), unname(remap[org]), org)
-    if (identical(nxt, org)) break
+    if (is.na(org) || !(org %in% names(remap))) break
+    nxt <- unname(remap[[org]])
+    if (!(paste0(org, " @@> ", nxt) %in% .curated_keys) && !.org_share(start, nxt)) break
     org <- nxt
   }
   org
 }
+# Resolve once per distinct name (cheap) and map the result onto every row.
+.org_canon <- unique(complete_researchers_PA$organization_name)
+.org_canon <- setNames(vapply(.org_canon, resolve_org, character(1), remap = org_remap),
+                       .org_canon)
 complete_researchers_PA <- complete_researchers_PA %>%
-  mutate(organization_name = resolve_org(organization_name, org_remap))
+  mutate(organization_name = unname(.org_canon[organization_name]))
 
 # Apply auto-detected hierarchy (Section 16b) AFTER universities-harmonisation so the
 # parent/child lookups use canonical names. For each row whose org has a confirmed
