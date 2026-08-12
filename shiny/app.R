@@ -2351,13 +2351,21 @@ server <- function(input, output, session) {
 
     if(nrow(plotted_points)>0){
       
-      # Round coordinates to 1 decimal place for geographic clustering
-      # This groups nearby locations together to reduce visual clutter.
-      # Note: pipeline points are already snapped to whole degrees by
-      # st_set_precision(1), so 1-decimal rounding leaves them unchanged; it only
-      # preserves the finer position of hand-corrected points (e.g. Taipei), which
-      # whole-degree rounding would push back offshore.
-      coords_rounded <- st_cast(plotted_points, "POINT") %>%
+      # count(text) above unioned each place's coordinates, so a place mentioned
+      # at several coordinates is now a MULTIPOINT. Reduce each place to a single
+      # representative marker at its first coordinate. Doing this explicitly (not
+      # via st_cast) avoids sf's benign "point from first coordinate only" warning
+      # while producing exactly the same coordinates.
+      first_point <- function(g) if (inherits(g, "MULTIPOINT")) st_point(unclass(g)[1, ]) else g
+      st_geometry(plotted_points) <- st_sfc(lapply(st_geometry(plotted_points), first_point),
+                                             crs = st_crs(plotted_points))
+
+      # Round coordinates to 1 decimal place for geographic clustering, grouping
+      # nearby locations to reduce visual clutter. Pipeline points are already
+      # snapped to whole degrees by st_set_precision(1), so this leaves them
+      # unchanged; it only preserves the finer position of hand-corrected points
+      # (e.g. Taipei), which whole-degree rounding would push back offshore.
+      coords_rounded <- plotted_points %>%
         st_coordinates() %>%
         as.data.frame() %>%
         mutate(X = round(X, 1), Y = round(Y, 1))

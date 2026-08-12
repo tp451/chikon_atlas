@@ -3114,11 +3114,29 @@ for (.r in seq_len(nrow(.pts))) {
 
 complete_spacy_PA_geo$ADMIN[complete_spacy_PA_geo$ADMIN == "Palau"] <- "maritim"
 
-# collapse exact duplicates created by the relabelling above
-.key <- paste(complete_spacy_PA_geo$id, complete_spacy_PA_geo$text, complete_spacy_PA_geo$ADMIN,
-              st_as_text(st_geometry(complete_spacy_PA_geo)), sep = "\r")
-complete_spacy_PA_geo <- complete_spacy_PA_geo[!duplicated(.key), ]
-rm(.tl, .crs, .empt, .variant, .k, .i, .pts, .r, .key)
+# One geo row per (id, text). Two passes above can emit the same place for the
+# same publication — the entity pass on the snapped one-degree grid (step 2) and
+# the keyword pass joined to the un-snapped entities_osm_PA — with different
+# geometries and occasionally different ADMINs, so collapsing only *exact*
+# duplicates keeps both. That double-counts the place on the map (e.g. Tibet at a
+# snapped and a precise point) and, when a grid-snapped copy falls offshore, tags
+# one publication as both a land place AND "maritim" (Penghu, Palawan) or as both
+# a country and the merged "Korea" bucket (Seoul, Busan). Keep exactly one row
+# per (id, text): prefer a specific-country ADMIN over the "Korea"/"Allgemein"
+# buckets and the "maritim" residual, then a precise (off-grid) coordinate over
+# its snapped copy.
+.rank <- ifelse(complete_spacy_PA_geo$ADMIN == "maritim", 3L,
+         ifelse(complete_spacy_PA_geo$ADMIN %in% c("Allgemein", "Korea"), 2L, 1L))
+.ispt <- as.character(st_geometry_type(complete_spacy_PA_geo)) == "POINT" &
+           !st_is_empty(complete_spacy_PA_geo)
+.xy   <- matrix(NA_real_, nrow = nrow(complete_spacy_PA_geo), ncol = 2)
+.xy[.ispt, ] <- t(vapply(st_geometry(complete_spacy_PA_geo)[.ispt],
+                         function(p) as.numeric(p)[1:2], numeric(2)))
+.ongrid <- is.na(.xy[, 1]) | (.xy[, 1] == round(.xy[, 1]) & .xy[, 2] == round(.xy[, 2]))
+complete_spacy_PA_geo <- complete_spacy_PA_geo[order(.rank, .ongrid), ]
+complete_spacy_PA_geo <- complete_spacy_PA_geo[
+  !duplicated(paste(complete_spacy_PA_geo$id, complete_spacy_PA_geo$text, sep = "\r")), ]
+rm(.tl, .crs, .empt, .variant, .k, .i, .pts, .r, .rank, .ispt, .xy, .ongrid)
 
 
 # ══════════════════════════════════════════════
