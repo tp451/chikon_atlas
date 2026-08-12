@@ -3001,19 +3001,36 @@ server <- function(input, output, session) {
   # Data Table: Publications
   # ------------------------------------------------------------------------------
   
+  # Single source of truth for the publication table's ROW ORDER. Both the
+  # rendered DataTable and the detail panel index into THIS same arranged object,
+  # so a selected row number always resolves to the same publication. Previously
+  # each side ran its own arrange(), so after the table was re-filtered (e.g. by
+  # clicking an author) a selection could resolve to an unrelated row.
+  pub_table_arranged <- reactive({
+    pt <- pub_table_view()
+    if (is.null(pt) || nrow(pt) == 0) return(pt)
+    pt %>% arrange(publication_date_year_value, title_title_value, authors)
+  })
+
   dataTablePub <- reactive ({
-    datatable_pubs <- pub_table_view()
+    datatable_pubs <- pub_table_arranged()
 
     # Check if the filtered data is empty
     if (is.null(datatable_pubs) || nrow(datatable_pubs) == 0) {
       return(data.frame("Keine Ergebnisse" = "Bitte ändern Sie Ihre Filter.", check.names = FALSE))
     }
-    
-    datatable_pubs %>%  
-      arrange(publication_date_year_value, title_title_value, authors ) %>%
+
+    datatable_pubs %>%
       select(publication_date_year_value, title_title_value, authors ) %>%
       rename(Titel = title_title_value, "Autor:innen" = authors, "Jahr" = publication_date_year_value)
   })
+
+  # When the publication set changes (re-filter, author drill-down, funder
+  # drill-down), clear any stale row selection so the detail panel never renders
+  # the previous index against the new data.
+  observeEvent(pub_table_view(), {
+    DT::selectRows(DT::dataTableProxy("dataTablePub"), NULL)
+  }, ignoreInit = TRUE)
   
   # Render the DataTable
   output$dataTablePub <- DT::renderDataTable({
@@ -3293,8 +3310,7 @@ server <- function(input, output, session) {
   
   output$dynamic_ui_pubs <- renderUI({
 
-    datatable_pubs <- pub_table_view() %>% arrange(publication_date_year_value, title_title_value, authors)
-
+    datatable_pubs <- pub_table_arranged()
 
     clicked_node <- datatable_pubs[input$dataTablePub_rows_selected, ]
 

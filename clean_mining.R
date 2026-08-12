@@ -3444,20 +3444,97 @@ if (!dir.exists(app_dir)) {
 } else {
   message("Compacting outputs to .rds in '", app_dir, "' …")
 
+  # Replacement strings are \u escapes (never literal accented bytes) so this
+  # repair cannot itself be corrupted by the source file's own encoding.
+  .ent <- c(amp = "&", lt = "<", gt = ">", quot = "\"", apos = "'", nbsp = " ",
+            ndash = "\u2013", mdash = "\u2014", hellip = "\u2026", middot = "\u00b7", deg = "\u00b0",
+            auml = "\u00e4", ouml = "\u00f6", uuml = "\u00fc", Auml = "\u00c4", Ouml = "\u00d6", Uuml = "\u00dc",
+            szlig = "\u00df", aacute = "\u00e1", eacute = "\u00e9", iacute = "\u00ed", oacute = "\u00f3",
+            uacute = "\u00fa", agrave = "\u00e0", egrave = "\u00e8", ntilde = "\u00f1", ccedil = "\u00e7",
+            aring = "\u00e5", oslash = "\u00f8", times = "\u00d7",
+            ldquo = "\u201c", rdquo = "\u201d", lsquo = "\u2018", rsquo = "\u2019",
+            plusmn = "\u00b1", sim = "\u223c", bull = "\u2022", prime = "\u2032",
+            micro = "\u00b5", frac12 = "\u00bd", frac14 = "\u00bc", frac34 = "\u00be")
+  clean_text <- function(v) {
+    if (!is.character(v)) return(v)
+    # bytes that are not valid UTF-8 are raw CP1252/Latin-1 from the source (e.g.
+    # a lone 0xFC for "ü"); reinterpret them so the entity/mojibake passes and the
+    # perl regexes below never hit an invalid-UTF-8 string.
+    bad_utf8 <- !validUTF8(v)
+    if (any(bad_utf8)) {
+      cw <- iconv(v[bad_utf8], "Windows-1252", "UTF-8")               # smart quotes etc.
+      cw[is.na(cw)] <- iconv(v[bad_utf8][is.na(cw)], "latin1", "UTF-8")  # maps all 256 bytes
+      v[bad_utf8] <- cw
+    }
+    v <- enc2utf8(v)
+    for (pass in 1:2) {                                    # double-encoded entities
+      for (nm in names(.ent)) v <- gsub(paste0("&", nm, ";"), .ent[[nm]], v, ignore.case = TRUE)
+      for (u in unique(unlist(regmatches(v, gregexpr("&#[0-9]+;|&#x[0-9a-fA-F]+;", v, perl = TRUE))))) {
+        cp <- if (grepl("x", u)) strtoi(gsub("[^0-9a-fA-F]", "", sub("^&#x", "", u)), 16L)
+              else as.integer(gsub("[^0-9]", "", u))
+        if (!is.na(cp)) v <- gsub(u, intToUtf8(cp), v, fixed = TRUE)
+      }
+    }
+    i <- which(!is.na(v) & grepl("\u00c3[\u0080-\u00bf]|\u00c2[\u0080-\u00bf]", v, perl = TRUE))
+    for (k in i) {
+      b <- tryCatch(iconv(v[k], "UTF-8", "latin1", toRaw = TRUE)[[1]], error = function(e) NULL)
+      if (!is.null(b)) { r <- rawToChar(b); Encoding(r) <- "UTF-8"; if (validUTF8(r)) v[k] <- r }
+    }
+    v <- gsub("J\ufffd[Rr]gen", "J\u00fcrgen", v, perl = TRUE)
+    v <- gsub("L\ufffd[Dd]mann", "L\u00fcdmann", v, perl = TRUE)
+    v <- gsub("L Uuml Dmann", "L\u00fcdmann", v, ignore.case = TRUE)
+    v <- gsub("Sven\ufffd", "Sven", v, fixed = TRUE)
+    v <- gsub("Tai\ufffdO\ufffdBay", "Tai O Bay", v, fixed = TRUE)
+    v
+  }
+  clean_text_cols <- function(d) {
+    for (cn in names(d)) if (is.character(d[[cn]])) d[[cn]] <- clean_text(d[[cn]])
+    d
+  }
+
+  # References carry external cited-author names and titles whose accented byte
+  # was destroyed upstream to U+FFFD (not recoverable by a general rule). Correct
+  # the identifiable ones, scoped to references_meta so nothing else is touched.
+  # Each pattern matches only the corrupted form, so legitimate Nordic/Portuguese
+  # spellings (Ångström, Bølling-Allerød, Ângela) are left intact.
+  fix_reference_names <- function(d) {
+    rp <- c("P�rtner"="Pörtner","Sch�fer"="Schäfer","P�ez-Osuna"="Páez-Osuna",
+            "Aud�tat"="Audétat","Ferrier-Pag�s"="Ferrier-Pagès","Fran�ois"="François",
+            "Kir�ly"="Király","R�sch"="Rösch","Br�uning"="Bräuning","D�ring"="Döring",
+            "M�nster"="Münster","f�hn"="föhn","Ni�o"="Niño","Mianl�e"="Mianlüe",
+            "Bed�rfnis"="Bedürfnis","R. �ke"="R. Åke","J.�Y."="J.-Y.","M�ller"="Müller",
+            "30�"="30°","13�"="13°","6�ka"="6 ka","21�ka"="21 ka",
+            "DATA � A CASE"="DATA – A CASE")
+    for (cn in intersect(c("ref_first_author","ref_title","ref_label"), names(d))) {
+      v <- d[[cn]]
+      for (k in names(rp)) v <- gsub(k, rp[[k]], v, fixed = TRUE)
+      v <- sub("^�ber", "Über", v)
+      d[[cn]] <- v
+    }
+    if ("ref_first_author" %in% names(d)) {                 # three mojibake authors
+      a <- d$ref_first_author
+      a[grepl("Agogu",   a, fixed = TRUE)] <- "Hélène Agogué"
+      a[grepl("llgrabe", a, fixed = TRUE)] <- "Christian Füllgrabe"
+      a[grepl("Peter Å mig", a, fixed = TRUE)] <- "Peter Šmigáň"
+      d$ref_first_author <- a
+    }
+    d
+  }
+
   for (f in c("years_normal.csv", "counted_coop_countries.csv",
               "complete_works_PA.csv", "complete_researchers_PA.csv",
               "complete_researchers_PA_latest.csv", "complete_spacy_PA_keywords.csv",
               "complete_funding_PA.csv", "references_edges.csv",
               "references_meta.csv", "citation_edges_direct.csv")) {
     if (file.exists(f)) {
-      write_rds(read_csv(f, show_col_types = FALSE),
-                file.path(app_dir, sub("\\.csv$", ".rds", f)),
-                compress = "gz")
+      .d <- clean_text_cols(read_csv(f, show_col_types = FALSE))
+      if (f == "references_meta.csv") .d <- fix_reference_names(.d)
+      write_rds(.d, file.path(app_dir, sub("\\.csv$", ".rds", f)), compress = "gz")
     }
   }
 
   if (file.exists("complete_spacy_PA_geo.geojson")) {
-    write_rds(read_sf("complete_spacy_PA_geo.geojson"),
+    write_rds(clean_text_cols(read_sf("complete_spacy_PA_geo.geojson")),
               file.path(app_dir, "complete_spacy_PA_geo.rds"),
               compress = "gz")
   }
