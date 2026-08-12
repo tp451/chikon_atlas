@@ -1,0 +1,25 @@
+# The repository ships the R data pipeline, its input/output data, and the Shiny
+# app (+ app data and flag SVGs) only. Manuscript analysis, figures, drafts and
+# notes are kept out.
+
+# ── Article analysis & figure scripts (not part of the pipeline / app) ────────
+article_results_analysis.R
+article_figures.R
+article_figures_spatial.R
+figure_data.rds
+figures/
+
+# ── Manuscript drafts, notes, and audits ──────────────────────────────────────
+beyond_area_studies_methodological_appendix.md
+beyond_area_studies_article_draft.md
+beyond_area_studies_article_draft.copyedit.md
+journal_targeting_note.md
+pipeline_method.md
+south_china_sea_relevance_audit.csv
+south_china_sea_relevance_audit_note.md
+
+# ── R / editor session junk ───────────────────────────────────────────────────
+.Rhistory
+**/.Rhistory
+.RData
+.Rproj.user/

@@ -1,4 +1,4 @@
-organization_name,department_name,faculties
+﻿organization_name,department_name,faculties
 Griffith University,Centre for Sustainability Management,sowi
 Peoples' Friendship University of Russia,Institute for Hematopathology,med
 Princeton University,Carnegie Mellon University - Center for Integrated Study of the Human Dimensions of Global Change,sowi
@@ -86,7 +86,7 @@ South China University of Technology,Division of Microrobotics,tech
 Public Works Research Institute,Aqua Restoration Research Center,med
 Zhejiang University,Department of Land Management,sowi
 Leuphana Universität Lüneburg,Junior Professor of Public Law and European Law,jura
-Carl von Ossietzky Universität Oldenburg,Department of Sport and Motion,phil
+Carl von Ossietzky Universität Oldenburg,Department of Sport and Motion,sowi
 Universität Hamburg,Auslandseinsätze der Bundeswehr. Sozialwissenschaftliche Analysen,sowi
 Heinrich Heine University Düsseldorf,Centre for Biomolecular Interactions,med
 China Meteorological Administration,Laboratory for Climate Studies,mint
@@ -111,7 +111,7 @@ Delft University of Technology,Delta Futures Lab,tech
 Universität Rostock,Helmholtzzentrum,mint
 Universität Rostock,Urology,med
 Universität Hamburg,Institute of Environmental Technology and Energy Economics (IUE),sowi
-Universität Hamburg,Center for Natural History,phil
+Universität Hamburg,Center for Natural History,mint
 Institute for Peace Research and Security Policy,IFSH,sowi
 Universität Hamburg,Center for the Study of Manuscript Cultures,phil
 Sichuan University,Center for Archaeological Science,phil
@@ -161,7 +161,7 @@ Center for Integrated Protein Science Munich,Gene Center,med
 Universität Hamburg,Department,mint
 National Changhua University of Education,Department of Geography,sowi
 Carl von Ossietzky Universität Oldenburg,Computer Science,tech
-Universität Hamburg,Center of Natural History,phil
+Universität Hamburg,Center of Natural History,mint
 Sichuan University,Clausthal University of Technology (TUC),tech
 CAU Kiel,Department of Operative Dentistry and Periodontology,med
 Hochschule für Angewandte Wissenschaften Hamburg Fakultät Technik und Informatik,Maschinenbau und Produktion,tech
@@ -207,12 +207,12 @@ Carl von Ossietzky Universität Oldenburg,Center for Oceanic Research and Educat
 Erasmus University Rotterdam,EUR) - Rotterdam Institute of Law and Economics,jura
 Heidelberg University,Dep. of Mathematics TU Clausthal Erzstraße 1 38678 Clausthal‐Zellerfeld Germany,mint
 Universität Hamburg,Microbiology & Biotechnology,mint
-Universität Hamburg,Center of Natural History (CeNak),phil
+Universität Hamburg,Center of Natural History (CeNak),mint
 Economic Research Service,Department of Civil and Environmental Engineering and Institute of Transportation Studies University of California,tech
 Hamburg University of Technology,Institut für Umwelttechnik und Energiewirtschaft,tech
 University of Edinburgh,Institute of Evolutionary Biology,mint
 University of Peradeniya,Department of Geology,mint
-Stanford University,Center for Conservation Biology,med
+Stanford University,Center for Conservation Biology,mint
 Zhejiang Normal University,Department of African and Ethiopian Studies,phil
 Universiti Sains Malaysia,School of Communication,tech
 University of Crete,Environmental Chemical Processes Laboratory,mint
@@ -275,7 +275,7 @@ Universität Hamburg,Mathematisches Seminar der,mint
 Universität Hamburg,European Doctorate Programe in Law and Economics and Institute of Law and Economics,jura
 University of Göttingen,Department of Palynology and Climate Dynamics,mint
 Universität Hamburg,Key Laboratory of Geographic Information Science of Ministry of Education,sowi
-Carl von Ossietzky Universität Oldenburg,Physics Education,med
+Carl von Ossietzky Universität Oldenburg,Physics Education,mint
 Universität Hamburg,Institute for Asian and African Studies,phil
 British Institute of International and Comparative Law,Associate Member,jura
 Universität Hamburg,Leibniz Institute for the Analysis of Biodiversity Change (LIB Hamburg),mint
@@ -319,10 +319,10 @@ Universität Bremen,Chair in Small Business & Entrepreneurship,sowi
 Universität Bremen,Chair in Small Business & Entrepreneurship (LEMEX),sowi
 University of Science and Technology of China,CAS Key Laboratory of Gas Hydrate,mint
 Center for Behavioral Brain Sciences,CBBS),med
-Institut de Biologia Evolutiva,Department of Herpetology Zoologische Staatssammlung München (ZSM‐SNSB),med
+Institut de Biologia Evolutiva,Department of Herpetology Zoologische Staatssammlung München (ZSM‐SNSB),mint
 Universität Hamburg,Department of Cardiology,med
 Muthesius University in Kiel,"Institute for the Science of Art, Design and Media",phil
-University of Haifa,Now at Institute of Geology,sowi
+University of Haifa,Now at Institute of Geology,mint
 City University of Hong Kong,Department of Chemistry,mint
 Carl von Ossietzky Universität Oldenburg,Division of Microrobotics,tech
 Schmerzklinik Kiel,Department of Geoscience,med
@@ -436,7 +436,7 @@ Museum am Rothenbaum,Center of Natural History (CeNak),mint
 Seoul National University,Economics Program,sowi
 CAU Kiel,and GIGA Institute of Asian Studies,phil
 Universität Bremen,China Quyi Artists Association,mint
-Louisiana State University,Department of Geology and Geophysics,med
+Louisiana State University,Department of Geology and Geophysics,mint
 Institut für Friedensforschung und Sicherheitspolitik an der Universität Hamburg,Political Science,sowi
 Indian Institute of Technology Madras,Centre for Atmospheric and Climate Sciences,mint
 Medizinische Hochschule Hannover,Cluster of Excellence RESIST (EXC 2155),med
@@ -506,7 +506,7 @@ Universität Hamburg,Department of General,med
 Universität Bremen,Institute of Project Management and Innovation,sowi
 Leuphana Universität Lüneburg,Chair of Nature Conservation and Landscape Ecology,mint
 Leibniz Institute for the Analysis of Biodiversity Change,LIB),mint
-Nanjing Normal University,Department of Geology and Geophysics,med
+Nanjing Normal University,Department of Geology and Geophysics,mint
 CAU Kiel,Molecular Physiology,mint
 International Zinc Association,IZA,tech
 Universität Hamburg,From the Heinrich-Pette-Institut für Experimentelle Virologie und Immunologie an der,med
@@ -581,7 +581,7 @@ ARC Centre of Excellence for Climate System Science,ARC Centre of Excellence for
 Royal Netherlands Institute for Sea Research,Institut für Geowissenschaften,mint
 Technische Universität Clausthal,Department of Geology,mint
 Carl von Ossietzky University Oldenburg,Institute of Sport Science,phil
-Universität Hamburg,Department of Zoology and Aquatic Science,med
+Universität Hamburg,Department of Zoology and Aquatic Science,mint
 "Hochschule Bremen, City University of Applied Sciences",Biomimetics,tech
 University of Oslo,Meteorology and Oceanography Department of Geosciences,mint
 National Institute of Advanced Industrial Science and Technology,Institute for Coastal Research,mint
@@ -612,8 +612,8 @@ CAU Kiel,Institute of Epidemiology,mint
 Zhejiang Ocean University,Ocean College,mint
 Zhejiang University,Ocean College,mint
 Clinical Research Center Kiel,International Farm Comparison Network (IFCN) Dairy Research Center,med
-Woods Hole Oceanographic Institution,Department of Physical Oceanography.,med
-Woods Hole Oceanographic Institution,Department of Physical Oceanography,med
+Woods Hole Oceanographic Institution,Department of Physical Oceanography.,mint
+Woods Hole Oceanographic Institution,Department of Physical Oceanography,mint
 Universität Rostock,Dept of Botany,mint
 Universität Bremen,International Studies of Aquatic Tropical Ecology,mint
 Universität Bremen,International Studies of Aquatic Tropical Ecology (ISATEC),mint
@@ -704,11 +704,11 @@ Technische Universität Clausthal,Key Laboratory of Mineral Resources,tech
 CAU Kiel,The Doctoral Programme Quantitative Economics,sowi
 German Institute for Global and Area Studies,German Institute of Global and Area Studies (GIGA) and University of Hamburg,sowi
 German Center for Neurodegenerative Diseases,Center for Behavioral Brain Sciences (CBBS),med
-Universität Rostock,Department of Biological Sciences,med
+Universität Rostock,Department of Biological Sciences,mint
 China Meteorological Administration,Graduate University of Chinese Academy of Sciences,mint
 Osaka Prefecture University,Graduate School of Life and Environmental Sciences,mint
 Universität Bremen,Department of Atmospheric and Cryospheric Sciences,mint
-Universität Hamburg,Institut für Rechtsmedizin,mint
+Universität Hamburg,Institut für Rechtsmedizin,med
 Universität Hamburg,Institut für Humangenetik,mint
 Universität Hamburg,Institut für Bewegungswissenschaften,mint
 Universität Hamburg,Institut für Meerskunde,mint
@@ -722,13 +722,13 @@ Universität Hamburg,Zoologisches Institut & Museum,mint
 National Taiwan University,Institute of Oceanography,mint
 Universität Rostock,Grassland and Fodder Science,mint
 Qilu Hospital of Shandong University,NA,med
-South China Sea Institute Of Oceanology,Key Laboratory of Ocean and Marginal Sea Geology,med
+South China Sea Institute Of Oceanology,Key Laboratory of Ocean and Marginal Sea Geology,mint
 Universität Hamburg,School of Integrated Climate System Sciences,mint
 Institute for Economic Research,Austrian,sowi
 Sungkyunkwan University,Department of Architecture,med
 Freie Universität Berlin,NA,mint
 HAW Hamburg,"Research and Transfer Centre ""Sustainable Development and Climate Change Management""",sowi
-Bavarian State Collection of Zoology,Department of Herpetology Zoologische Staatssammlung München (ZSM‐SNSB),med
+Bavarian State Collection of Zoology,Department of Herpetology Zoologische Staatssammlung München (ZSM‐SNSB),mint
 Carl von Ossietzky Universität Oldenburg,Fakultät III - Sprach- und Kulturwissenschaften,mint
 Institute of Geographic Sciences and Natural Resources Research,Department of Wood Science,mint
 Guangzhou Institute of Energy Conversion,CAS Key Laboratory of Gas Hydrate,mint
@@ -812,17 +812,17 @@ CAU Kiel,Institute of Animal Breeding and Husbandry,mint
 Technische Universität Clausthal,Simulationswissenschaftliches Zentrum Clausthal-Göttingen,tech
 Technische Universität Clausthal,c/o Simulationswissenschaftliches Zentrum Clausthal-Göttingen,tech
 CAU Kiel,Institute of Agricultural Engineering,tech
-Universität Rostock,Department of Geology,med
+Universität Rostock,Department of Geology,mint
 CAU Kiel,Institute of Pre- and Protohistory,mint
 Chinese Academy of Sciences,Key Laboratory of Tibetan Environment Changes and Land Surface Processes,mint
 Chinese Academy of Sciences,Key Laboratory of Tibetan Environment Changes and Land Surface Processes (TEL),mint
 Universität Bremen,Molecular Genetics,mint
 "of Integrative Ecophysiology""",mint,mint
 "of Integrative Ecophysiology""",NA,mint
-University of Chinese Academy of Sciences,Key Laboratory of Ocean and Marginal Sea Geology,med
+University of Chinese Academy of Sciences,Key Laboratory of Ocean and Marginal Sea Geology,mint
 Czech University of Life Sciences Prague,Faculty of Environmental Science and Engineering,tech
 Northwest Institute of Eco-Environment and Resources,School of Urban and Regional Sciences,mint
-Leibniz Institute for Prevention Research and Epidemiology - BIPS,Faculty of Mathematics and Computer Science,med
+Leibniz Institute for Prevention Research and Epidemiology - BIPS,Faculty of Mathematics and Computer Science,mint
 Shanxi Jincheng Anthracite Mining Group (China),Department of Rehabilitation,med
 Shanxi Jincheng Anthracite Mining Group (China),General Hospital of Jincheng Anthracite Coal Mining Group Co. Ltd,med
 Clinical Research Center Kiel,Interdisciplinary Research Center,med
@@ -1019,7 +1019,7 @@ Universität Hamburg,Institute of Systematic Musicology,mint
 Kinderkrebs-Zentrum Hamburg,Department of Hematology and Oncology,med
 Institute of Oceanology,Biotechnology and Molecular Genetics,mint
 Academia Sinica,Biodiversity Program,mint
-Universität Rostock,Department of Botany and Botanical Garden,med
+Universität Rostock,Department of Botany and Botanical Garden,mint
 Sylhet Agricultural University,Department of Coastal and Marine Fisheries,mint
 Universität Rostock,Aquaculture & Sea-Ranching,mint
 Universität Rostock,Prof. Hydromechanics and Sanitary Engineering,tech
@@ -1031,7 +1031,7 @@ Max Planck Institute for Comparative and International Private Law,International
 Constructor University,School of Humanities and Social Sciences; Jacobs University Bremen; Germany,sowi
 Universität Rostock,University Children's Hospital Rostock,med
 Smith College,Banerjee/Ling,mint
-Universität Bremen,Institut Technik & Bildung (ITB),mint
+Universität Bremen,Institut Technik & Bildung (ITB),sowi
 Universität Hamburg,University Hospital Eppendorf,med
 CAU Kiel,Otto Diels-Institut für Organische Chemie der Christian-Albrechts-Universität zu Kiel; Otto-Hahn-Platz 3 24098 Kiel Deutschland,mint
 Universität Greifswald,Department of Functional Genomics,med
@@ -1147,7 +1147,7 @@ Institute of Medical Microbiology and Hygiene,Graduate School of Life and Enviro
 CAU Kiel,Institute of Chemistry,mint
 National Bureau of Economic Research,Centre for Economic Policy Research (CEPR),sowi
 Institute of Sports Medicine and Science,Institute of Interdisciplinary Exercise Science and Sports Medicine,med
-Universität Rostock,Department of Mathematics,med
+Universität Rostock,Department of Mathematics,mint
 Federal Institute for Geosciences and Natural Resources,BGR),mint
 State Key Laboratory of Biotherapy,German Center for Infection Research (DZIF) Hamburg–Lübeck– Borstel–Riems Site University of Lübeck Lübeck Germany,med
 Helmholtz-Zentrum Hereon,Department for Inorganic Environmental Chemistry,mint
@@ -1449,7 +1449,7 @@ Universitätsmedizin Rostock,Abteilung für Tropenmedizin und Infektionskrankhei
 Medical University of Graz,Friedrich Loeffler Institute of Medical Microbiology,med
 Universität Rostock,Institute of Clinical Chemistry and Laboratory Medicine,med
 Friedrich-Loeffler-Institut,Friedrich Loeffler Institute of Medical Microbiology,med
-CAU Kiel,Institut für Sicherheitspolitik an der Universität Kiel Kiel Germany,mint
+CAU Kiel,Institut für Sicherheitspolitik an der Universität Kiel Kiel Germany,sowi
 Greifswald University Medicine,Medical Ethics and History,med
 Hamburg Institute of International Economics,Chair Group of Forest and Nature Conservation Policy,sowi
 Universitätsmedizin Rostock,Institut fur Allgemeinmedizin Universitatsmedizin Rostock,med
@@ -1886,7 +1886,7 @@ CAU Kiel,Department of Economics,sowi
 CAU Kiel,Department of General Internal Medicine,med
 CAU Kiel,Department of General Linguistics,phil
 CAU Kiel,Department of General and Thoracic Surgery,mint
-CAU Kiel,Department of Geography,phil
+CAU Kiel,Department of Geography,sowi
 CAU Kiel,Department of Geology,mint
 CAU Kiel,Department of Geosciences,tech
 CAU Kiel,Department of Hydrology and Water Management,agrar
@@ -1991,7 +1991,7 @@ CAU Kiel,Institute of Experimental Medicine,med
 CAU Kiel,Institute of Experimental and Applied Physics,mint
 CAU Kiel,Institute of Experimental and Clinical Pharmacology,med
 CAU Kiel,Institute of General Microbiology,mint
-CAU Kiel,Institute of Geography,phil
+CAU Kiel,Institute of Geography,sowi
 CAU Kiel,Institute of Geoscience,mint
 CAU Kiel,Institute of Geosciences,mint
 CAU Kiel,Institute of Geosciences & Informatics,mint
@@ -2071,7 +2071,7 @@ Carl von Ossietzky Universität Oldenburg,Department of Computer Science,tech
 Carl von Ossietzky Universität Oldenburg,Department of Educational Sciences,phil
 Carl von Ossietzky Universität Oldenburg,Department of Geosciences,tech
 Carl von Ossietzky Universität Oldenburg,Department of Marine Isotope Geochemistry,mint
-Carl von Ossietzky Universität Oldenburg,Department of Mathematics and Natural Sciences,med
+Carl von Ossietzky Universität Oldenburg,Department of Mathematics and Natural Sciences,mint
 Carl von Ossietzky Universität Oldenburg,Department of Medical Physics and Acoustics,mint
 Carl von Ossietzky Universität Oldenburg,Department of Music,phil
 Carl von Ossietzky Universität Oldenburg,Department of Neurosciences,med
@@ -2119,7 +2119,7 @@ Carl von Ossietzky Universität Oldenburg,Institute of Education,phil
 Carl von Ossietzky Universität Oldenburg,Institute of Geosciences,mint
 Carl von Ossietzky Universität Oldenburg,Institute of Social Sciences,sowi
 Carl von Ossietzky Universität Oldenburg,Institute of Sports,med
-Carl von Ossietzky Universität Oldenburg,Institute of Sports Science,phil
+Carl von Ossietzky Universität Oldenburg,Institute of Sports Science,sowi
 Carl von Ossietzky Universität Oldenburg,Institute#R#for Chemistry and Biology of the Marine Environment (ICBM),mint
 Carl von Ossietzky Universität Oldenburg,Isotope Geochemistry,mint
 Carl von Ossietzky Universität Oldenburg,Knowledge Transfer & Learning with New Technologies,phil
@@ -2379,7 +2379,7 @@ Hamburg University of Technology,Department of Informatics,tech
 Hamburg University of Technology,Department of Management Sciences and Technology,tech
 Hamburg University of Technology,Hamburg University of Technology,tech
 Hamburg University of Technology,Institut für Technologie- und Innovationsmanagement,tech
-Hamburg University of Technology,Institute for Technology and Innovation Management,tech
+Hamburg University of Technology,Institute for Technology and Innovation Management,sowi
 Hamburg University of Technology,Institute for Technology and Innovation Management (TIM),tech
 Hamburg University of Technology,Institute for Water Resources and Water Supply,agrar
 Hamburg University of Technology,Institute of Geo-Hydroinformatics,mint
@@ -2656,7 +2656,7 @@ Universität Bremen,Centre for Biomolecular Interaction Bremen,med
 Universität Bremen,Centre for Environmental Research & Sustainable Technology,tech
 Universität Bremen,Centre for Marine Environmental Sciences,mint
 Universität Bremen,Centre for Materials and Processes,tech
-Universität Bremen,"Centre for Media, Communication and Information Research",phil
+Universität Bremen,"Centre for Media, Communication and Information Research",sowi
 Universität Bremen,Centre for Sustainability Research,mint
 Universität Bremen,Centre for Transformations of the State,sowi
 Universität Bremen,Climate Lab,mint
@@ -2757,7 +2757,7 @@ Universität Bremen,Institute for Environmental Physics,mint
 Universität Bremen,Institute for Environmental Physics & Marine Environmental Sciences,mint
 Universität Bremen,Institute for Environmental Physics IUP,mint
 Universität Bremen,Institute for Geography & Marine Environmental Sciences,mint
-Universität Bremen,Institute for Philosophy,tech
+Universität Bremen,Institute for Philosophy,phil
 Universität Bremen,Institute for Political Science,sowi
 Universität Bremen,Institute for Prevention Research and Epidemiology,med
 Universität Bremen,Institute for Public Health and Nursing,med
@@ -2783,7 +2783,7 @@ Universität Bremen,Leibniz Centre for Tropical Marine Research (ZMT),mint
 Universität Bremen,Leibniz Centre for Tropical Marine Research (ZMT) GmbH,mint
 Universität Bremen,Leibniz Institute for Prevention Research and Epidemiology - BIPS,med
 Universität Bremen,"Life Course, Life Course Policy and Social Integration",sowi
-Universität Bremen,Lifelong Learning,phil
+Universität Bremen,Lifelong Learning,sowi
 Universität Bremen,MARUM,mint
 Universität Bremen,MARUM - Center for Marine Environmental Science,mint
 Universität Bremen,MARUM - Center for Marine Environmental Sciences [Bremen] (Leo­bener Str. 8,mint
@@ -2918,7 +2918,7 @@ Universität Greifswald,Zoological Museum,mint
 Universität Greifswald,Zoologisches Institut und Museum,mint
 Universität Greifswald Mathematisch-Naturwissenschaftliche Fakultät,Department of Biochemistry,mint
 Universität Hamburg,"Abteilung für Sprache und Kultur Japans, Asien-Afrika-Institut",phil
-Universität Hamburg,Adult Education in cultural and social context,phil
+Universität Hamburg,Adult Education in cultural and social context,sowi
 Universität Hamburg,Affiliation Department for Diagnostic and Interventional Radiology and Nuclear Medicine,med
 Universität Hamburg,Applications of Life Sciences,mint
 Universität Hamburg,Aquatic Ecophysiology and Phycology,mint
@@ -2946,7 +2946,7 @@ Universität Hamburg,Centre for Ethiopian and Eritrean Studies,phil
 Universität Hamburg,Centre for Futures of Sustainability,tech
 Universität Hamburg,Centre for Sustainable Development & Climate Change Management,sowi
 Universität Hamburg,Centre for Sustainable Research Data Management,tech
-Universität Hamburg,Centre for Teacher Education,phil
+Universität Hamburg,Centre for Teacher Education,sowi
 Universität Hamburg,Centre for the Study of Manuscript Cultures,phil
 Universität Hamburg,Centre of Marine and Atmospheric Sciences ZMAW Institute of Oceanography,mint
 Universität Hamburg,Centrum für Erdsystemforschung und Nachhaltigkeit,mint
@@ -2982,11 +2982,11 @@ Universität Hamburg,Department of Earth Sciences,mint
 Universität Hamburg,Department of Earth System Sciences,mint
 Universität Hamburg,Department of Earth System Sciences Center for Earth System Research and Sustainability,mint
 Universität Hamburg,Department of Economics,sowi
-Universität Hamburg,Department of Education,phil
+Universität Hamburg,Department of Education,sowi
 Universität Hamburg,Department of Educational Psychology and Motivation,phil
 Universität Hamburg,Department of English,phil
 Universität Hamburg,Department of Gastroenterology and Infectious Diseases,med
-Universität Hamburg,Department of Geography,phil
+Universität Hamburg,Department of Geography,sowi
 Universität Hamburg,Department of Geology,mint
 Universität Hamburg,Department of Geosciences,tech
 Universität Hamburg,Department of Geosciences University of Hamburg Hamburg Germany,mint
@@ -2994,14 +2994,14 @@ Universität Hamburg,Department of Haematology,med
 Universität Hamburg,Department of Health Economics and Health Services Research,med
 Universität Hamburg,Department of Health Economics and Health Services Research University Medical Center Hamburg‐Eppendorf Hamburg Center for Health Economics,med
 Universität Hamburg,Department of Hepatobiliary and Transplant Surgery,med
-Universität Hamburg,Department of Human Geography,phil
+Universität Hamburg,Department of Human Geography,sowi
 Universität Hamburg,Department of Immunology,med
 Universität Hamburg,Department of Informatics,tech
 Universität Hamburg,Department of Intensive Care Medicine,med
 Universität Hamburg,Department of Internal Medicine,med
 Universität Hamburg,Department of Internal Medicine III and Clinics,med
 Universität Hamburg,Department of Invertebrates,mint
-Universität Hamburg,Department of Languages and Aesthetic Disciplines Education,phil
+Universität Hamburg,Department of Languages and Aesthetic Disciplines Education,sowi
 Universität Hamburg,Department of Management Sciences and Technology,tech
 Universität Hamburg,Department of Mathematics,mint
 Universität Hamburg,Department of Mathematics and Center for Earth System Research and Sustainability (CEN),tech
@@ -3057,7 +3057,7 @@ Universität Hamburg,Faculty Life Sciences,mint
 Universität Hamburg,Faculty of Business Studies & Economics,sowi
 Universität Hamburg,Faculty of Economic and Social Sciences,sowi
 Universität Hamburg,Faculty of Economics and Social Sciences,sowi
-Universität Hamburg,Faculty of Education,phil
+Universität Hamburg,Faculty of Education,sowi
 Universität Hamburg,Faculty of Law,jura
 Universität Hamburg,Faculty of Life Sciences,mint
 Universität Hamburg,Faculty of Linguistics & Literary Studies,phil
@@ -3176,7 +3176,7 @@ Universität Hamburg,KlimaCampus Hamburg,med
 Universität Hamburg,Laboratory for Structural Biology of Infection and Inflammation,mint
 Universität Hamburg,Language & Culture of Japan,phil
 Universität Hamburg,Leibniz Center for Tropical Marine Research,mint
-Universität Hamburg,Lifelong Learning,phil
+Universität Hamburg,Lifelong Learning,sowi
 Universität Hamburg,Lukas Meyer Dept of Diagnostic and Interventional Neuroradiology,med
 Universität Hamburg,Management Science and Technology,sowi
 Universität Hamburg,Marine Geophysics Group,mint
@@ -3216,7 +3216,7 @@ Universität Hamburg,Research and Transfer Centre Sustainability and Climate Cha
 Universität Hamburg,Research and Transfer Centre “Applications of Life Sciences”,mint
 Universität Hamburg,School of Integrated Climate System Sciences (SICSS),mint
 Universität Hamburg,School of Social Sciences,sowi
-Universität Hamburg,Schulpädagogik,phil
+Universität Hamburg,Schulpädagogik,sowi
 Universität Hamburg,Section Mass Spectrometry and Proteomics,mint
 Universität Hamburg,Section of Infectious Diseases and Tropical Medicine,med
 Universität Hamburg,Section of Tropical Medicine,med
@@ -3721,9 +3721,9 @@ Institute for Applied Systems Technology Bremen,Fraunhofer Application Center fo
 Unfallkrankenhaus Berlin,Department of Trauma and Orthopaedic Surgery,med
 Universität Greifswald,Department of Trauma and Orthopaedic Surgery,med
 Universität Lübeck,Department of Rheumatology and Clinical Immunology,med
-Chinese Academy of Sciences,Key Laboratory of Ocean and Marginal Sea Geology,med
-Guangzhou Institute of Geochemistry,Key Laboratory of Ocean and Marginal Sea Geology,med
-Universität Bremen,Key Laboratory of Ocean and Marginal Sea Geology,med
+Chinese Academy of Sciences,Key Laboratory of Ocean and Marginal Sea Geology,mint
+Guangzhou Institute of Geochemistry,Key Laboratory of Ocean and Marginal Sea Geology,mint
+Universität Bremen,Key Laboratory of Ocean and Marginal Sea Geology,mint
 Beijing Hospital of Traditional Chinese Medicine,Center for Mental Health,med
 Chinese Academy of Medical Sciences & Peking Union Medical College,Center for Mental Health,med
 "Czech Academy of Sciences, Institute of Psychology",University of Freiburg - Institute of Psychology,med
@@ -4353,7 +4353,7 @@ Universität Hamburg,Research Unit Sustainability and Climate Risks,mint
 Universitätsmedizin Greifswald,Klinik und Poliklinik für Chirurgie,med
 Universitätsmedizin Rostock,Klinik und Poliklinik für Psychosomatische Medizin und,med
 Alfred Wegener Institute,Alfred Wegener Institute for Polar and Marine Research,mint
-Institute for Peace Research and Security Policy,Arms Control and Emerging Technologies,tech
+Institute for Peace Research and Security Policy,Arms Control and Emerging Technologies,sowi
 Universität Bremen,Organic Geochemistry,mint
 Universität Rostock,Leibniz Institute for Atmospheric Physics,mint
 CAU Kiel,Leibniz-Labor,mint
@@ -4365,3 +4365,2190 @@ German Institute for Global and Area Studies (GIGA),NA,sowi
 HAW Hamburg,NA,tech
 Universität Hamburg,Mission Academy,rewi
 Max-Planck-Institut für Meteorologie,AES,mint
+German Institute for Global and Area Studies (GIGA),GIGA Institute for Asian Studies,sowi
+Sichuan University,West China Hospital of Sichuan University,med
+University Hospital Hamburg Eppendorf,"Martini-Klinik Prostate Cancer Center and Department of Urology, University Hospital Hamburg-Eppendorf, Hamburg",med
+Constructor University,Department of Life Sciences and Chemistry,mint
+Max-Planck-Institut für marine Mikrobiologie,Department of Biogeochemistry,mint
+Carl von Ossietzky University of Oldenburg,Helmholz Institute for Functional Marine Biodiversity at the Carl von Ossietzky University Oldenburg,mint
+Rostock University,"Institute of Legal Medicine, Rostock University Medical Center",med
+CAU Kiel,Institut für Sicherheitspolitik,sowi
+Universität Hamburg,Department of Earth System Sciences University of Hamburg,mint
+Universität Hamburg,Klimacampus,mint
+Universität Hamburg,Molecular Phytopathology and Genetics,mint
+Deutsches Elektronen-Synchrotron,Hamburger Synchrotronstrahlungslabor HASYLAB at Deutsches Elektronen Synchrotron DESY,mint
+Friedrich-Loeffler-Institut,Institute of Novel and Emerging Infectious Diseases,med
+Museum am Rothenbaum,Zoological Museum,mint
+Christian Medical College,Christian Medical College & Hospital,med
+Constructor University,"School of Business, Social, and Decision Sciences",sowi
+"European Molecular Biology Laboratory, Barcelona",The,mint
+Planet Labs,Planet Labs Germany GmbH,mint
+Universität Hamburg,Institut fr Experimentalphysik,mint
+Universität Rostock,Department of Psychiatry,med
+Asklepios,Asklepios Klinik St. Georg,med
+Bernhard Nocht Institute for Tropical Medicine,Virology,med
+CAU Kiel,Institut für Biochemie,mint
+CAU Kiel,Institut für Experimentelle und Angewandte Physik,mint
+Charité Universitätsmedizin Berlin,Department of Psychiatry and Psychotherapy,med
+Constructor University,Department of Psychology & Methods,sowi
+"European Molecular Biology Laboratory, Barcelona",Structural and Computational Biology Unit,mint
+Leibniz Centre for Tropical Marine Research,Department of Biogeochemistry,mint
+Leibniz-Institut für Katalyse eV,e.V.,mint
+MAX PLANCK INSTITUTE FOR COMPARATIVE PUBLIC LAW AND INTERNATIONAL LAW,Max-Planck-Institut für ausländisches und internationales Privatrecht,jura
+Max-Planck-Institute for Meteorology,Atmosphere in the Earth System,mint
+Museum am Rothenbaum,Biozentrum Grindel und Zoologisches Museum,mint
+Russian Academy of Sciences,Institute of Oceanology. PP Shirshov Russian Academy of Sciences,mint
+Universität Hamburg,From the Department of Urology and Institute for Pathology,med
+Asklepios,Department of Cardiology,med
+CAU Kiel,Otto Diels-Institute for Organic Chemistry,mint
+Friedrich-Loeffler-Institut,Institute of Infectology,med
+Friedrich-Loeffler-Institut,Institute of International Animal Health / One Health,med
+GEOMAR,GEOMAR - Helmholtz Zentrum für Ozeanforschung,mint
+GEOMAR,GEOMAR | Helmholtz Centre for Ocean Research Kiel,mint
+German Institute for Global and Area Studies (GIGA),GIGA Institute of African Affairs,sowi
+Hearing4all,Cluster of Excellence,med
+"Hochschule Bremen, City University of Applied Sciences",The Biological Materials Group,tech
+Leuphana Universität Lüneburg,Centre for Sustainability Management (CSM),sowi
+Praxis,bio.logis,med
+Praxis,bio.logis Zentrum für Humangenetik,med
+Universität Bremen,MARUM ‐ Center for Marine Environmental Sciences,mint
+Universität Greifswald,Institut für Biochemie Ernst‐Moritz‐Arndt‐,mint
+Universität Greifswald,Kinderklinik,med
+GEOMAR,GEOMAR Helmholtz Center for Ocean Research Kiel Germany,mint
+GEOMAR,Kiel DE‐24148 Germany,mint
+GEOMAR,Marine Geodynamics; ; Kiel Germany,mint
+Leibniz Centre for Tropical Marine Research,Department of Biogeochemistry and Geology,mint
+Leibniz-Institut für Katalyse eV,Leibniz-Institut für Katalyse e.V. an der Universität Rostock,mint
+Max-Planck-Institut für marine Mikrobiologie,Biogeochemistry,mint
+Technische Universität Clausthal,Institute of Organic Chemistry,mint
+Asklepios,Asklepios Klinik Barmbek,med
+Friedrich-Loeffler-Institut,Friedrich‐Loeffler‐Institut Institute of Novel and Emerging Infectious Diseases Greifswald ‐ Insel Riems Germany,med
+Friedrich-Loeffler-Institut,Institute of Novel and Emerging Infectious Diseases (INNT),med
+GEOMAR,IfM Geomar,mint
+Universität Bremen,Faculty of Geosciences and MARUM–Center for Marine Environmental Sciences,mint
+Universität Bremen,MARUM–Center for Marine Environmental Sciences and Faculty of Geosciences,mint
+Universität Bremen,Marum Center for Marine Environmental Sciences,mint
+Bernhard Nocht Institute for Tropical Medicine,Bernhard-Nocht-Institute for Tropical Medicine Department of Virology,med
+Bernhard Nocht Institute for Tropical Medicine,Department of Immunology and Virology,med
+CAU Kiel,Department of Inorganic Chemistry Christian-Albrechts-University,mint
+CAU Kiel,Molecular Phytopathology,mint
+Charité Universitätsmedizin Berlin,Institute of Virology,med
+Christian Medical College,Department of Clinical Virology,med
+Constructor University,Department of Psychology and Methods,sowi
+Deutsches Elektronen-Synchrotron,DESY - Deutsches Elektronen-Synchrotron [Hamburg] (Notkestraße 85 D-22607 Hamburg - Germany),mint
+Deutsches Elektronen-Synchrotron,Deutsches Elektronen–Synchrotron,mint
+Friedrich-Loeffler Institut,Institute of Diagnostic Virology,med
+Friedrich-Loeffler-Institut,Institute for Molecular Virology and Cell Biology,med
+GEOMAR,GEOMAR - Helmholtz Centre for Ocean Science Kiel,mint
+GEOMAR,GEOMAR | Helmholtz-Zentrum für Ozeanforschung Kiel,mint
+GEOMAR,Leibniz Institute of Marine Sciences at the University of Kiel (IFM-GEOMAR); Wischhofstrasse 1-3,mint
+GEOMAR,SFB574,mint
+Leibniz-Institut für Katalyse eV,"Leibniz-Institut
+für
+Katalyse e.V. an der Universität Rostock",mint
+Leibniz-Institut für Katalyse eV,Leibniz‐Institut für Katalyse e.V. an der Universität Rostock,mint
+Max-Planck-Institute for Meteorology,The Atmosphere in the Earth System,mint
+Universität Bremen,MARUM &ndash; Center for Marine Environmental Sciences,mint
+Universität Bremen,MARUM - Center for Marine Environmental Sciences and Faculty of Geosciences,mint
+Universität Bremen,MARUM â Center for Marine Environmental Sciences at the,mint
+Universität Hamburg,Institut fuer Experimentalphysik,mint
+Universität Hamburg,Institute for the Biogeochemistry and Marine Chemistry,mint
+Alfred Wegener Institute,Helmholtz Center for functional Marine Biodiversity,mint
+Asklepios,Asklepios Klinik Altona,med
+Asklepios,"Asklepios Klinik Altona, II. Medical Department: Hematology, Medical Oncology and Infectious Disease",med
+Asklepios,Asklepios Klinik Nord-Heidberg,med
+Asklepios,Department of Psychiatry and Mental Health,med
+Bernhard Nocht Institute for Tropical Medicine,Arbovirology,med
+Bernhard Nocht Institute for Tropical Medicine,Arbovirology and Entomology,med
+Bernhard Nocht Institute for Tropical Medicine,Department of Arbovirology,med
+Bernhard Nocht Institute for Tropical Medicine,Virology / WHO Collaborating Centre for Arboviruses and Hemorrhagic Fever Reference and Research,med
+Bernhard Nocht Institute for Tropical Medicine,Virology and Implementation Research/Zoonoses control,med
+Bernhard Nocht Institute for Tropical Medicine,a Department of Virology,med
+CAU Kiel,Department of Molecular Phytopathology,mint
+CAU Kiel,Department of Psychiatry and Psychotherapy,med
+CAU Kiel,Institute of Molecular Phytopathology,mint
+CAU Kiel,Institute of Organic Chemistry,mint
+CAU Kiel,Ruprecht-Haensel-Labor and Institut für Experimentelle und Angewandte Physik,mint
+CAU Kiel,Zoological Museum of Kiel University,mint
+Carl von Ossietzky Universität Oldenburg,Department of Psychology School of Medicine and Health Sciences,sowi
+Charité Universitätsmedizin Berlin,Institute of Medical Virology Charité School of Medicine Helmut‐Ruska‐Haus Berlin Germany,med
+Christian-Albrechts-Universität zu Kiel,Institut für experimentelle und angewandte Physik,mint
+Christian-Albrechts-Universität zu Kiel,Zoological Museum Kiel,mint
+Constructor University,Department of Life Sciences and Chemistry Jacobs University Bremen,mint
+Constructor University,Department of Psychology &amp; Methods Jacobs University Bremen,sowi
+Constructor University,Life Sciences and Chemistry,mint
+Deutsches Elektronen-Synchrotron,Das Deutsche Elektronen Synchrotron DESY,mint
+Deutsches Elektronen-Synchrotron,Deutsches Elektronen‐Synchrotron (DESY) 22607 Hamburg Deutschland,mint
+Deutsches Elektronen-Synchrotron,EMBL ℅ Deutsches Elektronen-Synchrotron,mint
+Deutsches Elektronen-Synchrotron,German Electron Synchrotron (DESY),mint
+EMBL Hamburg,Structural and Computational Biology,mint
+EMBL Heidelberg,Structural and Computational Biology,mint
+Freie Universität Berlin,Department of Psychology; Health Psychology Unit,sowi
+Friedrich-Loeffler-Institut,German Reference Laboratory for KHVD Institute of Infectology Friedrich‐Loffler‐Institut (FLI) Federal Research Institute for Animal Health Greifswald–Insel Riems Germany,med
+Friedrich-Loeffler-Institut,Institute of Diagnostic Virology Friedrich‐Loeffler‐Institut Greifswald‐Insel Riems Germany,med
+GEOMAR,Atmospheric Physics,mint
+GEOMAR,BForschungsbereich Marine Biogeochemie,mint
+GEOMAR,Biogeochemistry Research Division,mint
+GEOMAR,Data Technologies,mint
+GEOMAR,FB2,mint
+GEOMAR,FB2 Trace Gas Biogeochemistry,mint
+GEOMAR,FB3 - Marine Evolutionary Ecology,mint
+GEOMAR,GEOMAR Helmholtz Center for Ocean Research Kiel; Kiel,mint
+GEOMAR,GEOMAR Helmholtz Centre for Ocean Research; Kiel Germany,mint
+GEOMAR,GEOMAR Helmholtz-Zentrum fr Ozeanforschung Kiel,mint
+GEOMAR,GEOMAR Helmholtz-Zentrum fur Ozeanforschung Kiel,mint
+GEOMAR,GEOMAR Helmholtz‐Centre for Ocean Research,mint
+GEOMAR,GEOMAR Research Center,mint
+GEOMAR,GEOMAR),mint
+GEOMAR,GEOMAR‐Helmholtz Centre for Ocean Research,mint
+GEOMAR,Geomicrobiology,mint
+GEOMAR,Helmholtz Centre for Ocean Research Kiel GEOMAR,mint
+GEOMAR,IFM-GEOMAR Leibniz-Institute of Marine Sciences,mint
+GEOMAR,IFM‐GEOMAR Leibniz Institute of Marine Sciences at the University of Kiel,mint
+GEOMAR,Institute for Marine Sciences,mint
+GEOMAR,Kiel &amp; Faculty for Mathematics and Natural Sciences GEOMAR Helmholtz Centre for Ocean Research Christian‐Albrechts‐University,mint
+GEOMAR,Leibniz Institut für Meereswissenschaften,mint
+GEOMAR,Leibniz Institute for Marine Sciences (IFM-GEOMAR),mint
+GEOMAR,Leibniz Laboratory for Radiometric Dating and Stable Isotope Research,mint
+GEOMAR,Leibniz-Institut fÃ¼r Meereswissenschaften,mint
+GEOMAR,Leibniz-Institut fÃ¼r Meereswissenschaften (IFM-GEOMAR),mint
+GEOMAR,Magmatic and Hydrothermal Systems,mint
+GEOMAR,Marine Biogeochemical Modelling GEOMAR Helmholtz‐Zentrum für Ozeanforschung Kiel,mint
+GEOMAR,Marine Biogeochemistry Division GEOMAR Helmholtz Centre for Ocean Research,mint
+GEOMAR,Marine Chemistry,mint
+GEOMAR,Marine Geodynamik,mint
+GEOMAR,Marine ecology,mint
+GEOMAR,Ocean Circulation and Climate Dynamics Research Division,mint
+GEOMAR,Paleo-Oceanography,mint
+GEOMAR,RD Ocean Circulation and Climate Dynamics,mint
+GEOMAR,RD1-ME,mint
+GEOMAR,RD2 - Plankton Biogeochemistry and Dynamics,mint
+GEOMAR,"RD2 Marine Biogeochemistry, Biological Oceanography/Chemical Oceanography",mint
+GEOMAR,"School of Earth, Atmosphere and Environment",mint
+GEOMAR,Seagoing Technology,mint
+GEOMAR,Section Marine Biology,mint
+German Institute for Global and Area Studies (GIGA),GIGA INSTITUTE FOR ASIAN STUDIES,sowi
+Hearing4all,Hörzentrum Oldenburg gGmbH,med
+"Hochschule Bremen, City University of Applied Sciences","The Biological Materials Group, Dept. of Biomimetics",tech
+Institute for Peace Research and Security Policy,Universität Hamburg Institut für Friedensforschung und Sicherheitspolitik Hamburg Germany,sowi
+Institute for Peace Research and Security Policy,Wissenschaftliche Mitarbeiterin am Institut für Frie-densforschung und Sicherheitspolitik an der Universität Hamburg,sowi
+Institute of Virology of the Slovak Academy of Sciences,Leibniz Institute of Virology,med
+Jacobs University Bremen,Department of Life Sciences and Chemistry,mint
+Leibniz Centre for Tropical Marine Research,Biogeochemistry and Geology,mint
+Leibniz Centre for Tropical Marine Research,Geology & Biogeochemistry,mint
+Leibniz Institute for Baltic Sea Research,Geochemistry & Isotope Biogeochemistry,mint
+Leibniz Institute for Baltic Sea Research,Geochemistry & Isotope Biogeochemistry Group,mint
+Leibniz University Hannover,Institute of Earth System Sciences,mint
+Leibniz-Institut für Katalyse eV,LIKAT),mint
+Luxembourg Institute of Health Department of Infection and Immunity,Clinical and Applied Virology,med
+Max Planck Institute for Chemistry,Biogeochemistry,mint
+Max-Planck-Institut für marine Mikrobiologie,Biogeochemistry Department,mint
+Max-Planck-Institut für marine Mikrobiologie,Protist Virology,mint
+Max-Planck-Institute for Meteorology,KlimaCampus,mint
+Max-Planck-Institute for Meteorology,Regional Climate Modeling Group Atmosphere in the Earth System,mint
+Medizinische Hochschule Hannover Biophysikalische Chemie,Institute of Virology,med
+Museum am Rothenbaum,Zoologisches Institut und Zoologisches Museum Hamburg,mint
+Museum am Rothenbaum,Zoologisches Museum Hamburg; Leibniz-Institute for Analyses of Biodiversity Change (LIB); Martin-Luther-King-Platz 3; 20146 Hamburg; Germany. jakob.hallermann@uni-hamburg.de,mint
+Museum am Rothenbaum,Zoologisches Museum Hamburg; Leibniz-Institute for Analyses of Biodiversity Change(LIB);Martin-Luther-King-Platz 3; 20146 Hamburg; Germany. hallermann@uni-hamburg.de,mint
+Museum am Rothenbaum,Zoologisches Museum der Universität Hamburg,mint
+Museum am Rothenbaum,Zoologisches Museum und Biozentrum Grindel,mint
+Philipps University of Marburg,Institute for Virology,med
+Planet Labs,DLR Institute of ary Research,mint
+Russian Academy of Sciences,Pacific Institute of Bioorganic Chemistry. GB Elyakova Far Eastern Branch of the Russian Academy of Sciences,mint
+University Medical Center Hamburg,"Center for Interdisciplinary Addiction Research (ZIS), Department of Psychiatry and Psychotherapy, University Medical Center Hamburg-Eppendorf",med
+University Medicine of Greifswald,Department of Psychiatry and Psychotherapy,med
+University of Bonn,Institute of Virology,med
+University of Hull,Department of Psychology,sowi
+University of Veterinary and Animal Sciences,Wildlife Epidemiology and Molecular Microbiology Laboratory (One Health Research Group),med
+Universität Bremen,Department of Geosciences / MARUM ‐ Center for Marine Environmental Sciences,mint
+Universität Bremen,Department of Geosciences and MARUM â Center for Marine Environmental Sciences,mint
+Universität Bremen,Department of Psychology,sowi
+Universität Bremen,MARUM -Center for Marine Environmental Sciences and,mint
+Universität Bremen,MARUM -Center for Marine Environmental Sciences and Department of Geosciences,mint
+Universität Bremen,Marum — Center for Marine Environmental Sciences,mint
+Universität Bremen,Project Coordination Team MARUM-Center for Marine Environmental Sciences Department of Geosciences,mint
+Universität Hamburg,Department of Psychology; University of Hamburg; Hamburg; Germany,sowi
+Universität Koblenz-Landau - Campus Landau,"Department of Psychology, Section Personality, Psychological Assessment, and Psychological Methods",sowi
+Universität Rostock,Department of Psychiatry University Rostock Rostock Germany,med
+Universitätsklinikum Hamburg-Eppendorf,"Mikrobiology, Virology and Hygiene",med
+Universitätsklinikum Hamburg-Eppendorf,Psychiatry and Psychotherapy,med
+Universitätsklinikum Schleswig-Holstein,Department for Psychiatry and Psychotherapy,med
+Universitätsmedizin Greifswald,Helmholtz Institut fr One Health,med
+Wageningen University & Research,Laboratory of Virology,mint
+Max-Planck-Institute for Meteorology,,mint
+Friedrich-Loeffler-Institut,,med
+Max Planck Institut für Demografische Forschung,,sowi
+MAX PLANCK INSTITUTE FOR COMPARATIVE PUBLIC LAW AND INTERNATIONAL LAW,,jura
+Max-Planck-Institut für marine Mikrobiologie,,mint
+Fahrenheit (Germany),,mint
+British Columbia Children's Hospital,,med
+Tokyo Metropolitan Children's Medical Center,,med
+Charité Universitätsmedizin Berlin,,med
+Climate Service Center,,mint
+Hearing4all,,med
+Universitätsklinikum Heidelberg,,med
+Institute for Peace Research and Security Policy,,sowi
+Leibniz-Institut für Katalyse eV,,mint
+Tongji Hospital,,med
+University Hospital of Bern,,med
+Federal Medical Centre,,med
+Irrua Specialist Teaching Hospital,,med
+University Hospital Cologne,,med
+University Hospital Magdeburg,,med
+Cardinal Glennon Children’s Medical Center,,med
+Düsseldorf University Hospital,,med
+Hospital Infantil Albert Sabin,,med
+Hospital São Paulo,,med
+Indus Hospital,,med
+Nishtar Medical College and Hospital,,med
+Shaukat Khanum Memorial Cancer Hospital and Research Center,,med
+Constructor University,School of Humanities and Social Sciences,sowi
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Department of Prevention and Evaluation,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Leibniz-Institut für Präventionsforschung und Epidemiologie – BIPS,med
+National Hospital,,med
+Universität Rostock,Institute of Applied Microelectronics and Computer Engineering,tech
+Klinikum Lüneburg,,med
+Universitätsklinikum Regensburg,,med
+Bernhard Nocht Institute for Tropical Medicine,Bernhard‐Nocht Institute for tropical Medicine Hamburg Germany,med
+Bernhard Nocht Institute for Tropical Medicine,Leishmania Genetics Group,mint
+CAU Kiel,DInstitute of Animal Nutrition and Physiology,agrar
+CAU Kiel,Institute for Infection Medicine Christian‐Albrecht University of Kiel and University Medical Center Schleswig‐Holstein,med
+CAU Kiel,Institute of Geosciences Christian‐Albrechts‐University Kiel,mint
+CAU Kiel,Institute of Geosciences Christian‐Albrechts‐University Kiel Germany,mint
+Chinese Academy of Fishery Sciences,Key Laboratory of Fishery Drug Development of Ministry of Agriculture Key Laboratory of Aquatic Animal Immune Technology of Guangdong Province Pearl River Fisheries Research Institute,agrar
+Constructor University,School of Business,sowi
+Dermatologikum Hamburg,Department of Dermatology,med
+Deutsches Elektronen-Synchrotron,Photon Science,mint
+Friedrich-Loeffler-Institut,Institute of Immunology,med
+German Foreign Trade and Transport Academy,Department of Chemistry,mint
+Helmholtz-Zentrum Hereon,Institute of Coastal Research,mint
+Helmut-Schmidt-Universität / UdB Hamburg,Institute of Thermodynamics,tech
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Prevention and Evaluation,med
+Max-Planck-Institut für marine Mikrobiologie,Department of Molecular Ecology,mint
+Max-Planck-Institut für marine Mikrobiologie,label omitted: 1-->Max-Planck-Institut für Marine Mikrobiologie,mint
+Max-Planck-Institute for Meteorology,Max Planck Institute for meteorology,mint
+Max-Planck-Institute for Meteorology,Ocean in the Earth System,mint
+University of Tsukuba,University of Tsukuba Hospital,med
+Universität Hamburg,Universitat Hamburg Fachbereich Erdsystemwissenschaften,mint
+Universität Lübeck,Dept. of Cardiology,med
+Universität Lübeck,Institut für Gesundheitswissenschaften,med
+Universität Rostock,Department of Anatomy,med
+Alfred Wegener Institute,Marine Geology,mint
+Bernhard Nocht Institute for Tropical Medicine,Department of Infectious Disease Epidemiology,med
+CAU Kiel,AInstitute of Crop Science and Plant Breeding - Grass and Forage Science/Organic Agriculture,agrar
+CAU Kiel,Department of Hydrology and Water Resources Management Institute for Natural Resource Conservation Christian‐Albrechts‐Universität zu Kiel Olshausenstr. 75 24118 Kiel Germany,mint
+CAU Kiel,Inst. for Plant Nutrition and Soil Science Christian‐Albrechts‐Univ. zu Kiel Hermann‐Rodewald‐Str. 2 Kiel D‐24118 Germany,agrar
+CAU Kiel,Institut für Geowissenschaften; Christian-Albrechts-Universität; Kiel Germany,mint
+CAU Kiel,Institute of Medical Psychology and Medical Sociology,sowi
+Carl von Ossietzky Universität Oldenburg,Department of Science and Mathematics,mint
+Carl von Ossietzky Universität Oldenburg,Marine Isotope Geochemistry Institute for Chemistry and Biology of the Marine Environment (ICBM) University of Oldenburg,mint
+Central South University,Xiangya Hospital Central South University,med
+Charité - Universitätsmedizin Berlin,Berlin Institute of Health at Charité - Universitätsmedizin Berlin,med
+Constructor University,Business & Economics,sowi
+Friedrich-Loeffler-Institut,Institute of Animal Nutrition,agrar
+"Hochschule Bremen, City University of Applied Sciences",School of International Business,sowi
+Katholisches Kinderkrankenhaus Wilhelmstift,Kath. Kinderkrankenhaus Wilhelmstift,med
+Leibniz Centre for Tropical Marine Research,Department for Social Sciences,sowi
+Leibniz Centre for Tropical Marine Research,Social-Ecological Systems Analysis Group,mint
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Department of Epidemiological Methods and Etiological Research,med
+Max Planck Institute for Plasma Physics - Greifswald,EURATOM Association 1 Max-Planck-Institut für Plasmaphysik,mint
+Max-Planck-Institut für marine Mikrobiologie,Molecular Ecology,mint
+Max-Planck-Institute for Meteorology,Faculty of Environmental Sciences,mint
+Museum am Rothenbaum,Center for Natural History (CeNak),mint
+Research,RWI – Leibniz Institute for Economic Research,sowi
+Rostock University,Agrar- und Umweltwissenschaftliche Fakultät,agrar
+Rostock University,Klinik für Psychiatrie,med
+Universidade de Brasília,Department of Electrical Engineering,tech
+Universität Bremen,Insitute of Environmental Physics,mint
+Universität Bremen,MARUM Center of Environmental Sciences,mint
+Universität Greifswald,Institut für Physik,mint
+Universität Greifswald,Institute of Geography and Geology University of Greifswald,mint
+Universität Hamburg,Department of Chemistry Institute of Pharmacy,med
+Universität Hamburg,Department of Mathematics University of Hamburg Bundesstraße 55 20146 Hamburg,mint
+Universität Hamburg,Institute of Experimental Physics of Hamburg University,mint
+Universität Hamburg,a Institute for World Forestry,agrar
+Universität Rostock,Aquaculture and Sea-Ranching; Faculty of Agricultural and Environmental Sciences; ; Rostock Germany,agrar
+Universität Rostock,Hydromechanics and Sanitary Engineering,tech
+Universität Rostock,Institut für Chemie,mint
+Universität Rostock,Institut für Chemie Universität Rostock,mint
+Universität Rostock,Institut für Medizinische Biochemie und Molekularbiologie,med
+Universität Rostock,Institut für Politik- und Verwaltungswissenschaften,sowi
+Universität Rostock,University Hospital Rostock,med
+Universitätsmedizin Greifswald,Interfaculty Institute for Genetics and Functional Genomics,mint
+Zhengzhou University,First Affiliated Hospital of Zhengzhou University,med
+First People's Hospital of Foshan,,med
+University Medical Center of the Johannes Gutenberg University Mainz,,med
+Alfred Wegener Institute,Climate Sciences,mint
+Alfred Wegener Institute,Geophysics,mint
+Asklepios,Asklepios Fachklinikum Brandenburg,med
+Asklepios,"Clinical Research Group ""Aerosols in Med-icine"" of the GSF-Institute for Inhalation Biology and the",med
+Asklepios,Department of Vascular and Endovascular Surgery,med
+Asklepios,klinik St. Georg,med
+Bangladesh Agricultural University,Department of Medicine,med
+Behörde für Gesundheit und Verbraucherschutz,ARGUS -Statistik und Informationssysteme in Umwelt und Gesundheit GmbH,med
+Behörde für Gesundheit und Verbraucherschutz,Fachbereich Soziales und Gesundheit,med
+Bernhard Nocht Institute for Tropical Medicine,Bernhard Nocht Centre for Clinical Trials,med
+Bernhard Nocht Institute for Tropical Medicine,Reisemedizinisches Zentrum am Bernhard–Nocht–Institut für Tropenmedizin,med
+Biology Centre,"Institute of Hydrobiology, Biology Centre, Academy of Sciences of the Czech Republic",mint
+Bremer Umweltinstitut,Bremer Institut für Präventionsforschung und Sozialmedizin,med
+CAU Kiel,Abteilung für Lebensmitteltechnologie,agrar
+CAU Kiel,Archaeology Stable Isotope Laboratory,phil
+CAU Kiel,Chair of Human Geography,sowi
+CAU Kiel,Department for Dermatology Christian‐Albrecht University of Kiel and University Medical Center Schleswig‐Holstein Campus Kiel,med
+CAU Kiel,Department of Agricultural Engineering,agrar
+CAU Kiel,Department of Hydrology and Water Resources Management Kiel University,mint
+CAU Kiel,Department of Internal Medicine II Campus Kiel University of Schleswig‐Holstein,med
+CAU Kiel,Department of Internal Medicine II University of Schleswig‐Holstein,med
+CAU Kiel,Hematopathology Section Christian‐Albrechts‐University Kiel Kiel Germany,med
+CAU Kiel,Institut fur Geowissenschaften,mint
+CAU Kiel,Institut für Humanernährung und Lebensmittelkunde,agrar
+CAU Kiel,Institut für Klinische Molekularbiologie,mint
+CAU Kiel,Institute of Biochemistry,mint
+CAU Kiel,Institute of Clinical Chemistry,med
+CAU Kiel,Institute of Geosciences Christian‐Albrechts‐University Kiel Kiel Germany,mint
+CAU Kiel,Institute of Geosciences University of Kiel,mint
+CAU Kiel,Institute of Theoretical Physics and Astrophysics,mint
+CAU Kiel,Institutes of Geosciences,mint
+Carl von Ossietzky Universität Oldenburg,Carl von Ossietzky University Zoophysiology and Behavior Group,med
+Carl von Ossietzky Universität Oldenburg,Department of Soil Sciences,agrar
+Carl von Ossietzky Universität Oldenburg,Geomicrobiology,mint
+Carl von Ossietzky Universität Oldenburg,Max Planck Research Group for Marine Isotope Geochemistry Institute for Chemistry and Biology of the Marine Environment (ICBM) University of Oldenburg Oldenburg Germany,mint
+Carl von Ossietzky Universität Oldenburg,Microbiogeochemie,mint
+Carl von Ossietzky Universität Oldenburg,Physical Chemistry,mint
+Carl von Ossietzky Universität Oldenburg,Zoophysiology and Behaviour Group,med
+Carl-von-Ossietzky-Universität Oldenburg,Carl von Ossietzky Universität Oldenburg Institut für Chemie und Biologie des Meeres,mint
+Charité Universitätsmedizin Berlin,Klinik für Psychiatrie und Psychotherapie,med
+Constructor University,Department of Electrical and Computer Engineering,tech
+Constructor University,Physics & Earth Sciences,mint
+Dalian Medical University,First Affiliated Hospital of Dalian Medical University,med
+Eppendorf (Belgium),Ist Department of Medicine,med
+"European Molecular Biology Laboratory, Barcelona",Cell Biology and Biophysics Unit,mint
+Friedrich-Loeffler-Institut,Department of Breeding and Genetic Resources,mint
+Friedrich-Loeffler-Institut,Institut für Bakterielle Infektionen und Zoonosen,med
+Friedrich-Loeffler-Institut,Institut für Molekularbiologie,mint
+Hamburg Institut (Germany),ThÃ¼nen Institute of Fisheries Ecology,agrar
+Healis Sekhsaria Institute For Public Health,Healis Sekhsaria Institute for Public Health,med
+Helmut-Schmidt-Universität / UdB Hamburg,Department for Business Administration and Marketing,sowi
+Institut für Hygiene und Umwelt,Hygiene,med
+Institute for ImplantTechnology and Biomaterials,Institute for Biomedical Engineering,tech
+Institute for Peace Research and Security Policy,Associate Professor of Politics,sowi
+Institute of Marine Biotechnology,Key Laboratory of Applied Marine Biotechnology,mint
+Institute of Marine Biotechnology,Marine Biotechnology Institute Co.,mint
+Jacobs University Bremen,Bremen International Graduate School of Social Sciences,sowi
+Jacobs University Bremen,Computer Science and Electrical Engineering,tech
+Klinikum Oldenburg,Department of Oncology and Haematology,med
+Landwirtschaftskammer Niedersachsen,Axiom5 Law Chambers LLP,jura
+Leibniz Centre for Tropical Marine Research,Department of Ecology,mint
+Leibniz Centre for Tropical Marine Research,Department of Social Science,sowi
+Leibniz Centre for Tropical Marine Research,Geoecology and Carbonate Sedimentology Group,mint
+Leibniz Centre for Tropical Marine Research,"Leibnitz Zentrum für Marine TropenÖkologie
+Bremen",mint
+Leibniz Centre for Tropical Marine Research,Mangrove Ecology,mint
+Leibniz Centre for Tropical Marine Research,Tropical Marine Microbiology,mint
+Leibniz Institute for Baltic Sea Research,Department of Marine Chemistry,mint
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Leibniz Institute for Prevention Research and Epidemiology-BIPS GmbH,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS,med
+Leuphana Universität Lüneburg,Institute for Vocational and Business Education,sowi
+Leuphana Universität Lüneburg,Institute of Environmental and Sustainable Chemistry,mint
+Ludwig-Maximilians-Universität München,Department of Infectious Diseases and Tropical Medicine,med
+Mahosot Hospital,Lao-Oxford-Mahosot Hospital-Wellcome Trust Research Unit,med
+Max-Planck-Institute for Meteorology,Climate Physics,mint
+Max-Planck-Institute for Meteorology,Institute for Meteorology,mint
+Max-Planck-Institute for Meteorology,Land in the Earth System,mint
+Max-Planck-Institute for Meteorology,Max Planck Institute für Meteorologie,mint
+Max-Planck-Institute for Meteorology,Max Planck institute for Meteorology,mint
+Max-Planck-Institute for Meteorology,Max planck institute for meteorology,mint
+Max-Planck-Institute for Meteorology,Max-Planck-Institute for Meteorology (Germany),mint
+Max-Planck-Institute for Meteorology,Meteorologisches Institut,mint
+Max-Planck-Institute for Meteorology,Ocean,mint
+Max-Planck-Institute for Meteorology,The Ocean in the Earth System,mint
+Museum am Rothenbaum,Geological and Paleontological Institute and Museum,mint
+Nanjing University of Information Science and Technology,Key Laboratory of Meteorological Disaster of Ministry of Education,mint
+Nanjing University of Information Science and Technology,Key Laboratory of Meteorological Disasters,mint
+Nanjing University of Information Science and Technology,a Key Laboratory of Meteorology Disaster,mint
+Peking University,Peking University Cancer Hospital,med
+Physical Research Laboratory,Space and Atmospheric Sciences,mint
+Praxis,Key Laboratory of Biogenetic Resources Mining and Molecular Breeding in Qianxinan Prefecture,mint
+Rostock University,Institut für Allgemeinmedizin,med
+Rostock University,Institut für Biomedizinische Technik,med
+Rostock University,Institut für Präventivmedizin,med
+Rostock University,Klinik für Gynäkologie und Geburtshilfe,med
+Schmerzklinik Kiel,Stadtisches Krankenhaus Kiel,med
+Schmerzklinik Kiel,Städtisches Krankenhaus Kiel,med
+Seoul National University,School of Earth and Environmental Sciences,mint
+Technische Universität Chemnitz,Sociology,sowi
+Technische Universität Clausthal,Department of Mineralogy,mint
+Technische Universität Clausthal,TU Clausthal - Institut fuer Mineralogie und Mineralische Rohstoffe,mint
+Technische Universität Clausthal,Technical University Clausthal Institute for Geophysics,mint
+University of Bremen,Politics and Economics,sowi
+University of Central Asia,World Agroforestry Centre,agrar
+University of Cologne,Institute of Geology and Mineralogy,mint
+University of Hohenheim,Institute for Plant Production and Agroecology in the Tropics and Subtropics,agrar
+University of Tartu,Institute of Molecular and Cell Biology,mint
+University of Tasmania,School of Medicine,med
+Universität Bremen,Center of Clinical Psychology and Rehabilitation,med
+Universität Bremen,Department of Chemistry,mint
+Universität Bremen,Department of Geosciences at the,mint
+Universität Bremen,Institute of Anthropology and Cultural Research,sowi
+Universität Bremen,MARUM – Center for Marine environment Sciences,mint
+Universität Bremen,Marine Geotechnics,mint
+Universität Bremen,Vegetation Ecology &amp; Conservation Biology,mint
+Universität Bremen,a Institute of Environmental Physics,mint
+Universität Greifswald,Division of Gastroenterology and Endocrinology,med
+Universität Greifswald,Klinik und Poliklinik für Kinderchirurgie,med
+Universität Hamburg,Albrecht Mendelssohn Bartholdy Graduate School of Law,jura
+Universität Hamburg,Center for Natural History; ; Hamburg Germany,mint
+Universität Hamburg,"Centre
+for Materials and Coastal Research",mint
+Universität Hamburg,Department of Clinical Pharmacy,med
+Universität Hamburg,Department of Human Geography University of Hamburg,sowi
+Universität Hamburg,Institut für Zellbiochemie und klinische Neurobiologie,mint
+Universität Hamburg,Institut für Zoologie,mint
+Universität Hamburg,Institute for Human Biology,mint
+Universität Hamburg,Institute for the Law of the Sea and Maritime Law,jura
+Universität Hamburg,Institute of Mineralogy and Petrology,mint
+Universität Hamburg,Molecular Biology of Microbial Consortia,mint
+Universität Hamburg,Molecular Plant Genetics,mint
+Universität Hamburg,Section Mechanical Wood Technology,agrar
+Universität Hamburg,Section Wood Biology,agrar
+Universität Innsbruck,Department of Geology,mint
+Universität Lübeck,Institut für Pathologie der Medizinischen Hochschule Lübeck,med
+Universität Lübeck,Institute and Comprehensive Center for Inflammation Medicine,med
+Universität Lübeck,Institute of Medical Microbiology and Clinic for Infectious Diseases,med
+Universität Lübeck,Klinik für Kiefer-Gesichtschirurgie des Universitätsklinikums der Medizinischen Universität Lübeck (Direktor: Prof. Dr. Dr. Helmut von Domarus),med
+Universität Lübeck,Molecular Life Science,mint
+Universität Rostock,Chemistry,mint
+Universität Rostock,Clinic III (Hematology,med
+Universität Rostock,Department of Obstetrics and Gynecology,med
+Universität Rostock,Department of Political Science at the,sowi
+Universität Rostock,Division of Gastroenterology,med
+Universität Rostock,"Faculty of Agriculture, Civil and Environmental Engineering",agrar
+Universität Rostock,Faculty of Economic and Social Sciences,sowi
+Universität Rostock,Institut für Chemie der Universität Rostock,mint
+Universität Rostock,Institut für Physik Universität Rostock,mint
+Universität Rostock,Institute of Biological Sciences-Applied Ecology,mint
+Universität Rostock,Institute of Politics and Administrative Sciences,sowi
+Universität Rostock,Universität Rostock Institut für Chemie,mint
+Universitätsklinikum Hamburg-Eppendorf,Department of Biochemistry and Molecular Cell Biology,mint
+Universitätsklinikum Hamburg-Eppendorf,Institute for Health Services Research in Dermatology and Nursing (IVDP),med
+Universitätsklinikum Regensburg,Klinik und Poliklinik für Augenheilkunde Universitätsklinikum Regensburg,med
+Essen University Hospital,,med
+Nanfang Hospital,,med
+Shuguang Hospital,,med
+University Medical Center Freiburg,,med
+ALERT Hospital,Clinical laboratory,med
+ALMADAFORMA,In-Service Training of Secondary School Teachers,sowi
+Aarhus Universitet,Center for Geomicrobiology,mint
+Aarhus Universitet,"Department of Biological and Chemical Engineering - Air Quality and Emission Engineering, Blichers Alle 20",tech
+Aarhus Universitet,Department of Clinical Medicine - The Department of Pathology,med
+Aarhus Universitet,Department of Physics and Astronomy,mint
+Aarhus Universitet,Educational Sociology,sowi
+Academia Sinica,Cellular and Organismic Biology,mint
+Academia Sinica,Institute of Plant and Microbial Biology,mint
+Academia Sinica,"Marine Research Station, Institute of Cellular and Organismic Biology",mint
+Academy of Athens,Research Center for Atmospheric Physics and Climatology,mint
+Acharya Nagarjuna University,Department of Zoology,mint
+Adam Mickiewicz University in Poznań,Art History,phil
+Adam Mickiewicz University in Poznań,Institute of Geology Adam Mickiewicz University,mint
+Addis Ababa University,Aklilu Lemma Institute of Pathobiology,mint
+Adelphi Consult (Germany),Climate and Biodiversity,mint
+Ajman University of Science and Technology College of Dentistry,Clinical Sciences Department,med
+Al-Balqa` Applied University,Chemistry,mint
+Albert-Ludwigs-Universität Freiburg,Ancient History,phil
+Albert-Ludwigs-Universität Freiburg,Institute of Hydrology,mint
+Albert-Ludwigs-Universität Freiburg,International Politics/ Southeast Asian Studies,sowi
+Albert-Ludwigs-Universität Freiburg,Physikalisches Institut,mint
+"Alex Ekwueme Federal University, Ndufu-Alike",Fisheries and Aquaculture,agrar
+Alexandria University,Oral Biology & Dental Anatomy,med
+Alexandria University,Oral Biology and Dental Anatomy,med
+Alfred Wegener Institute,Alfred Wegener Institute - Helmholtz Centre for Polar and Marine Research,mint
+Alfred Wegener Institute,Alfred Wegener Institute Helmholtz Center for Polar and Marine Research; Bremerhaven,mint
+Alfred Wegener Institute,Alfred Wegener Institute Helmholtz Centre for Polar and Marine Research Bremerhaven Germany,mint
+Alfred Wegener Institute,Alfred Wegener Institute Helmholtz-Center for Polar and Marine Research,mint
+Alfred Wegener Institute,Alfred Wegener Institute for Polar and Marine Research (AWI),mint
+Alfred Wegener Institute,Climate,mint
+Alfred Wegener Institute,Climate Dynamics,mint
+Alfred Wegener Institute,Deep-Sea Ecology and Technology,mint
+Alfred Wegener Institute,Department of Marine Geology Alfred‐Wegener‐Institut Helmholtz Zentrum für Polar‐und Meeresforschung,mint
+Alfred Wegener Institute,Department of Marine Geology Alfred‐Wegener‐Institut Helmholtz‐Zentrum für Polar‐ und Meeresforschung,mint
+Alfred Wegener Institute,Functional Ecology,mint
+Alfred Wegener Institute,"Functional Ecology, Helmholtz Young Investigator Group ARJEL - Arctic Jellies",mint
+Alfred Wegener Institute,Geosciences,mint
+Alfred Wegener Institute,Marine Biogeosciences,mint
+Alfred Wegener Institute,Marine Geochemistry,mint
+Alfred Wegener Institute,Paleoclimate Dynamics,mint
+Alfred Wegener Institute,Polar Biological Oceanography,mint
+Alfred Wegener Institute,Polar Terrestrial Environmental Systems,mint
+Alfred Wegener Institute,Seaweed Biology,mint
+Alfred Wegener Institute,Section Polar Biological Oceanography,mint
+Alfred-Wegener-Institut für Polar und Meeresforschung,Atmospheric Physics,mint
+Altonaer Kinderkrankenhaus,Department of Paediatric Oncology/Haematology Kinderkrankenhaus Amsterdamer Straße Cologne Germany,med
+Anhui University,"International Law Department, School of Law",jura
+Arkana Laboratories,Instiute of Pathology,med
+Ashoka University,Department of Philosophy,phil
+Asian University for Women,Social Science,sowi
+Asiri Surgical Hospital,Department of Dental Surgery,med
+Asklepios,ASKLEPIOS Clinics North,med
+Asklepios,Asklepios Hospital Hamburg-Altona,med
+Asklepios,Department for Vascular and Endovascular Surgery,med
+Asklepios,Department of Hematology and Oncology Asklepios Hospital Hamburg Altona Hamburg Germany,med
+Asklepios,Department of Neonatology and Pediatric Critical Care,med
+Asklepios,Department of Neurology,med
+Asklepios,Georg Strüver is a research fellow at the GIGA Institute of Asian studies,sowi
+Asklepios,I. Medizinische Abteilung und Institut für diabetologische Versorgungsforschung,med
+Asklepios,Nephrology,med
+Association of Southeast Asian Nations,ASEAN+3 Macroeconomic Research (AMRO),sowi
+Ateneo de Manila University,Environmental Science,mint
+Ateneo de Manila University,Psychology,sowi
+BRAC University,BRAC University James P Grant School of Public Health,med
+BRAC University,James P Grant School of Public Health,med
+BUND Naturschutz,Gesellschaft für Freilandökologie und Naturschutzplanung mbH,mint
+Bangladesh Agricultural University,Department of Pathology,med
+Bauhaus-Universität Weimar,Civil Engineering,tech
+Bayerische Julius-Maximilians-Universität,Department of Geology,mint
+Baylor College of Medicine,Department of Orthopaedic Surgery,med
+Behörde für Gesundheit und Verbraucherschutz,Theologe,rewi
+Beijing Institute of Technology,School of Management and Economics,sowi
+Beijing Normal University,College of Global Change and Earth System Research,mint
+Beijing Normal University,College of Global Change and Earth System Science,mint
+Bermuda Institute of Ocean Sciences,Coral Reef Ecology and Optics Laboratory,mint
+Bernhard Nocht Institute for Tropical Medicine,Abteilung für Tropenmedizinische Grundlagenforsehung,med
+Bernhard Nocht Institute for Tropical Medicine,Bernhard Nocht Institute forTropical Medicine,med
+Bernhard Nocht Institute for Tropical Medicine,Bernhard-Nocht Institute for Tropical Medicine,med
+Bernhard Nocht Institute for Tropical Medicine,Centre for Infectious Disease Diagnostics,med
+Bernhard Nocht Institute for Tropical Medicine,Department Infectious Disease Epidemiology,med
+Bernhard Nocht Institute for Tropical Medicine,Department for Infectious Disease Epidemiology,med
+Bernhard Nocht Institute for Tropical Medicine,Department of Clinical Immunology of Infectious Diseases,med
+Bernhard Nocht Institute for Tropical Medicine,Department of Infection Epidemiology,med
+Bernhard Nocht Institute for Tropical Medicine,Epidemiology and Diagnostics Section,med
+Bernhard Nocht Institute for Tropical Medicine,Ethnopharmacology and Zoopharmacognosy,med
+Bernhard Nocht Institute for Tropical Medicine,German Armed Forces Hospital of Hamburg,med
+Bernhard Nocht Institute for Tropical Medicine,Health communication,sowi
+Bernhard Nocht Institute for Tropical Medicine,Immunology,med
+Bernhard Nocht Institute for Tropical Medicine,Infectious Disease Epidemiology,med
+Bielefeld University,"Collaborative Research Center SFB ""Geschichte des Bürgertums""",phil
+Bielefeld University,Evolutionary Biology,mint
+Bielefeld University,Faculty of Sociology,sowi
+Bielefeld University,School of Public Health,med
+Biology Centre,Hydrobiology,mint
+Brandenburgische Technische Universität Cottbus-Senftenberg,Faculty of Environmental Sciences and Process Engineering,tech
+Bremer Umweltinstitut,Institut für Sozial- und Präventivmedizin (ISPM) - Mental Health,med
+British Geological Survey,Geophysical Tomography,mint
+Bucerius Law School,Studium der Rechtswissenschaft an der ; Promotion (Freiburg);,jura
+Bundeswehrkrankenhaus,Abteilung Dermatologie,med
+Bundeswehrkrankenhaus,Bundeswehr Hospital Berlin,med
+Bundeswehrkrankenhaus,Hospital Labuan,med
+Bundeswehrkrankenhaus,Institute for Medical Microbiology,mint
+CAU Kiel,A&F Marketing - Consumer Psychology,sowi
+CAU Kiel,A&F Marketing—Consumer Psychology,sowi
+CAU Kiel,Botanical Institute and Botanic Gardens,mint
+CAU Kiel,Center for Ocean and Society (CeOS),mint
+CAU Kiel,Christian-Albrechts University Kiel 5 Institute of Geosciences,mint
+CAU Kiel,Clinic for Conservative Dentistry and Periodontology Christian‐Albrechts‐University Kiel,med
+CAU Kiel,Co-Chief Scientist Institute of Geosciences Christian-Albrechts Universitt zu Kiel Ludewig-Meyn-Strasse 10-14 D-24118 Kiel Germany,mint
+CAU Kiel,"Computer Science, Software Engineering",tech
+CAU Kiel,Department II of Internal Medicine University of Schleswig‐Holstein,med
+CAU Kiel,Department II of Internal Medicine University of Schleswig‐Holstein Kiel Germany,med
+CAU Kiel,Department of Agricultural Economics Kiel University Kiel Germany,agrar
+CAU Kiel,Department of Agroforestry and Environmental Science,agrar
+CAU Kiel,Department of Anesthesiology and Intensive Care Medicine,med
+CAU Kiel,Department of Dermatology and Allergy,med
+CAU Kiel,Department of Electrical and Information Engineering,tech
+CAU Kiel,Department of Geosciences Christian‐Albrecht‐Universitat zu Kiel,mint
+CAU Kiel,Department of Hydrology and Water Resource Management,mint
+CAU Kiel,Department of Internal Medicine II,med
+CAU Kiel,Department of Landscape Ecology Kiel University Olshausenstrasse 75 24118 Kiel Germany,mint
+CAU Kiel,Department of Molekulare Phytopathologie,mint
+CAU Kiel,Department of Organic and Isotope Geochemistry,mint
+CAU Kiel,Department of Pediatrics Christian‐Albrecht University of Kiel and University Medical Center Schleswig‐Holstein Campus Kiel,med
+CAU Kiel,Department of Pharmaceutical Chemistry,med
+CAU Kiel,Department of Pharmaceutics and Biopharmaceutics,med
+CAU Kiel,Department of Political Theory,sowi
+CAU Kiel,Departmet of Marine Aquaculture,agrar
+CAU Kiel,Dept. of Internal Medicine v,med
+CAU Kiel,Economics Department,sowi
+CAU Kiel,Experimental and Applied Physics,mint
+CAU Kiel,Faculty of Agricultural and Nutritional Science,agrar
+CAU Kiel,Faculty of Economics and Social Sciences,sowi
+CAU Kiel,Faculty of Engineering,tech
+CAU Kiel,Food Economics and Consumption Studies,sowi
+CAU Kiel,General Microbiology,mint
+CAU Kiel,Geological-Palaeontological Department,mint
+CAU Kiel,Geologisch-Paläontologisches Institut,mint
+CAU Kiel,INSTITUT FÜR GEOWISSENSCHAFTEN,mint
+CAU Kiel,Institut fÃ¼r Allgemeine Mikrobiologie,mint
+CAU Kiel,Institut für Pflanzenernährung und Bodenkunde,agrar
+CAU Kiel,Institut für Politikwissenschaften,sowi
+CAU Kiel,Institut für Theoretische Phyisk und Astrophysik,mint
+CAU Kiel,Institut of clinical molecular biology,med
+CAU Kiel,Institute for General Microbiology,mint
+CAU Kiel,Institute for Geosciences Christian Albrechts University Kiel Kiel 24118 Germany,mint
+CAU Kiel,Institute for Prehistoric and Protohistoric Archaeology. Kiel University,phil
+CAU Kiel,Institute for Prehistory and Early History,phil
+CAU Kiel,Institute for Pre‐ and Proto‐Historical Archaeology Kiel University Kiel Germany,phil
+CAU Kiel,Institute for Statistics and Econometrics,sowi
+CAU Kiel,Institute for plant nutrition and soil science,agrar
+CAU Kiel,Institute of Agricultural Economics Christian Albrechts Universität zu Kiel,agrar
+CAU Kiel,Institute of Clinical Molecular Biology Kiel University 24105 Kiel Germany,med
+CAU Kiel,Institute of Epidemiology and Biobank Popgen,med
+CAU Kiel,Institute of Geological Science,mint
+CAU Kiel,Institute of Geoscience Kiel University,mint
+CAU Kiel,Institute of Geosciences Christian Albrechts University of Kiel,mint
+CAU Kiel,Institute of Geosciences Christian‐Albrechts‐University of Kiel,mint
+CAU Kiel,Institute of Geosciences Kiel University Kiel Germany,mint
+CAU Kiel,Institute of Geosciences; ; Kiel Germany,mint
+CAU Kiel,Institute of Grass and Forage Science/Organic Agriculture,agrar
+CAU Kiel,Institute of Materials Science,tech
+CAU Kiel,Institute of Plant Nutrition and Soil Science Christian‐Albrechts‐University of Kiel,agrar
+CAU Kiel,Javier Revilla Diez has a Chair of Economic Geography,sowi
+CAU Kiel,Klinik für Zahnerhaltungskunde und Parodontologie,med
+CAU Kiel,Marine Biogeochemie,mint
+CAU Kiel,Mathematisches Institut,mint
+CAU Kiel,Mathematisches Seminar,mint
+CAU Kiel,"Research Group Medical Systems Biology, Institute of Experimental Medicine",med
+CAU Kiel,Second Medical Department,sowi
+CAU Kiel,Sektion Physik,mint
+CAU Kiel,"Systematic Proteome Research & Bioanalytics, Institute for Experimental Medicine",med
+CAU Kiel,Walther-Schücking-Institute for International Law,jura
+CAU Kiel,Zoologisches Institut,mint
+CEU San Pablo University,Institute of Chemistry,mint
+CICERO Center for International Climate Research,Climate and Nature Risks,mint
+CSD Medical Laboratory,Department of Molecular Diagnostics of Infections (Covid-19 Laboratory),mint
+CSIR South Africa,Ocean systems and climate,mint
+California Institute of Technology,Astronomy,mint
+California Institute of Technology,Chemistry,mint
+Carl von Ossietzky University of Oldenburg,Marine Conservation,mint
+Carl von Ossietzky University of Oldenburg,Marine Governance,mint
+Carl von Ossietzky University of Oldenburg,Marine Governance Group,mint
+Carl von Ossietzky University of Oldenburg,Marine Governance Groups,mint
+Carl von Ossietzky Universität Oldenburg,Animal Physiology and Behavior Group Department for Neuroscience School for Medicine and Health Sciences Carl‐von‐Ossietzky University Oldenburg 26111 Oldenburg Germany,agrar
+Carl von Ossietzky Universität Oldenburg,Chemistry,mint
+Carl von Ossietzky Universität Oldenburg,"Computer Science, Software Engineering, DFG Graduate School TrustSoft (Trustworthy Software Systems)",tech
+Carl von Ossietzky Universität Oldenburg,Department of Biology and Environmental Sciences University of Oldenburg,mint
+Carl von Ossietzky Universität Oldenburg,Department of Economics University of Oldenburg Germany,sowi
+Carl von Ossietzky Universität Oldenburg,Department of Geoecology,mint
+Carl von Ossietzky Universität Oldenburg,Department of Industrial Chemistry,mint
+Carl von Ossietzky Universität Oldenburg,Division Animal Physiology and Behavior,agrar
+Carl von Ossietzky Universität Oldenburg,Division for Medical Radiation Physics and Space Environment,mint
+Carl von Ossietzky Universität Oldenburg,Energy Meteorology Group,mint
+Carl von Ossietzky Universität Oldenburg,Fakultät VI Medizin und Gesundheitswissenschaften,med
+Carl von Ossietzky Universität Oldenburg,History,phil
+Carl von Ossietzky Universität Oldenburg,IBU Institute of Biology and Environmental Sciences,mint
+Carl von Ossietzky Universität Oldenburg,ICBM - Institut für Chemie und Biologie des Meeres,mint
+Carl von Ossietzky Universität Oldenburg,Institut fuer Biologie und Umweltwissenschaften,mint
+Carl von Ossietzky Universität Oldenburg,Institute for Biology and Environmental Sciences Carl von Ossietzky‐University Oldenburg Oldenburg Germany,mint
+Carl von Ossietzky Universität Oldenburg,Institute for Chemistry and Biology of the Marine Environment University of Oldenburg,mint
+Carl von Ossietzky Universität Oldenburg,Institute for Chemistry and Biology of the Sea Oldenburg University,mint
+Carl von Ossietzky Universität Oldenburg,Institute of Biology and Environmental Sciences Carl von Ossietzky‐University,mint
+Carl von Ossietzky Universität Oldenburg,Institute of Biology and Envrionmental Sciences,mint
+Carl von Ossietzky Universität Oldenburg,Max Planck Research Group for Marine Geochemistry,mint
+Carl von Ossietzky Universität Oldenburg,Max Planck Research Group-Marine Isotope Geochemistry,mint
+Carl von Ossietzky Universität Oldenburg,Paleomicrobiology,mint
+Carl von Ossietzky Universität Oldenburg,Physics Didactic and History of Science,mint
+Carl von Ossietzky Universität Oldenburg,Plankton Ecology,mint
+Carl von Ossietzky Universität Oldenburg,Research Group - Physics Education and Science Communication,mint
+Carl von Ossietzky Universität Oldenburg,Research Group -Physics Education and History of Science,mint
+Carl von Ossietzky Universität Oldenburg,Research Group for Marine Geochemistry (ICBM‐MPI Bridging Group),mint
+Carl von Ossietzky Universität Oldenburg,Research Group for Marine Geochemistry (ICBM‐MPI Bridging group) Institute for Chemistry and Biology of the Marine Environment,mint
+Carl von Ossietzky Universität Oldenburg,School of Mathematics and Science,mint
+Carl von Ossietzky Universität Oldenburg,University Hospital for Visceral Surgery,med
+Carl von Ossietzky Universität Oldenburg,University of Oldenburg Department of Economics,sowi
+Carl von Ossietzky Universität Oldenburg,Visceralmedizin,med
+Carl-von-Ossietzky-Universität Oldenburg,Institut für Chemie und Biologie des Meeres der Carl von Ossietzky Universität Oldenburg,mint
+Carl-von-Ossietzky-Universität Oldenburg,Marine Isotope Geochemistry,mint
+Central Institution for Meteorology and Geodynamics,Institute of Meteorology and Climatology,mint
+Central Military Clinical Hospital,Thoracic Surgery,med
+Central University of Haryana,Department of Political Science,sowi
+Centre international de recherche sur le cancer,Genomic Epidemiology Branch,med
+Centro Científico Tecnológico - Bahía Blanca,Argentine Institute of Oceanography,mint
+Centro Oceanográfico de Illes Balears,Demersal Fisheries and ocean dynamics,agrar
+Centro de Investigaciones Biológicas Margarita Salas,Group for NMR and Molecular Recognition,mint
+Charité - Universitätsmedizin Berlin,Computational Genome Biology,mint
+Charité - Universitätsmedizin Berlin,Institute of Clinical Pharmacology,med
+Charité Universitätsmedizin Berlin,Department of Pediatric Oncology/Hematology,med
+Charité Universitätsmedizin Berlin,Hämatologie und Onkologie,med
+Charité Universitätsmedizin Berlin,"Institute of Biochemistry, Computational Systems Biochemistry",mint
+Charité Universitätsmedizin Berlin,Institute of Clinical Pharmacology,med
+Charité Universitätsmedizin Berlin,National Consultative Laboratory for Dermatophytes Institute for Microbiology and Infection Immunology Charité ‐ Universitätsmedizin Berlin,med
+Charité Universitätsmedizin Berlin,Nationales Konsiliarlabor für Dermatophyten Institut für Mikrobiologie und Infektionsimmunologie Charité – Universitätsmedizin Berlin,med
+Charité Universitätsmedizin Berlin,"Nephrology, Benjamin Franklin Hospital",med
+Charles University,Department of Atmospheric Physics,mint
+Chemnitz University of Technology,Empirical Economics,sowi
+Chemnitz University of Technology,Sociology,sowi
+Chengdu University of Technology,Plateau Atmosphere and Environment Key Laboratory of Sichuan Province,mint
+Chengdu University of Technology,School of Atmospheric Sciences,mint
+Chengdu University of Technology,School of Atmospheric Sciences / Climate Change and Resource Utilization in Complex Terrain Regions Key Laboratory of Sichuan Province / Chengdu Plain Urban Meteorology and Environment Observation and Research Station of Sichuan Province/ Sichuan Meteorological Disaster Prediction and Early Warning Engineering Laboratory,tech
+Chengdu University of Technology,School of Atmospheric Sciences / Plateau Atmosphere and Environment Key Laboratory of Sichuan Province / Chengdu Plain Urban Meteorology and Environment Observation and Research Station of Sichuan Province/ Sichuan Meteorological Disaster Prediction and Early Warning Engineering Laboratory,tech
+Chengdu University of Technology,School of Atmospheric Sciences Plateau Atmosphere and Environment Key Laboratory of Sichuan Province Joint Laboratory of Climate and Environment Change,mint
+Chengdu University of Technology,d School of Atmospheric Sciences/Plateau Atmosphere and Environment Key Laboratory of Sichuan Province/Joint Laboratory of Climate and Environment Change,mint
+China University of Geosciences,MNR Key Laboratory for Exploration Theory & Technology of Critical Mineral Resources,mint
+Chinese Academy of Geological Sciences,Institute of Geology,mint
+Chinese Academy of Sciences,Chinese Academy of Sciences Dalian Institute of Chemical Physics,mint
+Chinese Academy of Sciences,Qilian Shan Station of Glaciology and Ecologic Environment,mint
+Chinese Academy of Sciences,State Key Laboratory of Numerical Modeling for Atmospheric Science and Geophysical Fluid Dynamics (LASG),mint
+Chinese Academy of Social Sciences,The Institute of linguistics,phil
+Chongqing Medical University,Second Affiliated Hospital of Chongqing Medical University,med
+Christian Medical College,Department of Nephrology,med
+Christian-Albrechts-Universität zu Kiel,Christian Albrechts Universität zu Kiel Sektion Chemie,mint
+Christian-Albrechts-Universität zu Kiel,Christian-Albrechts-Universität zu Kiel Institut für Geowissenschaften,mint
+Christian-Albrechts-Universität zu Kiel,Christian-Albrechts-Universität zu Kiel Philosophische Fakultät,phil
+Christian-Albrechts-Universität zu Kiel,Economics,sowi
+Christian-Albrechts-Universität zu Kiel,Institute of Pre and Protohistorical Archaeology,phil
+Christian-Albrechts-Universität zu Kiel,Kiel Marine Science,mint
+Christian-Albrechts-Universität zu Kiel,Otto-Diels-Institut für Organische Chemie,mint
+Chulalongkorn University,Institute of Asian Studies,sowi
+City University of Hong Kong,Department of Biology and Chemistry,mint
+City University of Hong Kong,State Key Laboratory of Marine Pollution,mint
+Coastal Impact,B 3 - Marine and Coastal Systems,mint
+Coastal Impact,"Centre
+for Materials and Coastal Research",mint
+Code to Communicate,Science Communication,sowi
+Colombian Geological Survey,Geological Map of Colombia,mint
+Colorado State University,Department of Atmospheric Science,mint
+Colorado State University,Mathematics,mint
+Columbia University,Mailman School of Public Health,med
+Commonwealth Scientific and Industrial Research Organisation,Global Carbon Project –Oceans and Atmosphere,mint
+Concord University,Department of Physical and Environmental Sciences,mint
+Constructor University,Bremen International Graduate School of Social Sciences,sowi
+Constructor University,Chemistry,mint
+Constructor University,Chinese Economy and Society,sowi
+Constructor University,Computer Science and Electrical Engineering,tech
+Constructor University,Department of Industrial Engineering,tech
+Constructor University,Department of Social Sciences & Humanities,sowi
+Constructor University,Department of Social Sciences and Humanities,sowi
+Constructor University,"Emerging Technologies in Industrial Engineering (EITIE) research Lab, School of Business, Social & Decision Sciences",tech
+Constructor University,International Business Administration,sowi
+Constructor University,KAEFER Professor of Renewable Energy and Environmental Politics,sowi
+Constructor University,Mathematics Jacobs University,mint
+Constructor University,Methods and Psychology,sowi
+Constructor University,Professor of Business Administration and head of the research group “Organizational Learning and Innovation” at the Jacobs Center for Lifelong Learning and Institutional Development,sowi
+Constructor University,Professor of business administration and information management,sowi
+Constructor University,School of Engineering and Sciences,tech
+Constructor University,Social Sciences & Humanities,sowi
+Constructor University Bremen (formerly Jacobs University Bremen),Computer Science and Electrical Engineering,tech
+Copenhagen Business School,"International Economics, Government, and Business",sowi
+Cornell University,Earth and Atmospheric Sciences,mint
+Curriculum Evaluation Commission at Area Orientation Center,Politics and development,sowi
+DIAKO,Department of Hematology and Oncology,med
+DIAKO,Krankenhaus GmbH Flensburg,med
+DTU,Bioengineering - Biotechnology and Biomedicine,med
+Dalhousie University,Department of Physics and Atmospheric Science,mint
+Dalhousie University,Oceanography,mint
+Damascus University,Department of Economics,sowi
+Damascus University,Economics,sowi
+Danmarks Tekniske Universitet,Fisheries,agrar
+Deakin University - Geelong Waterfront Campus,School of Life and Environmental Sciences,mint
+Department of Animal Health,Department of Epidemiology,med
+Department of Marine and Coastal Resources,Marine and Coastal Resources Research Center,mint
+Deutscher Wetterdienst,Klima und Umwelt/ Hans-Ertel-Zentrum für Wetterforschung,mint
+Deutsches Archäologisches Institut,Commission for Archaeology of Non-European Cultures (KAAK) Bonn,phil
+Deutsches Archäologisches Institut,"Deutsches Archäologisches Institut, Zentrale",phil
+Deutsches Elektronen-Synchrotron,Astroparticle Physics division,mint
+Deutsches Elektronen-Synchrotron,DESY Photon Science,mint
+Deutsches Elektronen-Synchrotron,"P02.2, FS-PETRA-D, Photon Sciences",mint
+Deutsches Geoforschungszentrum Potsdam,Climate Dynamics and Landscape Evolution,mint
+Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR),German Aerospace Center (DLR),tech
+Diamond Harbour Women's University,Department of Political Science,sowi
+Dilla University,Physics,mint
+District General Hospital Matara,Oral and Maxillofacial Surgery Unit,med
+Dresden University of Technology,Forestry,agrar
+Duke University,Centre for Demographic Studies and Dept. of Sociology,sowi
+Duke University,John Franklin Crowell Professor of Sociology and Director of the Center for Demographic Studies,sowi
+Duke University,Sanford Institute for Public Policy,sowi
+Duke University,School of Law,jura
+EPFL - École Polytechnique Fédérale de Lausanne,"School of Architecture, Civil and Environmental Engineering, Environmental Engineering Institute, Laboratory for Biological Geochemistry",tech
+ETH Zürich,Chemistry and Applied Biosciences,mint
+ETH Zürich,History of the Global World,phil
+ETH-Bereich Hochschulen,Physik,mint
+Eawag,Urban Water Management & Process Engineering,tech
+Eberhard Karls Universität Tübingen,"Center for Applied Geosciences, Geomicrobiology",mint
+Eberhard Karls Universität Tübingen,Department of History,phil
+Eberhard Karls Universität Tübingen,Geology,mint
+Eberhard Karls Universität Tübingen,"Institut für Mineralogie, Petrologie und Geochemie",mint
+Eberhard Karls Universität Tübingen,Institut für Ur- und Frühgeschichte und Archäologie des Mittelalters,phil
+Eberhard Karls Universität Tübingen,Institute for Prehistory and Early History and Archeology of the Middle Ages,phil
+Eberhard Karls Universität Tübingen,Klinik und Poliklinik für Mund-Kiefer-Gesichtschirurgie,med
+Eberhard Karls Universität Tübingen,Seminar für Sprachwissenschaft,phil
+Ecole Normale Supérieure Département des Géosciences,Laboratoire de Meteorologie Dynamique,mint
+Edward Francis Small Teaching Hospital,Internal Medicine,med
+Eidgenössische Technische Hochschule Zürich,"Department of Humanities, Social and Political Sciences",sowi
+Emory University,Mathematics & Computer Science,mint
+Eppendorf (Germany),Zentrum für Innere Medizin,med
+Ernst-Moritz-Arndt Universität Greifswald,Landscape Ecology/ Philosophy,mint
+Estonian Biocentre,Department of Evolutional Biology,mint
+Europa Universität Flensburg,"Institut für Sprache, Literatur und Medien",phil
+Europa-Universität Flensburg,Energy and Resource Economics,sowi
+"European Molecular Biology Laboratory, Barcelona",Cell Biology and Biophysics,mint
+European Parliament,environmental and healthcare politics,sowi
+European University Viadrina,Sociology,sowi
+European XFEL GmbH,FEL physics,mint
+Ev. Diakonie-Krankenhaus Bremen,Department of Hematology and Oncology,med
+EvKB,Department of Pediatrics,med
+Evangelische Hochschule Freiburg,Sozialwissenschaftliche GeschlechterForschung im FIVE e.V. Freiburg,sowi
+Evangelisches Krankenhaus Alsterdorf,Zentrum Kinderschmerztherapie u. Palliativmedizin,med
+FH Hagen University of Applied Sciences,Civil Engineering,tech
+Fachhochschule Kiel,Department of Agricultural Economics,agrar
+Fachhochschule Luebeck (University of Applied Sciences Luebeck),Technical Environment and Climate Protection,mint
+"Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes Mecklenburg",Fachbereich Polizei - Fachgruppe Sozialwissenschaften/Kommunikation,sowi
+Fachkliniken Wangen Abteilung für Pneumologie,Thoracic Surgery Department,med
+Fahrenheit (Germany),Social Science Department,sowi
+Federal Maritime and Hydrographic Agency of Germany,Marine Sciences,mint
+Federal University of Applied Administrative Sciences,First professional and further trainings of public service employees in social psychology and organizational studies. Research on the same topics.,sowi
+Flame University,Economics,sowi
+Flensburg University of Applied Sciences,Department of Wind Engineering,tech
+ForFarmers NV,Nutrition & Innovation Centre,agrar
+Forschungszentrum Jülich,Institut für Energie- und Klimaforschung (IEK-8),mint
+Forschungszentrum Jülich,Institute for Petroleum and Organic Geochemistry,mint
+Forschungszentrum Jülich,Plant Sciences (IBG-2),mint
+Foshan University,Guangdong Provincial Key Laboratory of Animal Molecular Design and Precise Breeding School of Life Science and Engineering,tech
+Fraunhofer Institute for Manufacturing Technology and Advanced Materials,Fraunhofer‐Institut fur Fertigungstechnik und Angewandte Materialforschung Institutsteil fur Pulvermetallurgie und Verbundwerkstoffe Dresden Germany,tech
+Fraunhofer Research Institution for Additive Manufacturing Technologies IAPT,Department of Ecology and Evolutionary Biology University of Colorado Boulder,mint
+Freie Universität Berlin,Faculty of Veterinary Medicine,med
+Freie Universität Berlin,Health Psychology,sowi
+Freie Universität Berlin,History Department,phil
+Freie Universität Berlin,Institut für Virologie,med
+Freie Universität Berlin,Institute for Chinese Studies,phil
+Freie Universität Berlin,Institute of Biochemistry and Molecular Biologie,mint
+Freie Universität Berlin,Institute of Chinese Studies,phil
+Freie Universität Berlin,Institute of Social and Cultural Anthropology,sowi
+Freie Universität Berlin,Institute of Sociology,sowi
+Freie Universität Berlin,Otto Suhr Institute of Political Science,sowi
+Freie Universität Berlin,Physikalische und Theoretische Chemie,mint
+Freie Universität Berlin,Quantitative Methods in Psychology,sowi
+Friedrich Schiller University Jena,Jena Center for Reconciliation Studies,sowi
+Friedrich-Alexander-Universität Erlangen-Nürnberg,Department of Sensory Ecology,mint
+Friedrich-Alexander-Universität Erlangen-Nürnberg,"Faculty of Business, Economics, and Law - Chair of Information Systems, Innovation and Value Creation (WI1)",jura
+Friedrich-Alexander-Universität Erlangen-Nürnberg,Paleobiology and Paleoenvironments,mint
+Friedrich-Loeffler Institut,Friedrich-Loeffler-Institut Bundesforschungsinstitut für Tiergesundheit Institut für bakterielle Infektionen und Zoonosen,med
+Friedrich-Loeffler-Institut,Collection of Cell Lines in Veterinary Medicine,med
+Friedrich-Loeffler-Institut,Department of Anesthesiology and Intensive Care Medicine,med
+Friedrich-Loeffler-Institut,Epidemiology,med
+Friedrich-Loeffler-Institut,Federal Research Institute for Animal Health; Greifswald Insel Riems Germany,agrar
+Friedrich-Loeffler-Institut,Insitute of Epidemiological Diagnostics,med
+Friedrich-Loeffler-Institut,Institut für Immunologie,med
+Friedrich-Loeffler-Institut,Institute for Animal Welfare and Animal Husbandry,agrar
+Friedrich-Loeffler-Institut,Institute for Immunology,med
+Friedrich-Loeffler-Institut,Institute of Epidemiology,med
+Friedrich-Schiller-Universität Jena,Research Group Theoretical Systems Biology,mint
+Friedrich-Schiller-Universität Jena,Soziologie,sowi
+Fulda University of Applied Sciences,Department of Nursing and Health Sciences,med
+Future University in Egypt,Petroleum Engineering,tech
+Future University in Egypt,Petroleum Engineering Department,tech
+GESIS - Leibniz-Institut für Sozialwissenschaften eV Köln,Computational Social Science,sowi
+GFZ German Research Centre for Geosciences,Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences,mint
+GFZ German Research Centre for Geosciences,Interface Geochemistry,mint
+GFZ German Research Centre for Geosciences,Section Hydrology,mint
+GFZ Helmholtz Centre for Geosciences,Lithosphere Dynamics GFZ German Research Centre for Geosciences,mint
+GFZ Helmholtz Centre for Geosciences,Section Hydrology,mint
+GFZ Helmholtz Centre for Geosciences,Section Hydrology GFZ German Research Centre for Geosciences,mint
+GIZ,Forest and Climate Change Program,mint
+GNS Science Ltd,Crustal Geophysics,mint
+GNS Science Ltd,Marine Geoscience,mint
+GSF-Forschungszentrum für Umwelt und Gesundheit,Institut für Ökologische Chemie,mint
+Gaza University,Faculty of Communication and Languages,sowi
+Geological Survey of Ethiopia,Hydrogeology,mint
+Georg-August-Universität Göttingen,Biochemie 2,mint
+Georg-August-Universität Göttingen,Department for Agricultural Economics and Rural Development,agrar
+Georg-August-Universität Göttingen,Economics,sowi
+Georg-August-Universität Göttingen,Genomic and applied microbiology,mint
+Georg-August-Universität Göttingen,Geochemisches Institut,mint
+Georg-August-Universität Göttingen,Human Geography,sowi
+Georg-August-Universität Göttingen,IV. Physikalisches Institut,mint
+Georg-August-Universität Göttingen,Institut und Museum für Geologie und Paläontologie,mint
+Georg-August-Universität Göttingen,Johann-Friedrich-Blumenbach Institut für Zoologie und Anthropologie,mint
+German Cancer Research Center,Biological Security and Research Security,mint
+German Centre for Integrative Biodiversity Research,Biodiversity Economics,mint
+German Climate Computing Centre,Deutsches Klimarechenzentrum (DKRZ),mint
+German Climate Computing Centre,Helmholtz-Zentrum Geesthacht Zentrum für Materialforschung und Küstenforschung Climate Service Center Germany,mint
+German Institute for Economic Research,German Socio-Economic Panel Study (SOEP),sowi
+German Institute for Global and Area Studies (GIGA),Department of Politics and International Relations,sowi
+German Institute for Global and Area Studies (GIGA),GIGA German Institute of Global and Area Studies / Leibniz-Institut für Globale und Regionale Studien,sowi
+German Institute for Global and Area Studies (GIGA),German Institute of Global and Area studies,sowi
+German Research Centre for Artificial Intelligence,Marine Perception Research Department,mint
+German Rheumatism Research Center,Epidemiology,med
+Ghulam Ishaq Khan Institute of Engineering Sciences and Technology,Department of Civil Engineering,tech
+GlaxoSmithKline (Germany),Berlin Centre of Travel & Tropical Medicine,med
+Goddard Space Flight Center,Atmospheric Chemistry and Dynamics Laboratory,mint
+Goddard Space Flight Center,Laboratory for Extraterrestrial Physics,mint
+Goethe-Universität Frankfurt am Main,Department of Political Science,sowi
+Goethe-Universität Frankfurt am Main,"Institute for Empirical linguistics, Department 09, Goethe University Frankfurt, Germany",phil
+Goethe-Universität Frankfurt am Main,"Institute for Empirical linguistics, Goethe University Frankfurt, Germany",phil
+Goethe-Universität Frankfurt am Main,Institute for Geoscience,mint
+Goethe-Universität Frankfurt am Main,"Institute for Linguistics, Goethe University Frankfurt",phil
+Goethe-Universität Frankfurt am Main,Institute for Political Science,sowi
+Goethe-Universität Frankfurt am Main,"Institute of Empirical linguistics, Goethe University Frankfurt, Germany",phil
+Government of Nepal,Department of Hydrology and Meteorology,mint
+Gran Sasso Science Institute,Social Sciences,sowi
+Gray Cancer Institute,Experimental Oncology,med
+Guizhou University,School of Civil Engineering,tech
+Göttingen Academy of Sciences and Humanities,Union Catalogue of Oriental Manuscripts,phil
+Hai Phong University,Hai phong University Of Medicine and Pharmacy,med
+Hamburg Institut (Germany),Leibniz-Institut zur Analyse des Biodiversitätswandels - Standort Hamburg; Martin-Luther-King-Platz 3; 20146 Hamburg; Germany. skejo.josip@gmail.com,mint
+Hamburg Institute of International Economics,Head of Research Program “International Climate Policy”,mint
+Hamburg School of Business Administration,Chongqing Technology and Business University,sowi
+Hamburg University of Technology,Institute of Technical Biocatalysis,mint
+Hamburg University of Technology,Institute for Materials Physics and Technology,mint
+Hamburg University of Technology,Institute for Materials and X-Ray Physics,mint
+Hannover Medical School,Institute for Diagnostic and Interventional Radiology,med
+Hannover Medical School,Radiologie,med
+Hanover University of Music Drama and Media,Institute of Music Physiology and Musicians' Medicine,med
+Hanover University of Music Drama and Media,Musicologyu,phil
+Hanse-Wissenschaftskolleg,Alfred Wegener Institute for Polar and Marine Research,mint
+Harvard Medical School,Cardiology,med
+Harvard Medical School,"HIV Immunology, Partners AIDS Research Center",med
+Harvard University,Department of Physics,mint
+Harvard-Smithsonian Center for Astrophysics,Astrophysics,mint
+Hazara University,Zoology,mint
+Hebei Medical University,Fourth Hospital of Hebei Medical University,med
+Heidelberg University,Department of Infectious Diseases,med
+Heidelberg University,Institute of History and Ethics of Medicine,med
+Heidelberg University,Sociology,sowi
+Heinrich-Heine-Universität Düsseldorf,Art history,phil
+Heinrich-Heine-Universität Düsseldorf,Institut für Medizinische Soziologie,med
+Heinrich-Heine-Universität Düsseldorf,Klinik für Frauenheilkunde und Geburtshilfe,med
+Heinrich-Heine-Universität Düsseldorf,Philosophische Fakultät / Institut für Kunstgeschichte,phil
+Heinrich-Heine-Universität Düsseldorf,Physical Chemistry,mint
+Heinrich-Heine-Universität Düsseldorf,Sinnesökologie,mint
+Helios Kliniken Schwerin,Gastroenterology and Infectiology,med
+Helmholtz Centre for Environmental Research,Department for Environmental and Planning Law,jura
+Helmholtz Centre for Environmental Research,Department of Conservation Biology UFZ –,mint
+"Helmholtz Institute for Functional Marine Biodiversity at the University of Oldenburg (HIFMB) and Alfred Wegener Institute, Helmholtz-Centre for Polar and Marine Research (AWI)",Focus Group Marine Molecular Ecology,mint
+"Helmholtz Institute for Functional Marine Biodiversity at the University of Oldenburg (HIFMB) and Alfred Wegener Institute, Helmholtz-Centre for Polar and Marine Research (AWI)",Plankton Ecology,mint
+Helmholtz Zentrum München Deutsches Forschungszentrum für Umwelt und Gesundheit,Institute of Coastal Research,mint
+Helmholtz Zentrum München Deutsches Forschungszentrum für Umwelt und Gesundheit,Institute of Environmental Medicine,med
+Helmholtz Zentrum München Deutsches Forschungszentrum für Umwelt und Gesundheit,"Joint Mass Spectrometry Centre - Cooperation Group ""Comprehensive Molecular Analytics""",mint
+Helmholtz-Zentrum Hereon,Chemistry Transport Modelling,mint
+Helmholtz-Zentrum Hereon,Climate Service Center Germany (GERICS),mint
+Helmholtz-Zentrum Hereon,Earth System Modelling,mint
+Helmholtz-Zentrum Hereon,Environmental Chemistry,mint
+Helmholtz-Zentrum für Umweltforschung,Comprehensive Molecular Analytics,mint
+Helmut-Schmidt-Universität / UdB Hamburg,"Chair of Political Science, particularly Political Theory",sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Department of Humanities and Social Sciences,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Department of Mechanical Engineering,tech
+Helmut-Schmidt-Universität / UdB Hamburg,Department of Sociology,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Economics & Social Sciences,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Economics and Social Sciences,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Faculty of Humanities and Social Sciences,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Faculty of Mechanical and Civil Engineering,tech
+Helmut-Schmidt-Universität / UdB Hamburg,History,phil
+Helmut-Schmidt-Universität / UdB Hamburg,Organizational Psychology Department,sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Professor for Political Science (International Political Economy),sowi
+Helmut-Schmidt-Universität / UdB Hamburg,Professur für Politikwissenschaft,sowi
+"Hochschule Bremen, City University of Applied Sciences",Biological Structures and Biomimetics,mint
+"Hochschule Bremen, City University of Applied Sciences",Department of Civil Engineering,tech
+"Hochschule Bremen, City University of Applied Sciences",Faculty of Social Sciences,sowi
+"Hochschule Bremen, City University of Applied Sciences",Fakultät für Wirtschaftswissenschaften,sowi
+"Hochschule Bremen, City University of Applied Sciences",Institute for Hydraulic and Coastal Engineering,tech
+"Hochschule Bremen, City University of Applied Sciences",School of International Business (SiB),sowi
+Hochschule Ruhr West - Campus Bottrop,Environmental and Process Engineering,tech
+Hochschule für Angewandte Wissenschaften Hamburg,Public Health,med
+Hochschule für Angewandte Wissenschaften Kiel,Department of Internal Medicine III,med
+Hochschule für Angewandte Wissenschaften Kiel,Institute for Marine Research at the University of Kiel,mint
+Hochschule für bildende Künste,Theorie und Geschichte,phil
+Homann-Stiftung,Department of Neurology and Stroke Centre,med
+Huadong Hospital,Nephrology,med
+Huazhong Agricultural University,National Key Laboratory of Crop Genetic Improvement and National Center of Crop Molecular Breeding,mint
+Hue University,Economics and Development Studies,sowi
+Hue University,"Faculty of Public Health, Hue University of Medicine and Pharmacy",med
+Hue University,"Institute for Community Health Research, Hue University of Medicine and Pharmacy",med
+Hue University,Internal Medicine,med
+Humboldt-Universität zu Berlin,Econometrics,sowi
+Humboldt-Universität zu Berlin,"Faculty of Life Science, Institute for Biology, Institute for Theoretical Biology",mint
+Humboldt-Universität zu Berlin,Institut für Sozialwissenschaften,sowi
+Humboldt-Universität zu Berlin,Institute for Asian and African Studies,sowi
+Humboldt-Universität zu Berlin,Institute for Theoretical Biology,mint
+IHS Global Insight,Economics and Country Risk Department,sowi
+IPB University,Faculty of Fisheries and Marine Sciences,agrar
+IPN – Leibniz Institute for Science and Mathematics Education,Educational Research and Educational Psychology,sowi
+IPN – Leibniz Institute for Science and Mathematics Education,Physics Education,mint
+IQVIA,Public Health,med
+Ifremer,Geosciences Marines,mint
+Illinois State University,Economics,sowi
+Independent University,Pharmacy,med
+"Indian Institute of Science Education and Research, Bhopal",Department of Earth and Environmental Sciences,mint
+"Indian Institute of Science Education and Research, Bhopal",Department of Earth and Environmental Sciences Indian Institute of Science Education and Research,mint
+Indian Institute of Technology Bombay,Centre for Climate Studies,mint
+Indian Institute of Technology Kanpur,Department of physics,mint
+Indian Institute of Technology Madras,Department of Civil Engineering,tech
+Indiana University Bloomington,Biology,mint
+Indiana University Bloomington,Earth and Atmospheric Sciences,mint
+Indiana University Bloomington,Geological Sciences,mint
+Indonesian Institute of Sciences,Paleoclimate & Paleoenvironment Research Group,mint
+Inria Centre de recherche Bordeaux Sud-Ouest,Statistics in System Medicine and Translational Biology (SISTM),med
+Inselspital Bern University Hospital,"Clinic for Paediatric Surgery, Dept. of Paediatric Orthopaedics and Traumatology",med
+Institut Curie,UMR144 Cell Biology and Cancer,mint
+Institut für Hygiene und Umwelt,Klinische Mikrobiologie,mint
+Institut für Palliative Care,Clinic for Acupuncture,med
+Institut für Werktofftechnik,Chemical & Process Engineering,tech
+Institute for Biodiversity,Centre for Biodiversity Monitoring and Conservation Science (zbm),mint
+Institute for Community Health,Institute for Community Medicine,med
+Institute for Peace Research and Security Policy,Institute of Peace Research and Security Policy,sowi
+Institute for Prevention Research and Social Medicine (BIPS),Bremen Institute for Prevention Research and Social Medicine (BIPS),med
+Institute of Clinical Molecular Biology.  Christian-Albrechts-University of Kiel,Genetics & Bioinformatics,mint
+"Institute of Ecology, Economics and Law",Faculty of Ecology,mint
+Institute of Marine Biotechnology,Dianbai Marine Biotechnology Aquaculture Co,agrar
+Institute of Marine Biotechnology,Institute Marine Biotechnology,mint
+Institute of Marine Biotechnology,Marine Bio Co. Ltd,mint
+Institute of Marine Biotechnology,School of Ocean Engineering,tech
+"Institute of Marine Research, Bergen",Maritime Meteorology,mint
+Institute of Political Education for Adult,Political Education,sowi
+Institute of Political Science,Political Economy and Development,sowi
+Institute of Post Graduate Medical Education And Research,Pharmacology,med
+Institute of Social and Economic Research,China's Economic Development at the GIGA Institute of,sowi
+Instituto Geofísico del Perú,Atmosphere and Hydrosphere,mint
+Instituto de Ecologia,Functional Ecology Network,mint
+International Centre for Climate Change and Development,Initiative for Climate Change and Health,mint
+International Christian University,Division of Social Sciences,sowi
+International Institute for Population Sciences,Department of Public Health and Mortality,med
+International Institute for Population Sciences,Public Health and Mortality Studies,med
+International Islamic University Chittagong,Pharmacy,med
+International University,School of Business,sowi
+Islamic Azad University Science and Research Branch,Department of Biology,mint
+Israelitisches Krankenhaus,Department of Medicine Israelitic Hospital,med
+Israelitisches Krankenhaus,Department of Surgery,med
+Istanbul Commerce University,Faculty of Business,sowi
+Istanbul Commerce University,Faculty of Business & Graduate School of Foreign Trade,sowi
+Itabashi Chuo Medical Center,Urology,med
+Iuliu Hațieganu University of Medicine and Pharmacy,"Department of Vascular, Cardiovascular, and Thoracic Surgery",med
+Iuliu Hațieganu University of Medicine and Pharmacy,Thoracic Surgery,med
+Jacobs University Bremen,Social Sciences & Humanities,sowi
+Jagiellonian University,Faculty of International and Political Studies,sowi
+James Cook University,"College of Business, Law and Governance",jura
+Japan Agency for Marine-Earth Science and Technology,Frontier Research Center for Global Change Japan Agency for Marine‐Earth Science and Technology,mint
+Japan Agency for Marine-Earth Science and Technology,Kochi Institute for Core Sample Research (X‐star) Japan Agency for Marine‐Earth Science and Technology (JAMSTEC),mint
+Japan Agency for Marine-Earth Science and Technology,Kochi Institute for Core Sample Research Japan Agency for Marine‐Earth Sciences and Technology (JAMSTEC),mint
+Japan Agency for Marine-Earth Science and Technology,Mantle Drilling Promotion Office Institute for Marine‐Earth Exploration and Engineering (MarE3) JAMSTEC,tech
+Japan Agency for Marine-Earth Science and Technology,Research and Development Center for Submarine Resources,mint
+Jawaharlal Nehru University,School of Environmental Sciences,mint
+Jena University Hospital,Department of Neurology,med
+Jiangsu Institute of Meteorological Sciences,Key Laboratory of Transportation Meteorology of CMA/Jiangsu Key Laboratory of Severe Storm Disaster Risk,mint
+Johann Heinrich von Thünen-Institut,Biodiversity,mint
+Johann Heinrich von Thünen-Institut,"Institute of Farm Economics, Institute of Agricultural Technology",agrar
+Johannes Gutenberg Universität Mainz,Arbeitsbereich Alte Geschichte,phil
+Johannes Gutenberg Universität Mainz,Dept of Literature and Linguistics,phil
+Johannes Gutenberg Universität Mainz,Geology Department,mint
+Johannes Gutenberg Universität Mainz,Institut für Spezielle Botanik,mint
+Johannes Gutenberg Universität Mainz,Institute of Geosciences,mint
+Johannes Gutenberg Universität Mainz,Institute of Molecular Genetics,mint
+Johannes Gutenberg Universität Mainz,Institute of Zoology,mint
+Johannes Gutenberg Universität Universitätsmedizin,Chair of Statistics and Econometrics,sowi
+John Innes Centre,Computational and Systems Biology,mint
+Julius-Maximilians-Universität Würzburg,Center for Infectious Disease,med
+Julius-Maximilians-Universität Würzburg,Deparment for Medieval German Literature,phil
+Julius-Maximilians-Universität Würzburg,Molekulare Infektionsbiologie,med
+Julius-Maximilians-Universität Würzburg,Research Center for Infectious Diseases,med
+Justus-Liebig-Universität Gießen,Department of Political Science,sowi
+Justus-Liebig-Universität Gießen,Institut für Hygiene und Infektionskrankheiten der Tiere,med
+Justus-Liebig-Universität Gießen,Institute for Geosciences and Lithosphere Research,mint
+Justus-Liebig-Universität Gießen,Institute of Plant Nutrition,agrar
+KTH Royal Institute of Technology,Department of Mathematics,mint
+Kagoshima University,Department of Earth and Environmental Sciences,mint
+Karl Landsteiner University of Health Sciences,Biomedical and Public Health Ethics,med
+Karl-Franzens-Universität Graz,German Department/Germanistik (German as a Foreign/Second Language),sowi
+Karlsruhe Institute of Technology,ECON,sowi
+Karlsruhe Institute of Technology,Electrical Engineering,tech
+Katholisches Kinderkrankenhaus Wilhelmstift,Wilhelmstift Catholic Children's Hospital,med
+Kepler Universitätsklinikum,Division of Clinical Infectious Diseases,med
+Kiel Institut für Weltwirtschaft,Christoph Trebesch is Professor of Economics at Kiel University,sowi
+Kiel Institut für Weltwirtschaft,Department of Economics and Centre for Modern East Asian Studies,sowi
+Kiel Institut für Weltwirtschaft,Walther-Schücking-Institute for International Law,jura
+King Abdullah University of Science and Technology,"Biological, Environmental Science and Engineering Division",tech
+King Abdullah University of Science and Technology,King Abdullah University of Science and Technology Physical Sciences and Engineering Division,tech
+King's College London,Dickson Poon School of Law,jura
+Klinik und Poliklinik für Psychotherapie und Psychosomatik,Universitätsklinikum Dresden,med
+Klinikum Bremen-Mitte,Department of Internal Medicine I,med
+Klinikum Bremen-Mitte,Department of Neurology,med
+Klinikum Bremen-Mitte,Department of Neurology Klinikum Bremen‐Mitte Bremen Germany,med
+Klinikum Bremen-Mitte,Dept of Neurology,med
+Klinikum Bremen-Mitte,Dept of Neuroradiology,med
+Klinikum Lüneburg,Frauenklinik,med
+Klinikum Oldenburg,Department of Hematology & Oncology,med
+Klinikum Oldenburg,Department of Hematology and Oncology University Hospital Oldenburg,med
+Klinikum Oldenburg,Department of Pediatrics and Pediatric Hematology/Oncology,med
+Klinikum Oldenburg,Universitätsinstitut für Klinische Chemie und Laboratoriumsmedizin,med
+Kobe University,Research Institute for Economics and Business,sowi
+Kobe University,Research Institute for Economics and Business Administration (RIEB),sowi
+Korea Institute of Geoscience and Mineral Resources,Petroleum & Marine Research Division,mint
+Korea Maritime and Ocean University,Division of Convergence on Marine Science,mint
+Korea Maritime and Ocean University,Division of Marine Environment and Bioscience,mint
+Korea Maritime and Ocean University,Ocean Science,mint
+Krankenhaus St. Joseph-Stift Bremen,Department of Nephrology,med
+Kumamoto University,Department of Earth and Environmental Sciences,mint
+Kyoto University,Department of Electrical Engineering / Machine Translation,tech
+LMU Klinikum,Universitätsklinikum München,med
+Lamont-Doherty Earth Observatory,Geochemistry,mint
+Lamont-Doherty Earth Observatory,Ocean and Climate,mint
+Lanzhou University,Key Laboratory for Semi-Arid Climate Change of the Ministry of Education,mint
+Lawrence Berkeley National Laboratory,Earth & Environmental Sciences,mint
+Leibniz Centre for Tropical Marine Research,Center for Tropical Marine Research (ZMT),mint
+Leibniz Centre for Tropical Marine Research,Coral Ecology,mint
+Leibniz Centre for Tropical Marine Research,Deparment of Ecology,mint
+Leibniz Centre for Tropical Marine Research,Department of Ecology & Infrastructure Department,mint
+Leibniz Centre for Tropical Marine Research,Department of Theoretical Ecology and Modelling,mint
+Leibniz Centre for Tropical Marine Research,Institutional and Behavioural Economics,sowi
+Leibniz Centre for Tropical Marine Research,Leibniz Center for Tropical Marine Ecology (ZMT) Bremen,mint
+Leibniz Centre for Tropical Marine Research,"SoNG Project, Programme Area 5 - Ocean Literacy, Equity and Leadership",mint
+Leibniz Centre for Tropical Marine Research,Social Science Department,sowi
+Leibniz Centre for Tropical Marine Research,Systems Ecology,mint
+Leibniz Centre for Tropical Marine Research,Theoretical Ecology and Modelling,mint
+Leibniz Centre for Tropical Marine Research,Tropical Marine Research,mint
+Leibniz Centre for Tropical Marine Research,ZMT – Leibniz Center for Tropical Marine Ecology,mint
+Leibniz Institute for Baltic Sea Research,Biological Oceanography,mint
+Leibniz Institute for Baltic Sea Research,Marine Chemistry,mint
+Leibniz Institute for Tropospheric Research,Atmospheric Aerosols,mint
+Leibniz Institute for Zoo and Wildlife Research,Evolutionary Ecology,mint
+Leibniz Institute of Agricultural Development in Transition Economies,Agricultural Markets,agrar
+Leibniz Institute of Atmospheric Physics at the University of Rostock,Leibniz-Institute of Atmospheric Physics,mint
+Leibniz Institute of Atmospheric Physics at the University of Rostock,Leibniz‐Institut für Atmosphärenphysik,mint
+Leibniz Institute of Atmospheric Physics at the University of Rostock,Modelling of Atmospheric Processes,mint
+Leibniz Institute of Plant Genetics and Crop Plant Research,Molecular Genetics,mint
+Leibniz University Hannover,"Fakultät für Mathematik und Physik, Institut f. Alg. Geometrie",mint
+Leibniz University Hannover,Institute for Political Science,sowi
+Leibniz University Hannover,Institute of Physical Chemistry (and Electrochemistry),mint
+Leibniz University Hannover,Political Science,sowi
+Leibniz University Hannover,Technical Chemistry,mint
+Leibniz-Institut für Arterioskleroseforschung,Epidemiology,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Clinical Epidemiology,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Department of Clinical Epidemiology,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Department of epidemiological methods and etiological research,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Leibniz Institute for Prevention Research and Epidemiology—BIPS,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,Prevention and evaluation,med
+Leibniz-Institut für Präventionsforschung und Epidemiologie - BIPS GmbH,leibniz institute for prevention research and epidemiology-BIPS,med
+Leibniz-Institut für Werkstofforientierte Technologien - IWT,"Bremen Institute for Material Testing, Microbiology group",mint
+Leibniz-Institut für Werkstofforientierte Technologien - IWT,Group of Ecological Microbiology,mint
+Leibniz-Institut für Werkstofforientierte Technologien - IWT,Microbiology Group,mint
+Leibniz-Institut für Wissensmedien,Institut für Tropenmedizin,med
+Leipzig University,Institute für Geology and Geophysics,mint
+Leipzig University,Institute of Geophysics and Geology,mint
+Leon Daniello Clinical Hospital of Pneumology,Thoracic Surgery,med
+Leuphana Universität Lüneburg,Department of Health Sciences,med
+Leuphana Universität Lüneburg,Global Climate Change Research Group,mint
+Leuphana Universität Lüneburg,Institut für Politikwissenschaft,sowi
+Leuphana Universität Lüneburg,Institute for Ecology,mint
+Leuphana Universität Lüneburg,Institute for Environmental and Sustainability Communication,sowi
+Leuphana Universität Lüneburg,"Institute for Vocational and Business Education, Didactics of Economics",sowi
+Leuphana Universität Lüneburg,Institute of Ecology (Faculty of Sustainability) & Centre of Methods,mint
+Leuphana Universität Lüneburg,Institute of Ecology Faculty of Sustainability Leuphana University Lueneburg,mint
+Leuphana Universität Lüneburg,Institute of Ecology Leuphana University,mint
+Leuphana Universität Lüneburg,Institute of Ecology and Environmental Chemistry,mint
+Leuphana Universität Lüneburg,Institute of Experimental Industrial Psychology,sowi
+Leuphana Universität Lüneburg,Institute of Political Science,sowi
+Leuphana Universität Lüneburg,Institute of Psychology in Education,sowi
+Leuphana Universität Lüneburg,Leuphana Law School,jura
+Leuphana Universität Lüneburg,Management and Psychology,sowi
+Leuphana Universität Lüneburg,Social-Ecological Systems Institute - Faculty of Sustainability,mint
+Ludong University,College of Hydraulics and Civil Engineering,tech
+Ludong University,School of Resources and Environmental Engineering,tech
+Ludwig-Maximilians-Universität München,Department of Earth and Environmental Sciences - Geophysics,mint
+Ludwig-Maximilians-Universität München,Department of Internal Medicine III,med
+Ludwig-Maximilians-Universität München,Department of Media and Communications,sowi
+Ludwig-Maximilians-Universität München,Faculty of Biology,mint
+Ludwig-Maximilians-Universität München,Geo- and Environmental Sciences,mint
+Ludwig-Maximilians-Universität München,"Geographisches Institut, Lehrstuhl für Bodengeographie und Geoökologie",mint
+Ludwig-Maximilians-Universität München,Historisches Seminar,phil
+Ludwig-Maximilians-Universität München,History Department,phil
+Ludwig-Maximilians-Universität München,Institut für Allgemeine und Angewandte Geophysik,mint
+Ludwig-Maximilians-Universität München,Institut für Vor- und Frühgeschichtliche Archäologie und Provinzialrömische Archäologie,phil
+Ludwig-Maximilians-Universität München,Klinik und Poliklinik für Mund-Kiefer- und Gesichtschirurgie,med
+Ludwig-Maximilians-Universität München,Klinik und Poliklinik für Mund-Kiefer-Gesichtschirurgie,med
+Ludwig-Maximilians-Universität München,Max von Petternkofer Institute for Hygiene and Microbiology,med
+Ludwig-Maximilians-Universität München,"Molecular Pediatrics, Dr. von Hauner Children's Hospital",med
+Lund University,Department of Geology,mint
+Lund University,Faculty of Economics and Management,sowi
+"M.A. College, YNR, Kurukshetra University",Department of Political Science,sowi
+MAX PLANCK INSTITUTE FOR COMPARATIVE PUBLIC LAW AND INTERNATIONAL LAW,Law and Social Sciences,jura
+MAX PLANCK INSTITUTE FOR COMPARATIVE PUBLIC LAW AND INTERNATIONAL LAW,Max-Planck-Institute for Comparative and International Private Law,jura
+MRC Unit the Gambia,Clinical Service Department,med
+MSH Medical School Hamburg,Institute for Translational Medicine,med
+MSH Medical School Hamburg,Institute of Toxicology and Environmental Medicine,med
+Maastricht University,Maastricht University Medical Center (MUMC+); Department of Health Promotion/ School of Public Health and Primary Care,med
+Macquarie University,Centre for Environmental Law,jura
+Macquarie University,Dept. Biological Sciences,mint
+Magtymguly Turkmen State University,"Department of Foreign Languages, German, English, World Literature",phil
+Manchester Metropolitan University,Department of Sociology,sowi
+Manipal Institute of Technology,Civil Engineering,tech
+Marienkrankenhaus Hamburg,Diabetic Foot Clinic,med
+Marienkrankenhaus Hamburg,Director of the Department of Anesthesiology,med
+Marienkrankenhaus Hamburg,Klinik f. Innere Medizin,med
+Marine Biological Laboratory,The Josephine Bay Paul Center for Comparative Molecular Biology and Evolution,mint
+Martin-Luther-Universität Halle-Wittenberg,Geobotany,mint
+Martin-Luther-Universität Halle-Wittenberg,Institute for Medical Epidemiology,med
+Martin-Luther-Universität Halle-Wittenberg,Institute of Biology/Geobotany and Botanical Garden,mint
+Martin-Luther-Universität Halle-Wittenberg,Institute of History,phil
+Martin-Luther-Universität Halle-Wittenberg,Psychology,sowi
+Masaryk University,Departement of Botany and Zoology,mint
+Massachusetts General Hospital,Infectious Diseases,med
+Massachusetts General Hospital,Internal Medicine,med
+Massachusetts Institute of Technology,Biological Engineering,tech
+Massachusetts Institute of Technology,Department of Political Science,sowi
+Massachusetts Institute of Technology,EAPS Oceanography,mint
+Massachusetts Institute of Technology,"Earth, Atmospheric and Planetary Sciences",mint
+Max Planck Institut für Demografische Forschung,Center for Demographic Studies and the Department of Sociology of Duke University,sowi
+Max Planck Institut für Demografische Forschung,China Center for Economic Research,sowi
+Max Planck Institut für Demografische Forschung,Department of Labor Demography,sowi
+Max Planck Institut für Demografische Forschung,Department of Sociology,sowi
+Max Planck Institut für Demografische Forschung,Evolutionary Biodemography Laboratory,sowi
+Max Planck Institut für Demografische Forschung,Labor Demography,sowi
+Max Planck Institut für Demografische Forschung,Laboratory for Demographic Data,sowi
+Max Planck Institut für Demografische Forschung,Laboratory for Digital and Computational Demography,sowi
+Max Planck Institut für Demografische Forschung,Max-Planck-Institute for Demographic Research,sowi
+Max Planck Institut für Demografische Forschung,Max-Planck-Institute for Demographic Research: Max-Planck-Institut fur Demografische Forschung;,sowi
+Max Planck Institut für Demografische Forschung,Social Demography,sowi
+Max Planck Institute for Chemistry,Max-Planck-Institut für Chemie,mint
+Max Planck Institute for Evolutionary Anthropology,Department of Evolutionary Genetics,mint
+Max Planck Institute for Evolutionary Anthropology,Plant Foods in Hominin Dietary Ecology research group,mint
+Max Planck Institute for Evolutionary Biology,Evolutionary Genetics,mint
+Max Planck Institute for Molecular Plant Physiology,Biochemistry,mint
+Max Planck Institute for Plasma Physics - Greifswald,EURATOM-IPP Association 2 Max-Planck-Institut für Plasmaphysik,mint
+Max Planck Institute for the Science of Human History,Archaeogenetics,mint
+Max Planck Institute of Geoanthropology,Department of Archaeology,phil
+Max-Planck Institute for the Study of Societies,Research Group Democratic Government and Economic Governance,sowi
+Max-Planck-Gesellschaft,Max Institut für Chemie Abteilung Luftchemie,mint
+Max-Planck-Institut für Informatik,Computational Systems Biology,mint
+Max-Planck-Institut für Meteorologie,Atmosphere,mint
+Max-Planck-Institut für Meteorologie,Land in the Earth System,mint
+Max-Planck-Institut für Plasmaphysik Teilinstitut Greifswald,Stellaratorphysik,mint
+Max-Planck-Institut für marine Mikrobiologie,Deep-Sea Ecology and Technology,mint
+Max-Planck-Institut für marine Mikrobiologie,Department of Microbiology,mint
+Max-Planck-Institut für marine Mikrobiologie,HGF MPG Joint Research Group for Deep Sea Ecology and Technology,mint
+Max-Planck-Institut für marine Mikrobiologie,Marine 'Omics Bridging Group,mint
+Max-Planck-Institut für marine Mikrobiologie,Marine Isotope Geochemistry,mint
+Max-Planck-Institut für marine Mikrobiologie,Max-Planck-Institut fr Marine Mikrobiologie,mint
+Max-Planck-Institute for Limnology,Ecophysiology,med
+Max-Planck-Institute for Meteorology,Climate Dynamics,mint
+Max-Planck-Institute for Meteorology,Climate Variability Department,mint
+Max-Planck-Institute for Meteorology,Climate-Biosphere Interactions,mint
+Max-Planck-Institute for Meteorology,Communication,sowi
+Max-Planck-Institute for Meteorology,Department Climate Physics,mint
+Max-Planck-Institute for Meteorology,Department Climate Variability,mint
+Max-Planck-Institute for Meteorology,Klima Campus,mint
+Max-Planck-Institute for Meteorology,Max Planck Institute f. Meteorology,mint
+Max-Planck-Institute for Meteorology,Max Planck Institute für Meteorology,mint
+Max-Planck-Institute for Meteorology,Max-Planck Institut f r Meteorologie,mint
+Max-Planck-Institute for Meteorology,Max-Planck Institut fÃ¼r Meteorologie,mint
+Max-Planck-Institute for Meteorology,Max-Planck-Institut f r Meteorologie,mint
+Max-Planck-Institute for Meteorology,Max-Planck-Institut fÃ¼r Meteorologie,mint
+Max-Planck-Institute for Meteorology,Max‐Plank Institute for Meteorology Hamburg Germany,mint
+Max-Planck-Institute for Meteorology,Meteorological Institute University Hamburg and,mint
+Max-Planck-Institute for Meteorology,Physics of the Oceans & Climate Dynamics,mint
+Mayo Clinic,Division of Gastroenterology and Hepatology,med
+Mayo Clinic,"Division of Laboratory Genetics and Genomics, Biochemical Genetics Laboratory",mint
+Mayo Clinic,Mayo Clinic in Arizona,med
+Mayo Clinic,Molecular Medicine,med
+Medical University of Białystok,Department of Population Medicine and Lifestyle Diseases Prevention,med
+Mediterranean Institute of Oceanography,Environmental Microbiology and Biotechnology,mint
+Medizinische Universität Graz,Institute of Hygiene,med
+Medizinische Universität Graz,Mund-Kiefer-Gesichtchirurgie,med
+Medizinische Universität Innsbruck,Neurology,med
+Memorial Sloan-Kettering Cancer Center,Department of Surgery,med
+Middle East Technical University,Department of Civil Engineering,tech
+Middle East Technical University,Oceanography,mint
+Ministry of Education of the People's Republic of China,Key Laboratory of Meteorology Disaster,mint
+Monash University,Anatomy and Developmental Biology,med
+Monash University,Deputy Head of School (Research) at the School of Arts & Social Sciences (SASS),sowi
+Monash University,Nephrology,med
+Mongolian National University of Medical Sciences,"School of Medicine, Department of Radiology",med
+Mongolian University of Science and Technology,Department of Biomedical Engineering,tech
+Museum am Rothenbaum,Centrum für Naturkunde,mint
+Museum am Rothenbaum,GIGA Institute of Asian Studies,sowi
+Museum am Rothenbaum,Museum Zoologicum Bogoriense; Research Center for Biosystematics and Evolution; National Research and Innovation Agency,mint
+Museum am Rothenbaum,Museum of Nature Hamburg –Zoology,mint
+Museum am Rothenbaum,Museum of Zoology,mint
+Museum für Naturkunde - Leibniz-Institut für Evolutions- und Biodiversitätsforschung,Museum fÃ¼r Naturkunde,mint
+NSF National Center for Atmospheric Research,Atmospheric Chemistry Division,mint
+NSF National Center for Atmospheric Research,Atmospheric Chemistry Observations and Modeling Laboratory - National Center for Atmospheric Research,mint
+NSHM Knowledge Campus,Department of Mass Communications and Journalism,sowi
+NTNU,Petroleum Technology and Applied Geophysics,mint
+Nagoya University,School of Agriculture,agrar
+Nanjing University,State Key Laboratory for Mineral Deposits Research,mint
+Nanjing University of Information Science and Technology,Collaborative Innovation Center on Forecast and Evaluation of Meteorological Disasters; KLME,mint
+Nanyang Technological University,Center for Population Health Sciences,med
+National Atmospheric Research Laboratory,Atmospheric Structure and Dynamics Group,mint
+National Center for Scientific Research,National Center for Marine Sciences,mint
+National Council for Scientific Research,National Center for Marine Sciences,mint
+National Dairy Research Institute,Department of Dairy Economics,sowi
+National Heart and Lung Institute,Thoracic Medicine,med
+National Institute of Cancer Prevention and Research,Division of Preventive Oncology & Population Health,med
+National Institute of Mental Health and Hospital,"Mental Hospital, Pabna",med
+"National Institute of Oceanography, India",Integrative Oceanography Division,mint
+National Institute of Water and Atmospheric Research,Ocean Geology,mint
+National Nuclear Energy Agency of Indonesia,Res. Group of Paleoclimate & Paleoenvironment,mint
+National Oceanography Center,Marine Geohazards,mint
+National Oceanography Center,Marine Physics and Ocean Climate,mint
+National Research and Innovation Agency,Research Centre for Climate and Atmosphere,mint
+National Taiwan Normal University,Nutrition Science and Education,agrar
+National Taiwan University,Atmospheric Sciences,mint
+National University of Ireland - Galway,School of Chemistry,mint
+"National University of Ireland, Maynooth",Anthropology,sowi
+"National University of Ireland, Maynooth",Economics,sowi
+National University of Pharmacy,Botany department,mint
+National University of Pharmacy,Pharmaceutical Chemistry,med
+National University of Pharmacy,Pharmaceutical chemistry,med
+National University of Sciences and Technology,"Institute of Environmental Sciences and Engineering (IESE), School of Civil and Environmental Engineering (SCEE)",tech
+National University of Singapore,Chemical and Biomolecular Engineering,tech
+National University of Singapore,Psychology,sowi
+National and Kapodistrian University of Athens,Department of Geology and the Geoenvirnment,mint
+Natural Environment Research Council,Centre for Ecology and Hydology,mint
+New School for Social Research,Department of Politics,sowi
+Njala University,"School of Public Health, College of Medical Sciences",med
+Northumbria University,Department of Geography and Environmental Sciences,mint
+Northwest University,College of Urban and Environmental Sciences,mint
+Norwegian University of Science and Technology,Department of Industrial Economics and Technology Management (IØT),sowi
+Obafemi Awolowo University,Department of Zoology,mint
+Ocean University of China,College of Marine Geosciences,mint
+Ocean University of China,Frontier Science Center for Deep Ocean Multispheres and Earth System and Key Laboratory of Physical Oceanography,mint
+Oklahoma State University,Boone Pickens School of Geology,mint
+Oregon State University,College of Oceanic and Atmospheric Sciences,mint
+Oregon State University,"School of History, Philosophy, and Religion",phil
+Oslo Universitetssykehus,Section of Neuropathology Research,med
+Otto von Guericke Universität Magdeburg,Institut für Politikwissenschaft,sowi
+Otto-Friedrich-Universität Bamberg,Philosophy,phil
+Oxford University,Department of Politics and International Relations,sowi
+Oxford University Hospitals NHS Trust,Oxford University Hospitals NHS Foundation Trust,med
+Paris-Lodron-Universität Salzburg,FB Organismische Biologie,mint
+Parwan University,Agricultural Economics,agrar
+Peking University,Peking University International Hospital,med
+Peking University,Peking University Third Hospital,med
+Philipps University of Marburg,Physics,mint
+Phuket Rajabhat University,Oceanography Unit,mint
+Physical Research Laboratory,Geosciences,mint
+Pius Hospital Oldenburg,Department of Hematology and Oncology,med
+Pius Hospital Oldenburg,PIUS-Hospital Oldenburg,med
+Pius Hospital Oldenburg,University Hospital for Gynecology,med
+Plymouth Marine Laboratory,Section Marine Ecology,mint
+Pohang University of Science and Technology,Division of Environmental Science and Engineering,tech
+Pontificia Universidad Católica de Chile,Department of Physics,mint
+Pontificia Universidad Católica de Chile,Physiology Department,med
+Pontificial Catholic University of Valparaiso,School of Civil Engineering,tech
+Potsdam Institute for Climate Impact Research,Research Department 1 - Earth System Analysis,mint
+Praxis,Gemeinschaftspraxis Pathologie,med
+Praxis,Gemeinschaftspraxis für Pathologie,med
+Praxis,Kardiologische Gemeinschaftspraxis Bern,med
+Praxisgemeinschaft für Mund-Kiefer-Gesichtschirurgie und Neurochirurgie,"Mund-Kiefer-Gesichtschirurgie, plastische Operationen, Oralchirurgie",med
+Presidency University Kolkata,Department of Political Science,sowi
+Prof. Hess Kinderklinik,Prof. Hess Children’s Hospital,med
+Public Health England Centre for Radiation Chemical and Environmental Hazards,Biological Effects,mint
+Purdue University West Lafayette,"Earth, Atmospheric, and Planetary Sciences",mint
+Pädagogische Hochschule Heidelberg Fakultät für Erziehungs- und Sozialwissenschaften,Philosophy and Theology,rewi
+Quaid-i-Azam University,Animal Sciences,agrar
+Queen Mary University of London,Law,jura
+Queen Mary University of London,Unit for Social & Community Psychiatry,med
+Queen's University Belfast,School of Biological Sciences,mint
+Queen's University Belfast,School of Medicine,med
+RWTH Aachen University,Chair of Organic Biochemistry in Geo-Systems,mint
+RWTH Aachen University,Chair of Vocational and Business Education,sowi
+RWTH Aachen University,Institute of Geology and Geochemistry of Petroleum and Coal,mint
+RWTH Aachen University,Physics,mint
+Radboud University Nijmegen,Microbiology Department,mint
+Rajiv Gandhi University,Dept. of Zoology,mint
+Renmin University of China,Law School,jura
+Research Center Borstel - Leibniz Lung Center,Clinical Infectious Diseases,med
+Rheinisch Westfälische Technische Hochschule Aachen RWTH Aachen Fakultät für Mathematik Informatik und Naturwissenschaften,Physik,mint
+Rheinische Friedrich-Wilhelms-Universität Bonn,Internal Medicine,med
+Rice University,Department of Chemistry,mint
+Rijksuniversiteit Groningen,Marine Biology,mint
+Robert Koch Institute,Epidemiology and Health Monitoring,med
+Rostock University,"Clinic III (Hematology, Oncology, Palliative Care)",med
+Rostock University,Department of Neurology,med
+Rostock University,"Dept. of Otorhinolaryngology, Head and Neck Surgery, ”Otto Körner“",med
+Rostock University,Division of Cardiology,med
+Rostock University,"Hematology, Oncology, Palliative Medicine; Special Hematology Laboratory",med
+Rostock University,Institut für Biostatistik und Informatik in Medizin und Alternsforschung,med
+Rostock University,Institut für Pharmakologie und Toxikologie,med
+Rostock University,Institute and Policlinic of Medical Psychology and Medical Sociology,med
+Rostock University,Institute for Immunology,med
+Rostock University,Kooperation Phytopharmaka GbR,med
+Rostock University,Orthopädische Klinik und Poliklinik,med
+Rostock University,Radiooncology,med
+Royal Belgian Institute of Natural Sciences,Freshwater Biology/Invertebrates,mint
+Royal Netherlands Institute for Sea Research,Biological Oceanography,mint
+Ruhr University Bochum,"Animal Ecology, Evolution and Biodiversity",mint
+Ruhr University Bochum,Arbeitsgruppe Stadtklimatologie,mint
+Ruhr University Bochum,Chair of Applied Business Administration III (Marketing),sowi
+Ruhr University Bochum,Economics,sowi
+Ruhr University Bochum,Experimentelle Physik,mint
+Ruhr University Bochum,Faculty of Chemistry and Biochemistry,mint
+Ruhr University Bochum,Geobotany,mint
+Ruhr University Bochum,"Institute of Geology, Mineralogy & Geophysics: Electron Microprobe Lab",mint
+Ruhr University Bochum,"Nephrology, Marienhospital Herne",med
+Ruhr University Bochum,Ostasienwissenschaften/Lehrstuhl für Geschichte Japans,phil
+Ruhr University Bochum,Research Assistant at the chair of Applied Business Administration IV (Marketing),sowi
+Ruprecht-Karls-Universität Heidelberg,Historisches Seminar,phil
+Ruprecht-Karls-Universität Heidelberg,Institut für Systematische Botanik,mint
+Ruprecht-Karls-Universität Heidelberg,Physics and Astronomy,mint
+Russian Academy of Sciences,A.V. Zhirmunsky National Scientific Center of Marine Biology Far Eastern Branch of the Russian Academy of Sciences,mint
+SFB 806 Universität zu Köln,Quaternary Geology,mint
+SQUAD,Aquaculture Development,agrar
+SRI International,Molecular Physics Laboratory,mint
+Saint Mary's University,Geology,mint
+Saint Petersburg State University,Institute of Atmospheric Physics,mint
+San Diego State University,Department of Sociology,sowi
+Schmerzklinik Kiel,Städtisches Krankenhaus,med
+"School of Oriental and African Studies, University of London","School of Languages, Cultures, and Linguistics",phil
+Schothorst Feed Research,Ruminant Nutrition,agrar
+Scripps Research Institute,Oceanography,mint
+Senckenberg Naturhistorische Sammlungen Dresden,Marine Zoologie,mint
+Senckenberg Research Institute and Natural History Museum Frankfurt/M,Department of Botany,mint
+Senckenberg am Meer,German Center for Marine Biodiversity Research (DZMB),mint
+Shandong University,Joint International Research Laboratory of Environmental and Social Archaeology,phil
+Shandong University,Qilu Hospital of Shandong University,med
+Shanghai Childrens Medical Center Affiliated to Shanghai Jiaotong University School of Medicine,Department of Translational Medicine,med
+Shanghai East Hospital,Department of Psychosomatic Medicine,med
+Shanghai Institute of Foreign Trade,Academic Committee of Institute of International Business,sowi
+Shanghai University,Department of Sociology,sowi
+Shanghai University of Finance and Economics,Law School,jura
+Sharif University of Technology,Industrial Engineering,tech
+Sher-e-Bangla Agricultural University,Agricultural Botany,agrar
+Sher-e-Bangla Agricultural University,Department of Agricultural Botany,agrar
+Sichuan Normal University,College of Chemistry and Materials Science,tech
+Sinopec (China),Institute of Petroleum Engineering and Technology,tech
+Society of Paediatric Oncology and Haematology,Paediatric Haematology and Oncology,med
+Soochow University,First Affiliated Hospital of Soochow University,med
+Southwest University,College of Agronomy and Biotechnology,agrar
+Southwest University,School of Mathematics and Statistics,mint
+Spital Zollikerberg,Department of Surgery,med
+Stadtspital Triemli,Department of Pediatrics,med
+Stadtspital Triemli,Department of Surgery,med
+Stanford Medicine,Department of Medicine / Primary Care and Population Health,med
+Stanford University,Department of Geophysics,mint
+State Museum of Natural History Karlsruhe,Leibniz-Institut zur Analyse des Biodiversitätswandels - Standort Hamburg; Martin-Luther-King-Platz 3; 20146 Hamburg; Germany; Staatliches Museum für Naturkunde Karlsruhe; Erbprinzenstraße 13; 76133 Karlsruhe; Germany. martin.husemann@smnk.de,mint
+State Museum of Natural History Karlsruhe,Staatliches Museum für Naturkunde Karlsruhe,mint
+State Museum of Natural History Stuttgart,Zoology,mint
+State Science Research Institute of Laboratory Diagnostics and Veterinary Sanitary Expertise,Research Department of Molecular Genetic Research,mint
+State University of New York at Albany,"Teaching and research in the doctoral program ""Cognitive Development"", Departments of Counselling Psychology and of Educational Administration and Policy Studies.",sowi
+Stockholm  University,"Department of Ecology, Environment and Plant Sciences",mint
+Stockholm University,Analytical Chemistry and Environmental Sciences (ACES),mint
+Stockholm University,Department of Environmental Science and Analytical Chemistry,mint
+Stockholm University,Environmental Science (ACES),mint
+Stockholm University,Institute for International Economic Studies,sowi
+Stockholm University,Zoology,mint
+Sultan Qaboos University,College of Economics and Political Science,sowi
+Sun Yat-sen University,School of Earth Science and Engineering,tech
+Sun Yat-sen University,School of Marine Sciences,mint
+Syddansk Universitet Det Naturvidenskabelige Fakultet,Biology,mint
+Syddansk Universitet Det Naturvidenskabelige Fakultet,Institute of Mathematics and Computer Science,mint
+Sylhet Agricultural University,Agroforestry and Environmental Environmental Science,agrar
+Sylhet Agricultural University,Department of Agroforestry and Environmental Science,agrar
+Taipei Veterans General Hospital,Neurology,med
+"Taipei Veterans General Hospital, Taoyuan Branch",Medicine,med
+Tata Memorial Centre,Centre for Cancer Epidemiology,med
+Technical University of Applied Sciences Lübeck,Laboratory for Hydrology and International Water Management,mint
+Technical University of Berlin,Audio communication group,sowi
+Technical University of Berlin,Empirical Health Economics,sowi
+Technical University of Berlin,Institut für Festkörperphysik,mint
+Technical University of Berlin,Psychology,sowi
+Technical University of Berlin,Public Economics and Health Economics,sowi
+Technical University of Darmstadt,Ecological Networks,mint
+Technical University of Darmstadt,Institute of Applied Geosciences (IAG),mint
+Technical University of Munich,Leibniz-Institute for Food Systems Biology at the Technical University of Munich,mint
+Technion Israel Institute of Technology,Biology,mint
+Technische Hochschule Nürnberg Georg Simon Ohm,"Applied Mathematics, Physics and Humanities",mint
+Technische Universität Carolo Wilhelmina zu Braunschweig,Institute of Environmental and Sustainable Chemistry,mint
+Technische Universität Carolo Wilhelmina zu Braunschweig,Zoologisches Institut,mint
+Technische Universität Clausthal,College of Civil Engineering,tech
+Technische Universität Clausthal,Institut für Theoretische Physik,mint
+Technische Universität Clausthal,Institute for Geophysics,mint
+Technische Universität Clausthal,Institute for Technical Chemistry,mint
+Technische Universität Clausthal,Institute of Geotechnology and Mineral Resources,mint
+Technische Universität Clausthal,Mineral Resources Technical University of Clausthal,mint
+Technische Universität Clausthal,Theoretical Physics,mint
+Technische Universität Dresden,Faculty of Environmental Sciences,mint
+Technische Universität Dresden,Materials Science,tech
+Technische Universität Kaiserslautern,Chair for Business Informatics and Operations Research,sowi
+Technische Universität Kaiserslautern,Fachbereich Mathematik,mint
+Technische Universität München,Chair of Automatic Control Engineering,tech
+Technische Universität München,Hightech Forschungszentrum der Mund-Kiefer-Gesichtschirurgie,med
+Technische Universität München,Limnologische Station,mint
+Technische Universität Wien,Department of Mathematics,mint
+Tel Aviv University,"Georg Wise Faculty of Life Sciences, Department of Neuroscience",mint
+Texas A&M University,Agricultural Economics,agrar
+Texas A&M University,International Ocean Discovery Program,mint
+Texas A&M University,Mathematics,mint
+Thamar University,Physics,mint
+Thammasat University,Political Science,sowi
+The Australian National University,Psychology,sowi
+The Hong Kong Polytechnic University,"Department of Logistics and Maritime Studies, Faculty of Business",sowi
+The University of Adelaide,Department of Surgery,med
+The University of Auckland,"Department of Electrical, Computer, and Software Engineering",tech
+The University of Chicago,Department of Medicine,med
+The University of Edinburgh,Psychology,sowi
+The University of Edinburgh,School of GeoSciences,mint
+The University of Iowa,Microbiology and Immunology Perlman Lab,med
+The University of Manchester,Economics,sowi
+The University of Melbourne,"School of Geography, Earth & Atmospheric Sciences",mint
+The University of Sydney,School of Biological Sciences,mint
+The University of Western Australia,Agricultural and Resource Economics,agrar
+The University of Western Australia,School of Biological Sciences,mint
+Thuyloi University,Faculty of Economics and Management,sowi
+Tohoku University,Graduate School of Engineering Management of Science and Technology (MOST),tech
+Tokyo Metropolitan Children's Medical Center,Urology,med
+Tongji University,Department of Psychosomatic Medicine,med
+Touro College Berlin,Psychology,sowi
+Tuen Mun Hospital,Clinical Oncology,med
+UCLA Life Sciences,Endocrinology/ Medicine,med
+UCLA Molecular Biology Institute,Chemistry and Biochemistry,mint
+UiT Norges arktiske universitet,K.G. Jebsen ´Centre for the Law of the Sea,jura
+Ulm University,Individual Differences and Psychological Assessment,sowi
+Ulsan National Institute of Science and Technology,School of Urban and Environmental Engineering,tech
+Umeå Plant Science Centre,Plant Physiology and Molecular Biology,mint
+Uniklinik Köln,Institute of Health Economics and Clinical Epidemiology,med
+United Nations,Department for Economic and Social Affairs,sowi
+United Nations,Food and Agriculture Organization of the United Nations,agrar
+Universidad Autónoma de Madrid,Economic analysis,sowi
+Universidad CEU San Pablo Facultad de Farmacia,Institute of Chemistry,mint
+Universidad de Costa Rica,Geologia,mint
+Universidad de Los Andes,Biological Sciences,mint
+Universidad de Santiago de Compostela,Nonlinear Physics,mint
+Universidade Estadual Paulista Júlio de Mesquita Filho - Câmpus de Franca,History,phil
+Universidade Estadual de Campinas,History,phil
+Universidade Federal de Santa Catarina,Departament of Vernacular Letters and Literature,phil
+Universidade Federal de Sao Carlos,Department of Biology,mint
+Universidade Federal do Amapá,Theologe,rewi
+Universidade de São Paulo,Department of Genetics and Evolutionary Biology,mint
+Universita della Svizzera Italiana,"Faculty of Communication, Culture and Society",sowi
+Universitas Islam Negeri Sultan Aji Muhammad Idris Samarinda,Mathematics Education,mint
+Universitas Negeri Malang,Faculty of Mathematics and Natural Sciences,mint
+Universitas Pelita Harapan,Faculty of Medicine,med
+Universitat Autònoma de Barcelona,Department of Clinical and Health Psychology,med
+Universitat de Barcelona,Department of Clinical Psychology and Psychobiology,med
+Universitat de Barcelona,"Department of Personality, Assessment, and Psychological Treatment",sowi
+Universitatsklinikum des Saarlandes und Medizinische Fakultat der Universitat des Saarlandes,Fachrichtung Biophysik,mint
+Universiteit Gent,Department of Archaeology,phil
+Universiteit Leiden,Archaeology,phil
+Universiteit Utrecht,Atmospheric Physics and Chemistry,mint
+Universiteit van Amsterdam Institute for Biodiversity and Ecosystem Dynamics,Freshwater and Marine Ecology,mint
+Universitetet i Oslo,Department of Geosciences,mint
+University College Dublin,"School of Public Health, Physiotherapy and Sports Science",med
+University College Hospital,Department of Maxillofacial Surgery,med
+"University College, London",School of Pharmacy,med
+University Hospital Cologne,Department II of Internal Medicine,med
+University Hospital Münster,Department of Radiation Oncology,med
+University Hospital Schleswig-Holstein,Department of Dermatology,med
+"University Hospital Schleswig-Holstein, Campus Kiel, Christian-Albrechts-Universität","Department of Dermatology, Venereology and Allergology",med
+University Hospital of Bern,Climate and Environmental Physics,mint
+University Hospital of Bern,Institute of Geological Sciences,mint
+University Hospital of Bern,Political Science,sowi
+University Hospital of Wales,Directorate of Anaesthesia and perioperative Care,med
+University Medical Center Freiburg,Department of Psychosomatic Medicine and Psychotherapy,med
+University Medical Center Freiburg,Thoracic Surgery Clinic,med
+University Medical Center Groningen,"Radiation Oncology, Proton Therapy Center",med
+University Medical Center of the Johannes Gutenberg University Mainz,"Institute of Medical Biostatistics, Epidemiology and Informatics",med
+University Medicine of Greifswald,Institute for Ethics and History of Medicine,med
+University Medicine of Greifswald,Institute of Immunology,med
+University Medicine of Greifswald,Medical Ethics and History,phil
+University of Alberta,Biological Sciences; Wagner Ecology lab,mint
+University of Amsterdam,Department of Political Science and Sociology,sowi
+University of Applied Sciences Magdeburg Stendal,Department of Neurology,med
+University of Auckland,Department of Physics,mint
+University of Augsburg,Faculty of Philology and History,phil
+University of Augsburg,Physics,mint
+University of Bahrain,Economics and Finance,sowi
+University of Balamand Faculty of Arts and Sciences,Chemistry,mint
+University of Bamberg,Sociology,sowi
+University of Bern,Institute for Geological Sciences,mint
+University of Bonn,ECON-tribute,sowi
+University of Bonn,Economic Science Area,sowi
+University of Bonn,Institute of Human Genetics,mint
+University of Bonn,Physics,mint
+University of Bonn,Physikalisches Institut Rheinische Friedrich-Wilhelms-Universität,mint
+University of Bremen,Marum Centre for Marine Environmental Research at the University of Bremen,mint
+University of Bremen Centre for Social Policy Studies,Department of Economic Science,sowi
+University of Bristol,School of Chemistry,mint
+University of British Columbia,Asian Studies,sowi
+University of British Columbia,Department of Microbiology and Immunology,med
+University of British Columbia,Medical Genetics,mint
+University of Calgary,Civil Engineering,tech
+University of Calgary,Department of Civil Engineering,tech
+University of California San Diego,Ocean Research Division,mint
+University of California San Diego,University of California San Diego Scripps Institution of Oceanography,mint
+University of California Santa Barbara,"Dept of Molecular, Cellular, and Developmental Biology",mint
+University of California Santa Barbara,Evolution and Ecology,mint
+"University of California, Berkeley",Demography,sowi
+"University of California, Berkeley",Physics,mint
+"University of California, Davis",Department of Pharmacology,med
+"University of California, Irvine",Department of Civil and Environmental Engineering,tech
+"University of California, Irvine",Department of Physiology and Biophysics,med
+"University of California, Los Angeles (UCLA)",Atmospheric and oceanic sciences,mint
+University of Cambridge Judge Business School,Sociology,sowi
+University of Canterbury,Department of Civil and Natural Resources Engineering,tech
+University of Cape Town,"Energy Systems Research Group, Department of Chemical Engineering",tech
+University of Chittagong,Faculty of Social Sciences,sowi
+University of Chittagong,Institute of Marine Sciences,mint
+University of Chittagong,Institute of Marine Sciences and Fisheries,agrar
+University of Cologne,Institut für Geologie und Mineralogie Universität zu Köln,mint
+University of Cologne,Institute of Human Genetics,mint
+University of Colorado Boulder,Geological Sciences,mint
+University of Copenhagen,University of Copenhagen Department of Pediatric Dentistry,med
+University of Crete - Voutes Campus,Chemistry,mint
+University of Crete - Voutes Campus,ECPL - Chemisty,mint
+University of Crete - Voutes Campus,Environmental Chemical Processes Laboratory,mint
+University of Delhi,"Department of Political Science, JDMC",sowi
+University of Dhaka,Department of Botany,mint
+University of East Anglia,School of Environmental Sciences,mint
+University of Eastern Finland,Applied Physics,mint
+University of Electronic Science and Technology of China,Department of Psychosomatic Medicine,med
+University of Erfurt,Health communication,sowi
+University of Erfurt,Historical Seminar,phil
+University of Erfurt,Sociology,sowi
+University of Florida,Department of Geological Sciences,mint
+University of Freiburg,Department of General Linguistics,phil
+University of Freiburg,Department of Physics,mint
+University of Freiburg,Department of Psychosomatic Medicine and Psychotherapy,med
+University of Freiburg,Faculty of Medicine,med
+University of Freiburg,Human Geography,sowi
+University of Freiburg,International Politics,sowi
+University of Freiburg,Nature Conservation and Landscape Ecology,mint
+University of Freiburg,Thoracic Surgery Clinic,med
+University of Ghana,Political Science,sowi
+University of Glasgow,Electrical Engineering,tech
+University of Glasgow,Law,jura
+University of Gothenburg,Sven Loven Centre for Marine Research,mint
+University of Granma,Study Center of Applied Chemistry,mint
+University of Graz,Faculty of Catholic Theology,rewi
+University of Greifswald,SHIP / Clinical-epidemiological research,med
+University of Groningen,Center for International Relations Research (CIRR),sowi
+University of Groningen,International Relations and International Organization,sowi
+University of Groningen,Philosophy,phil
+University of Guam,Marine Laboratory,mint
+University of Göttingen,Albrecht-von-Haller-Institute for Plant Sciences,mint
+University of Göttingen,BGroup Animal Husbandry in the Topics and Subtropics,agrar
+University of Göttingen,Department of Agricultural Economics  and Rural Development,agrar
+University of Göttingen,Dept. of Geology,mint
+University of Göttingen,Palynology and Climate Dynamics,mint
+University of Göttingen,Research and Study Centre for Animal Production and Technology,agrar
+University of Hawaiʻi at Mānoa,Department of Oceanography,mint
+University of Heidlberg,"University of Heidelberg, Department of Hematology/ Oncology/ Rheumatology",med
+University of Hildesheim,Biology and Chemistry,mint
+University of Hohenheim,Department of Crop Production and Agroecology in the Tropics and Subtropics,agrar
+University of Hohenheim,"Department of Livestock Microbial Ecology, Institute of Animal Science",agrar
+University of Hohenheim,Institute of Agricultural Sciences in the Tropics,agrar
+University of Hohenheim,Land Use Economics,sowi
+University of Hormozgan,Fisheries and Environmental studies,agrar
+University of Jyväskylä,Biological and Environmental Science,mint
+University of Kassel,Department of Soil Science,agrar
+University of Kassel,Economics,sowi
+University of Kassel,Institut für Sozialpädagogik und Soziologie der Lebensalter,sowi
+University of Kassel,Institute for Biology Department of Botany,mint
+University of Kassel,Linguistics,phil
+University of Konstanz,Biology,mint
+University of Konstanz,History,phil
+University of Lahore,School of Accountancy and Finance,sowi
+University of Latvia,Deapertment of Neuromedicine and Neuroscience,med
+University of Latvia,"Institute of Solid State Physics, University of Latvia",mint
+University of Lausanne,Department of Ecology and Evolution,mint
+University of Leicester,Physics and Astronomy,mint
+University of Liverpool,"Archaeology, Classics & Egyptology",phil
+University of Luebeck,Institute of Chemistry,mint
+University of Luebeck,Institute of Chemistry and Metabolomics,mint
+University of Marburg,Economics,sowi
+"University of Maryland, College Park",Atmospheric and Oceanic Science,mint
+University of Michigan,Department of Physics,mint
+University of Michigan,Economics,sowi
+University of Michigan,Economics and Public Policy,sowi
+University of Michigan,University of Michigan Gerald R Ford School of Public Policy,sowi
+University of Minnesota,Biochemistry,mint
+University of Münster,Animal Physiology,agrar
+University of Münster,Institut für Geologie und Paläontologie,mint
+University of Münster,Institute of Animal Physiology,agrar
+University of Münster,Institute of Landscape Ecology,mint
+University of Münster,Nephrology,med
+University of Münster,Seminary for Medieval and Neo-Latin Philology,phil
+University of Naples Federico II,Institute of Chemistry,mint
+University of Nebraska Medical Center,Radiation Oncology,med
+University of Nigeria,Meteorology and Climate Dynamics,mint
+University of Nizwa,Chair of Oman’s Medicinal Plants and Marine Natural Products,mint
+University of North Carolina at Chapel Hill,Department of Chemistry,mint
+University of North Carolina at Chapel Hill,Religious Studies,rewi
+University of Nottingham,Leverhulme Centre for Research on Globalisation and Economic Policy,sowi
+"University of Nottingham, Leverhulme Centre for Research",Globalisation and Economic Policy,sowi
+University of Oregon,Philosophy,phil
+University of Oregon,Philosophy/ Environmental Studies,phil
+University of Oslo,Center for Physics of Geological Processes,mint
+University of Oslo,Faculty of Theology,rewi
+University of Oslo,Translational Neurodegeneration Research and Neuropathology Lab,med
+University of Oslo,University of Oslo Centre for Ecological and Evolutionary Synthesis,mint
+University of Oulu,Department of Ecology and Genetics,mint
+University of Oulu,Ecology and Genetics Research Unit,mint
+University of Oulu,Faculty of Information Technology and Electrical Engineering,tech
+University of Oxford,Centre of Tropical Medicine and Global Health,med
+University of Oxford,Faculty of Theology and Religion,rewi
+University of Oxford,Radiation Oncology and Biology,med
+University of Peradeniya Faculty of Dental Sciences,"Division of Paedodontics, Department of Community Dental Health",med
+University of Peshawar,Botany,mint
+University of Pittsburgh,Department of Chemistry,mint
+University of Potsdam,Animal Ecology,mint
+University of Potsdam,Faculty of Economics and Social Sciences,sowi
+University of Potsdam,Institute of Biochemistry and Biology,mint
+University of Potsdam,Institute of Mathematics,mint
+University of Potsdam,Soft Matter Physics,mint
+University of Potsdam,Theoretical Aquatic Ecology,mint
+University of Rhode Island,Oceanography,mint
+University of Saskatchewan,"Department of Civil, Geological & Environmental Engineering",tech
+University of Sharjah,Applied Biology,mint
+University of Siegen,Biochemistry,mint
+University of Social Sciences and Humanities,Department of International Relations,sowi
+University of South Florida,Dept. of Marine Science,mint
+University of South Florida,Geology,mint
+University of Southampton,Ocean and Earth Science,mint
+University of Southern Denmark,Department of Biochemistry and Molecular Biology,mint
+University of Southern Denmark,Department of Business and Sustainability,sowi
+University of Southern Denmark,Department of Political Science,sowi
+University of Southern Denmark,"Department of Public Health, Clinical Pharmacology, Pharmacy and Environmental Medicine",med
+University of Southern Denmark,Unit of Epidemiology,med
+University of Stockholm,"Department of Ecology, Environment and Plant Sciences",mint
+University of Strathclyde,Institute of Pure and Applied Chemistry,mint
+University of Stuttgart,Institute of Structural Mechanics and Dynamics in Aerospace Engineering,tech
+University of Stuttgart,Institute of Technical Biochemistry,mint
+University of São Paulo,Department of Genetics and Evolutionary Biology,mint
+University of São Paulo,Department of Linguistics,phil
+University of Tasmania,School of Health Sciences,med
+University of Tasmania,School of Psychology,sowi
+University of Texas at Austin,Institute for Geophysics,mint
+University of Texas at Austin,Jackson School of Geosciences,mint
+University of Toronto,Sociology,sowi
+University of Turku,Department of Biology,mint
+University of Tübingen,Department of Comparative Zoology,mint
+University of Tübingen,Ethnologie,phil
+University of Tübingen,Evolutionary Biology of Invertebrates,mint
+University of Tübingen,Institut für Geowissenschaften,mint
+University of Tübingen,Institute of Evolution and Ecology,mint
+University of Tübingen,Organismic Botany and Mycology,mint
+University of Tübingen,Quantitative Biology Center (QBiC),mint
+University of Tübingen,School of Business and Economics,sowi
+University of Tübingen,Seminar für Sprachwissenschaft (Department of Linguistics),phil
+University of Ulm,Institute of Human Genetics,mint
+University of Valparaíso,School of Civil Engineering,tech
+University of Verona,Department of Economic Sciences,sowi
+University of Veterinary and Animal Sciences,Department of Pathobiology,mint
+University of Veterinary and Animal Sciences,Section of Epidemiology and Public Health,med
+University of Vienna,Department of Demography,sowi
+University of Vienna,Department of Functional and Evolutionary Ecology,mint
+University of Vienna,Department of Mathematics,mint
+University of Vienna,Dept. of Functional and Evolutionary Ecology,mint
+University of Vienna,Faculty of Mathematics,mint
+University of Vienna,Institut für Geologie,mint
+University of Warsaw,"Chair of South Asian Studies, Faculty of Oriental Studies",sowi
+University of Warwick,Centre for Applied Linguistics,phil
+University of Washington,School of Oceanography,mint
+University of Western Sydney,School of Social Sciences,sowi
+University of Wisconsin–Madison,Cell and Regenerative Biology,mint
+University of Wollongong,Centre for Atmospheric Chemistry,mint
+University of Wrocław,"Faculty of Social Sciences, Institute of European Studies",sowi
+University of Wuerzburg,Fakultat fur Physik und Astronomie,mint
+University of Würzburg,Animal Ecology and Tropical Biology,mint
+University of Würzburg,Institut für Hygiene und Mikrobiologie,med
+University of Würzburg,"Institut für deutsche Philologie, Lehrstuhl für Museumswissenschaft",phil
+University of Würzburg,Institute of Geography and Geology,mint
+University of Würzburg,"Institute of Geography and Geology, Geomorphology",mint
+University of the Philippines Los Baños,"Geological Oceanography Laboratory, The Marine Science Institute",mint
+University of the Philippines Los Baños,School of Environmental Science and Management,mint
+University of the Ryukyus,Urology,med
+Universitäre Psychiatrische Kliniken Basel,"Plastische und Wiederherstellungschirurgie, Mund-Kiefer-Gesichtschirurgie",med
+Universitäre Psychiatrische Kliniken Basel,Universitätsklinik für Wiederherstellende Chirurgie,med
+Universitäres Kinderwunschzentrum Lübeck,First Department of Medicine,med
+"Universität Bayreuth Bayreuth Bayern DE, Bayerisches Geoinstitut",Social and Cultural Anthropology,sowi
+Universität Bremen,AG Petrologie der Ozeankruste Fachbereich 05: Geowissenschaften Universität Bremen Klagenfurter Strasse (GEO) 28359 Bremen,mint
+Universität Bremen,"Center for Media, Communication and Information Research (ZeMKI)",sowi
+Universität Bremen,Center for Oceanic Research and Education–COREsea,mint
+Universität Bremen,Centre for Industrial Mathematics,mint
+Universität Bremen,Centre of European Law and Politics,jura
+Universität Bremen,"Crystallography & Geomaterials Research, FB05 Geosciences",mint
+Universität Bremen,DFG-Forschungszentrum “Ozeanränder” - Research Center Ocean Margins (RCOM),mint
+Universität Bremen,Department 2 Biology/Chemistry,mint
+Universität Bremen,Department of Biology,mint
+Universität Bremen,Department of Geoscience Bremen University,mint
+Universität Bremen,Department of Industrial Mathematics and Data Analysis,mint
+Universität Bremen,Department of Politics + Economics,sowi
+Universität Bremen,Department of Production and Process Engineering,tech
+Universität Bremen,"Department of Social Epidemiology, Institute of Public Health and Nursing Research",med
+Universität Bremen,Fachbereich Biologie und Chemie,mint
+Universität Bremen,Faculty 10: Linguistics and Literary Studies,phil
+Universität Bremen,Faculty for Economics and Business Studies / Research Center for East European Studies,sowi
+Universität Bremen,Faculty of Geosciences; ; Bremen Germany,mint
+Universität Bremen,Faculty of Human and Health Sciences; ; Bremen Germany,med
+Universität Bremen,Faculty of Languages and Literature; Languages Centre,phil
+Universität Bremen,Felix Buchli studiert Geschichte,phil
+Universität Bremen,Geoscience Department University Bremen Bremen Germany,mint
+Universität Bremen,Geosciences & MARUM,mint
+Universität Bremen,Glycobiochemistry,mint
+Universität Bremen,History Department,phil
+Universität Bremen,Institute for Environmental Physics (IUP),mint
+Universität Bremen,Institute for Organic and Analytical Chemistry,mint
+Universität Bremen,"Institute od Environmental Physics, Department of Physics and Electrical Engineering",tech
+Universität Bremen,Institute of Applied and Physical Chemistry,mint
+Universität Bremen,"Institute of Environmental Physics, Department of Physics and Electrical Engineering",tech
+Universität Bremen,Institute of Environmental Physics/Remote Sensing,mint
+Universität Bremen,Institute of Materials Science,tech
+Universität Bremen,Institute of Solid State Physics,mint
+Universität Bremen,Institute of Solid‐State Physics,mint
+Universität Bremen,Law,jura
+Universität Bremen,MARUM ‐ Center for Marine Environmental Research Universität Bremen,mint
+Universität Bremen,MARUM‐Center for Marine and Environmental Sciences,mint
+Universität Bremen,Maritime Business and Logistics,sowi
+Universität Bremen,Mathematik und Informatik,mint
+Universität Bremen,Mechanical Process Engineering,tech
+Universität Bremen,Oceanography,mint
+Universität Bremen,Particle & Chemical Engineering,tech
+Universität Bremen,Particle & Process Engineering,tech
+Universität Bremen,Physics and Electronic Engineering,tech
+Universität Bremen,Process Engineering,tech
+Universität Bremen,Sprache und Literatur des Mittelalters und der Frühen Neuzeit,phil
+Universität Bremen,The Institute for Institutional and Innovation Economics (IINO),sowi
+Universität Bremen,Transnationale Medienliteraturwissenschaften,phil
+Universität Duisburg-Essen,Department of Social Sciences,sowi
+Universität Duisburg-Essen,Faculty of Social Sciences,sowi
+Universität Duisburg-Essen,Institute for Political Science,sowi
+Universität Greifswald,Botanical Institute,mint
+Universität Greifswald,"Clinic and Policlinic for Internal Medicine A, Dept. of Nephrology",med
+Universität Greifswald,Communication Studies,sowi
+Universität Greifswald,Department of Anatomy and Cell Biology,med
+Universität Greifswald,Department of Biological Sciences,mint
+Universität Greifswald,Department of Biology,mint
+Universität Greifswald,Department of Genetics of Microorganisms,mint
+Universität Greifswald,Department of Geography &amp; Geology University of Greifswald F.‐L.‐Jahnstr. 17a 17489 Greifswald Germany,mint
+Universität Greifswald,Department of Hematology and Oncology,med
+Universität Greifswald,Department of Laboratory Animal Science,agrar
+Universität Greifswald,Department of Pediatric Dentistry,med
+Universität Greifswald,Department of Pharmaceutical Biotechnology,med
+Universität Greifswald,Department of Pharmaceutical and Medicinal Chemistry,med
+Universität Greifswald,Department of Physiology,med
+Universität Greifswald,Department of Technical Chemistry and Biotechnology,mint
+Universität Greifswald,"General Economics, Health Economics and Econometrics",sowi
+Universität Greifswald,Institut für Anatomie,med
+Universität Greifswald,Institut für Diagnostische Radiologie,med
+Universität Greifswald,Institut für Psychologie,sowi
+Universität Greifswald,Institute for Botany and Landscape Ecology at the,mint
+Universität Greifswald,Institute of Geography and Geology Ernst Moritz Arndt University Greifswald,mint
+Universität Greifswald,"Institute of Psychology, Department Health & Prevention",sowi
+Universität Greifswald,"Intitute of Psychology, Health and Prevention",sowi
+Universität Greifswald,Klinische Pharmazie,med
+Universität Greifswald,Landscape Ecology and Nature Conservation,mint
+Universität Greifswald,Law and Economics Faculty & Institute for Botany and Landscape Ecology,jura
+Universität Greifswald,Pharmaceutical Microbiology,med
+Universität Greifswald,Prof. Dr. Michael North Historical Institute,phil
+Universität Greifswald,Theologische Fakultät,rewi
+Universität Greifswald,"Universitätsmedizin, Institut für Pharmakologie",med
+Universität Greifswald,Zoological Institue and Museum,mint
+Universität Hamburg,Abteilung für Mikrobiologie,mint
+Universität Hamburg,Anthropology of Mainland Southeast Asia,sowi
+Universität Hamburg,Biology,mint
+Universität Hamburg,CEN Centre for Earth System Research and Sustainability Institute of Geography University of Hamburg Hamburg Germany,mint
+Universität Hamburg,Center for Earth System Research and Sustainability (CEN) University of Hamburg,mint
+Universität Hamburg,Center for Marine and Atmospheric Sciences,mint
+Universität Hamburg,Center for Marine and Climate Research,mint
+Universität Hamburg,Center of Marine and Atmospheric Sciences,mint
+Universität Hamburg,Centre for Earth System Research and Sustainability,mint
+Universität Hamburg,Centre for Marine and Atmospheric Sciences,mint
+Universität Hamburg,Centre for Psycho-Social Medicine,med
+Universität Hamburg,Centre for Psychosocial Medicine,med
+Universität Hamburg,Centre for the Study of Manuscript Cultures University of Hamburg,phil
+Universität Hamburg,Centre of Marine and Atmospheric Sciences,mint
+Universität Hamburg,Centre of Wood Sciences,agrar
+Universität Hamburg,Climate Change and Security,mint
+Universität Hamburg,"Cluster of Excellence “Climate, Climatic Change, and Society” (CLICCS) / Department of Social Sciences (Sociology)",mint
+Universität Hamburg,Culture and History of India and Tibet,phil
+Universität Hamburg,Department of Cardiovascular Surgery University Heart and Vascular Center Hamburg,med
+Universität Hamburg,Department of Culture and History of India and Tibet,phil
+Universität Hamburg,Department of Dermatology,med
+Universität Hamburg,"Department of Earth Sciences, Institute of Geophysics",mint
+Universität Hamburg,Department of Economics Hamburg University Hamburg Germany,sowi
+Universität Hamburg,Department of Geosciences Centre for Earth System Research and Sustainability University of Hamburg Bundesstrasse 55 20146 Hamburg Germany,mint
+Universität Hamburg,Department of Geosciences Centre of Marine and Atmospheric Sciences University of Hamburg,mint
+Universität Hamburg,Department of Social Sciences: Teaching Seminar on Comparative Politics and Digital Repression,sowi
+Universität Hamburg,Department of Sociology,sowi
+Universität Hamburg,Division Wood Biology,agrar
+Universität Hamburg,Earth system science,mint
+Universität Hamburg,Ecology of Living Marine Resources,mint
+Universität Hamburg,Experimental Oceanography,mint
+Universität Hamburg,Fachbereich Geschichte,phil
+Universität Hamburg,Fachbereich Medizin der Universität Hamburg,med
+Universität Hamburg,Fachbereich Sozialwissenschaften,sowi
+Universität Hamburg,Faculty of Mathematics Informatics and Natural Sciences,mint
+Universität Hamburg,Faculty of Medicine,med
+Universität Hamburg,Functional Forest Ecology,mint
+Universität Hamburg,GIZ Forest and Climate Change Program,mint
+Universität Hamburg,"Geosciences, Institute of Oceanography",mint
+Universität Hamburg,Geosyn Geophysics and University of Hamburg,mint
+Universität Hamburg,Global Christianity and Religious Studies,rewi
+Universität Hamburg,I Institut für Theoretische Physik,mint
+Universität Hamburg,I. Institut für Theoretische Physik,mint
+Universität Hamburg,"IPM, Molecular Plant Genetics",mint
+Universität Hamburg,Inistitute for Experimental Physics,mint
+Universität Hamburg,Institut für Zellbiochemie und Klinische Neurobiologie,mint
+Universität Hamburg,Institut für Geschichte und Ethik der Medizin,med
+Universität Hamburg,Institut für Organische Chemie,mint
+Universität Hamburg,Institut für Zellbiochemie und Klinische Neurobiologie,mint
+Universität Hamburg,Institut of vocational and business administration,sowi
+Universität Hamburg,Institute for Alevi Theology,rewi
+Universität Hamburg,Institute for Cell and Systems Biology of Animals,mint
+Universität Hamburg,Institute for Coastal Research,mint
+Universität Hamburg,Institute for Coastal Research GKSS Research Center,mint
+Universität Hamburg,Institute for Computational Systems Biology,mint
+Universität Hamburg,Institute for Geology Center for Earth System Research and Sustainability (CEN),mint
+Universität Hamburg,Institute for Geophysics,mint
+Universität Hamburg,Institute for Hydrobiology and Fisheries Science,agrar
+Universität Hamburg,Institute for Marine Ecosystem and Fisheries Science Center for Earth System Research and Sustainability (CEN) University of Hamburg,agrar
+Universität Hamburg,Institute for Oceanography - Climate Modelling Group,mint
+Universität Hamburg,Institute for Public Finance,sowi
+Universität Hamburg,Institute for Technical and Macromolecular Chemistry University of Hamburg Bundesstrasse 45 D‐20146 Hamburg Germany,mint
+Universität Hamburg,Institute for Wood Biology,agrar
+Universität Hamburg,Institute of Geochemistry and Marine Chemistry,mint
+Universität Hamburg,Institute of Geophysics University of Hamburg,mint
+Universität Hamburg,Institute of Human Biology,mint
+Universität Hamburg,Institute of Oceanography Centre for Earth System Research and Sustainability University of Hamburg,mint
+Universität Hamburg,Institute of Oceanography University of Hamburg,mint
+Universität Hamburg,"Institute of Oceanography, Climate Modelling",mint
+Universität Hamburg,"Institute of Oceanography, RSDA",mint
+Universität Hamburg,Institute of Pharmacy,med
+Universität Hamburg,Institute of Wood Science—World Forestry & Center for Earth System Research & Sustainability (CEN),agrar
+Universität Hamburg,M.A. Sociology,sowi
+Universität Hamburg,Mathematics department,mint
+Universität Hamburg,Medical Clinic and Polyclinic II University Hospital Hamburg‐Eppendorf Hamburg Germany,med
+Universität Hamburg,Medical Department - Infectious Diseases and Tropical Medicine,med
+Universität Hamburg,Modeling the carbon cycle in the Earth system,mint
+Universität Hamburg,Philosophy,phil
+Universität Hamburg,Physics and Chemistry,mint
+Universität Hamburg,Physics of  Superconductivity,mint
+Universität Hamburg,Political science,sowi
+Universität Hamburg,Psychology,sowi
+Universität Hamburg,Religious Studies and Global Christianity,rewi
+Universität Hamburg,Research Unit Sustainability and Climate Risk,mint
+Universität Hamburg,Section Wood Biology Centre of Wood Sciences University of Hamburg Leuschnerstrasse 91 Hamburg 21031 Germany,agrar
+Universität Hamburg,Sociology,sowi
+Universität Hamburg,Southern Marine Science and EngiInstitute of Geology,mint
+Universität Hamburg,Universitt Hamburg Institut fr Ethnologie Edmund-Siemers-Allee 1 (West) D-20146 Hamburg,phil
+Universität Hamburg,University Hospital Hamburg ‐ Eppendorf Department II Medical Clinic and Polyclinic,med
+Universität Hamburg,Universität Hamburg Department Biologie,mint
+Universität Hamburg,Universität Hamburg Department Physik,mint
+Universität Hamburg,Universität Hamburg Fachbereich Erdsystemwissenschaften,mint
+Universität Hamburg,Zentrum für Meeres- und Klimaforschung,mint
+Universität Hamburg,Zoophysiology,med
+Universität Hamburg,experimental physics,mint
+Universität Heidelberg Medizinische Fakultät Mannheim,Neurophysiology,med
+Universität Koblenz-Landau - Campus Landau,Biology,mint
+Universität Koblenz-Landau - Campus Landau,Department of Biology Institute of Integrated Natural Sciences,mint
+Universität Konstanz,Department of Politics and Management,sowi
+Universität Konstanz,Fachbereich für Politik- und Verwaltungswissenschaft,sowi
+Universität Konstanz,Limnologisches Institut,mint
+Universität Lübeck,"Center of Structural and Cell Biology in Medicine, Institute of Biochemistry",med
+Universität Lübeck,"Clinic of Surgery, UKSH Campus Lübeck",med
+Universität Lübeck,Department of Cardiac and Thoracic Vascular Surgery,med
+Universität Lübeck,Department of Neuroscience and Brain Health Metropolitan Medical Center,mint
+Universität Lübeck,Dept. of Neurology,med
+Universität Lübeck,Dept. of Neuroradiology,med
+Universität Lübeck,Institute for Anatomy,med
+Universität Lübeck,"Institute of Health Sciences, Academic Physiotherapy, Pain and Exercise Research Luebeck (P.E.R.L),",med
+Universität Lübeck,Institute of Nutritional Medicine (INUM),med
+Universität Lübeck,Medical Systems Biology Group,mint
+Universität Lübeck,Medizinische Klinik,med
+Universität Lübeck,Medizinische Klinik I,med
+Universität Lübeck,Medizinische Klinik II,med
+Universität Lübeck,"Paediatric and Adolescent Medicine, Division of Paediatric Endocrinology and Diabetes",med
+Universität Lübeck,Pediatric and Adolescent Medicine / Institute of Molecular Medicine,med
+Universität Lübeck,Surgery,med
+Universität Rostock,Agrar- und Umweltwissenschaftliche Fakultät,agrar
+Universität Rostock,Agricultural Technology and Process Engineering,agrar
+Universität Rostock,Chair of Analytical Chemistry,mint
+Universität Rostock,Chair of Business Education and Entrepreneurship,sowi
+Universität Rostock,Chair of Microeconomics,sowi
+Universität Rostock,Department III of Internal Medicine Medicine—Hematology/Oncology/Palliative Care Rostock University Medical Center Rostock Germany,med
+Universität Rostock,Department of Analytical Chemistry,mint
+Universität Rostock,Department of Family Medicine,med
+Universität Rostock,Department of Infectious Diseases and Tropical Medicine,med
+Universität Rostock,Department of Internal Medicine,med
+Universität Rostock,Department of Nuclear Medicine Rostock University Medical Centre,med
+Universität Rostock,Department of Nuclear Medicine Rostock University Medical Centre Rostock Germany,med
+Universität Rostock,Department of Orthopaedic Surgery University Medical Center Rostock Rostock Germany,med
+Universität Rostock,Department of Pharmaceutical Chemistry,med
+Universität Rostock,Department of Sociology and Demography,sowi
+Universität Rostock,Department of System Biology and Bioinformatics,mint
+Universität Rostock,Dept. of Systems Biology & Bioinformatics,mint
+Universität Rostock,Division of Internal Medicine Medical Clinic III ‐ Hematology Oncology and Palliative Medicine Special Hematology Laboratory Rostock University Medical Center,med
+Universität Rostock,Economics and Social Sciences,sowi
+Universität Rostock,General and Systematic Zoology Institute of Biosciences,mint
+Universität Rostock,Hospital of Forensic Psychiatry,med
+Universität Rostock,Institut für Agrarökonomie und Verfahrenstechnik,agrar
+Universität Rostock,"Institut für Chemie, Abteilung Anorganische Chemie",mint
+Universität Rostock,Institute for Mathematics,mint
+Universität Rostock,Institute for Medical Genetics,mint
+Universität Rostock,Institute for Medical Psychology and Medical Sociology,sowi
+Universität Rostock,"Institute of Chemistry, Division of Analytical and Technical Chemistry",mint
+Universität Rostock,Institute of Experimental Surgery,med
+Universität Rostock,Institute of International Politics,sowi
+Universität Rostock,Institute of Mathematics,mint
+Universität Rostock,Institute of Mathematics; ; Rostock Germany,mint
+Universität Rostock,Institute of Preventive Medicine,med
+Universität Rostock,Institute of Soil Science and Plant Nutrition,agrar
+Universität Rostock,Instutute of Physics,mint
+Universität Rostock,Landscape Ecology and Site Evaluation,mint
+Universität Rostock,Leibniz-Institut für Organische Katalyse an der Universität Rostock e.V. Buchbinderstraße 5–6,mint
+Universität Rostock,Marine Biology,mint
+Universität Rostock,Medizinische Fakultät der Universität Rostock,med
+Universität Rostock,Plant Genetics,mint
+Universität Rostock,Research Unit Sutainability and Climate Policy,mint
+Universität Rostock,"Soil Physics, Faculty of Environmental and Agricultural Sciences",agrar
+Universität Rostock,Soil Science,agrar
+Universität Rostock,"Soil Sciences, Faculty of Agriculture, Civil and Environmental Engineering",agrar
+Universität Rostock,University Hospital Rostock Department III of Internal Medicine,med
+Universität Rostock,label omitted: 2-->Department of Ophthalmology,med
+Universität Rostock Agrar- und Umweltwissenschaftliche Fakultät,Landscape Ecology,mint
+Universität Rostock Mathematisch-Naturwissenschaftliche Fakultät,Physics,mint
+Universität Salzburg,Department of Organismic Biology,mint
+Universität Salzburg,"Dept of Molecular Biology, Dpt of Organismic Biology",mint
+Universität Wien,Institut für Ostasienwissenschaften/Sinologie,phil
+Universität Wien,am Institut Ostasienwissenschaften/ Sinologie,phil
+Universität Zurich Medizinische Fakultät,Department of Evolutionary Biology and Environmental Studies,mint
+Universität Zurich Medizinische Fakultät,Institute of Medical Microbiology,mint
+Universität Zurich Medizinische Fakultät,Political Economy and Development,sowi
+Universität der Bundeswehr München,Institute for Sociology and Economics,sowi
+Universität des Saarlandes,Department of Physics,mint
+Universität zu Köln,Faculty of Mathematics and Natural Sciences,mint
+Universität zu Köln,"Medical Faculty, Institute for Medical Microbiology, Immunology and Hygiene",med
+UniversitätsSpital Zürich,Department of Surgery,med
+Universitätsklinikum Aachen,Department für Medizin I,med
+Universitätsklinikum Aachen,Nephrology and Clinical Immunology,med
+Universitätsklinikum Brandenburg an der Havel,Department of Gastroenterology,med
+Universitätsklinikum Düsseldorf,Insitut für Allgemeinmedizin,med
+Universitätsklinikum Hamburg-Eppendorf,Cardiology,med
+Universitätsklinikum Hamburg-Eppendorf,Center for Population Health; Clinic for Cardiology,med
+Universitätsklinikum Hamburg-Eppendorf,"Department General-, Visceral- and Thoracic Surgery",med
+Universitätsklinikum Hamburg-Eppendorf,Gastroenterology,med
+Universitätsklinikum Hamburg-Eppendorf,"General-, Visceral- and Thoracic Surgery - Experimental Oncology",med
+Universitätsklinikum Hamburg-Eppendorf,Institute of Forensic Medicine,med
+Universitätsklinikum Hamburg-Eppendorf,Institute of Medical Systems Biology,mint
+Universitätsklinikum Hamburg-Eppendorf,Institute of Physiology,med
+Universitätsklinikum Hamburg-Eppendorf,Institute of Systems Immunology,med
+Universitätsklinikum Hamburg-Eppendorf,"The Center for Experimental Medicine,",med
+Universitätsklinikum Hamburg-Eppendorf,Tropical Medicine,med
+Universitätsklinikum Hamburg-Eppendorf,Universitätsklinikum Hamburg Eppendorf Universitäres Herzzentrum Hamburg GmbH,med
+Universitätsklinikum Hamburg-Eppendorf,Universitätsklinikum Hamburg-Eppendorf Klinik und Poliklinik für Psychiatrie und Psychotherapie,med
+Universitätsklinikum Heidelberg,Neurology; Physics and Astronomy,med
+Universitätsklinikum Heidelberg,Seminar für Alte Geschichte,phil
+Universitätsklinikum Regensburg,Department of Epidemiology and Preventive Medicine,med
+Universitätsklinikum Schleswig-Holstein,"Department of Dermatology, Venereology and Allergy",med
+Universitätsklinikum Schleswig-Holstein,Department of Hematology and Oncology,med
+Universitätsklinikum Schleswig-Holstein,Department of Infectious Disease and Microbiology,med
+Universitätsklinikum Schleswig-Holstein,Department of Inner Medicine II (Hematology/Oncology),med
+Universitätsklinikum Schleswig-Holstein,Department of Internal Medicine I,med
+Universitätsklinikum Schleswig-Holstein,Department of Internal Medicine I & Institute of Clinical Molecular Biology,med
+Universitätsklinikum Schleswig-Holstein,Department of Medicine II,med
+Universitätsklinikum Schleswig-Holstein,Department of Rheumatology and Clinical Immunology,med
+Universitätsklinikum Schleswig-Holstein,"Hämatologie und Onkologie, Translationale Leukämieforschung",med
+Universitätsklinikum Schleswig-Holstein,Immunology,med
+Universitätsklinikum Schleswig-Holstein,Institute of Clinical Molecular Biology,med
+Universitätsklinikum Schleswig-Holstein,Internal Medicine II - Hematology/Oncology,med
+Universitätsklinikum Schleswig-Holstein,Medical Department II; Hematology and Oncology,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Deparment of Haematology and Oncology,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Department of General Surgery,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Department of Ophthalmology,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Department of Orthopaedic Surgery and Traumatology,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Institute for Cardiogenetics,mint
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Neurology,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,Surgery,med
+Universitätsklinikum Tübingen,Institute for Tropical Medicine,med
+Universitätsmedizin Greifswald,Centre for Community Medicine,med
+Universitätsmedizin Greifswald,Department of General and Systematic Zoology,mint
+Universitätsmedizin Greifswald,Department of Medicine,med
+Universitätsmedizin Greifswald,"Department of Molecular Genetics and Infection Biology, Interfaculty Institute for Genetics and Functional Genomics, Center for Functional Genomics of Microbes",mint
+Universitätsmedizin Greifswald,Institut für Klinische Chemie und Laboratoriumsmedizin,med
+Universitätsmedizin Greifswald,Institute for Geography and Geology,mint
+Universitätsmedizin Greifswald,Institute of Botany and Landscape Ecology,mint
+Universitätsmedizin Greifswald,Klinik für Innere Medizin C ‐ Hämatologie,med
+Université Laval,Ecole de Psychologie,sowi
+Université Pierre et Marie Curie,Physics,mint
+Université du Québec à Montréal,Philosophy,phil
+Uppsala University,"Department of Ecology and Genetic/Limnology, Evolutionary Biology Centre",mint
+Ural Federal University named after the first President of Russia B. N. Yeltsin,Department of Economics and Management,sowi
+Ural Federal University named after the first President of Russia B. N. Yeltsin,​Graduate School of Economics and Management,sowi
+VGU,Architecture / History of Architecture,phil
+VNU University of Science,Faculty of Biology,mint
+VU University Amsterdam,Department of Political Science and Public Administration,sowi
+Vietnam Academy of Science and Technology,Institute of Geophysics,mint
+Vietnam Academy of Social Sciences,Institute of Literature,phil
+VinUniversity,College of Business and Management,sowi
+Vytautas Magnus University,Demographic Research Centre,sowi
+Wageningen University & Research,Meteorology and Air Quality,mint
+Wake Forest University,Department of Engineering,tech
+Warwick University,Department of Chemistry,mint
+Washington University in St. Louis,Infectious Diseases Division,med
+Wayne State University,Chemistry department,mint
+Weizmann Institute of Science,Molecular genetics,mint
+Wenzhou Medical University,First Affiliated Hospital of Wenzhou Medical University,med
+Westerdijk Fungal Biodiversity Institute,Evolutionary phytopatholgy,mint
+Westfälische Wilhelms-Universität Münster,Department of History,phil
+Westfälische Wilhelms-Universität Münster,Institute for Evolution and Biodiversity,mint
+Westfälische Wilhelms-Universität Münster,Institute of Medical Microbiology,mint
+Witten/Herdecke University,"Department of Philosophy, Politics, and Economics",sowi
+Witten/Herdecke University,Faculty of Management and Economics,sowi
+Woods Hole Oceanographic Institution,Geology & Geophysics,mint
+Xi'an Jiaotong University,First Affiliated Hospital of Xi'an Jiaotong University,med
+Xiamen University,Department of Geological Oceanography,mint
+Xiamen University,Department of Geological Oceanography & State Key Laboratory of Marine Environmental Science,mint
+Xiamen University,School of Law,jura
+Xiamen University,"State Key Laboratory of Marine Environmental Science, College of Ocean and Earth Sciences",mint
+Xuzhou Medical College,Affiliated Hospital of Xuzhou Medical College,med
+Yale University,Department of Geology and Geophysics,mint
+Yonsei University,Ecosystem-Atmosphere Process Laboratory,mint
+Yonsei University,Sociology,sowi
+Yunnan University,Department of Atmospheric Sciences,mint
+ZBW – Leibniz-Informationszentrum Wirtschaft,Leibniz-Informationszentrum Wirtschaft Leibniz Information Centre for Economics Comparing standards of business ethics in USA,sowi
+Zagazig University,Zagazig University Faculty of Veterinary Medicine,med
+Zentralstelle fr Auslandskude Der Deutschen Stiftung fr International Devolopment,Politics of development,sowi
+École Polytechnique Fédérale de Lausanne,Electrical Engineering,tech
+École Polytechnique Fédérale de Lausanne,Institute of Physics,mint
+École Polytechnique Fédérale de Lausanne,Physics,mint
+École Polytechnique Fédérale de Lausanne,"School of Architecture, Civil and Environmental Engineering",tech
+Beijing Anzhen Hospital,,med
+Beijing Haidian Hospital,,med
+Beijing Hua Xin Hospital,,med
+Beijing Tian Tan Hospital,,med
+Beijing Tongren Hospital,,med
+Beijing YouAn Hospital,,med
+Brigham and Women's Hospital,,med
+Bundeswehr Central Hospital,,med
+Charing Cross Hospital,,med
+Chongqing Public Health Medical Center,,med
+Complexo Hospitalar Universitário Professor Edgard Santos,,med
+Dr. Hasan Sadikin General Hospital,,med
+Erasmus Hospital,,med
+Ghent University Hospital,,med
+Guiyang Stomatological Hospital,,med
+Helios Park-Klinikum Leipzig,,med
+Holy Spirit Hospital,,med
+Kaohsiung Municipal Hsiao-Kang Hospital,,med
+Klinikum Bremerhaven-Reinkenheide,,med
+Klinikum Fürth,,med
+Klinikum Klagenfurt,,med
+Kunming Municipal Hospital of Traditional Chinese Medicine,,med
+Kyoto Katsura Hospital,,med
+Longhua Hospital Shanghai University of Traditional Chinese Medicine,,med
+Mahosot Hospital,,med
+Mercy Hospital Research Laboratory,,med
+Monon Psychiatric Hospital,,med
+National Hospital for Neurology and Neurosurgery,,med
+Northern Jiangsu People's Hospital,,med
+Odense University Hospital,,med
+Princess Margaret Hospital for Children,,med
+Royal Perth Hospital,,med
+Royal South Hants Hospital,,med
+SDM College of Dental Sciences and Hospital,,med
+Saint Thomas - Rutherford Hospital,,med
+Second Affiliated Hospital of Jilin University,,med
+ShenZhen People’s Hospital,,med
+"Sjællands Universitetshospital, Nykøbing F.",,med
+Somerville Hospital,,med
+Southwest Hospital,,med
+Tallaght University Hospital,,med
+Thomayer University Hospital,,med
+Tien Giang General Hospital,,med
+Tongren Hospital,,med
+University Children's Hospital Tübingen,,med
+University Hospital Carl Gustav Carus,,med
+University Hospital Münster,,med
+University Hospital of Zurich,,med
+Universitätsklinikum Bonn Institut für Humangenetik,,med
+Universitätsklinikum Leipzig,,med
+Universitätsklinikum Schleswig-Holstein - Campus Lübeck,,med
+Xian Yang Central Hospital,,med
+Yueyang Hospital,,med
+Zhongshan Hospital,,med

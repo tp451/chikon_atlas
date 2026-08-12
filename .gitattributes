@@ -1,2 +1,15 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Binary data and asset files must never be line-ending normalized,
+# otherwise readRDS/sf reads of git-checked-out copies can be corrupted.
+*.rds binary
+*.geojson binary
+*.rda binary
+*.RData binary
+*.parquet binary
+*.png binary
+*.jpg binary
+*.gz binary
+*.zip binary
+*.svg -text

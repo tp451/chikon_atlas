@@ -2625,10 +2625,14 @@ complete_researchers_PA <- complete_researchers_PA %>%
     ifelse(bad, NA_character_, department_name)
   })
 
-# Latest affiliation snapshot
+# Latest affiliation snapshot. Rows whose organisation is blank/"NA" are sorted
+# last within each ORCID, so slice(1) takes the most recent employment that
+# actually carries an organisation (falling back to a blank one only if none
+# exists) — otherwise the "letztdokumentierte Einrichtung" can come out empty.
 complete_researchers_PA_latest <- complete_researchers_PA %>%
   group_by(orcid) %>%
-  arrange(-start_date_year_value, desc(organization_address_city)) %>%
+  arrange(is.na(organization_name) | organization_name == "NA" | trimws(organization_name) == "",
+          -start_date_year_value, desc(organization_address_city)) %>%
   slice(1) %>%
   ungroup()
 
@@ -2740,6 +2744,23 @@ complete_researchers_PA <- complete_researchers_PA %>%
 
 complete_researchers_PA$faculties[is.na(complete_researchers_PA$faculties)] <- "NA"
 # ── End Ollama classification ──────────────────────────────────────────────────
+
+# ── Per-researcher manual faculty override ──────────────────────────────────────
+# A curated researcher-level faculty table, each entry assigned from the
+# researcher's own publication record. It takes priority over both the
+# organisation-department concordance and the title-model fallback, and is the
+# appropriate source where a researcher has no department or the organisation
+# name resolves ambiguously across faculties.
+if (file.exists("researcher_faculties.csv")) {
+  researcher_faculties <- read_csv("researcher_faculties.csv", show_col_types = FALSE) %>%
+    filter(!is.na(orcid), !is.na(faculties), faculties != "") %>%
+    distinct(orcid, .keep_all = TRUE) %>%
+    transmute(orcid, override_faculties = faculties)
+  complete_researchers_PA <- complete_researchers_PA %>%
+    left_join(researcher_faculties, by = "orcid") %>%
+    mutate(faculties = ifelse(!is.na(override_faculties), override_faculties, faculties)) %>%
+    select(-override_faculties)
+}
 
 # Force valid UTF-8 encoding
 complete_researchers_PA[] <- lapply(complete_researchers_PA, function(x) {
@@ -2885,18 +2906,28 @@ complete_spacy_PA_keywords <- complete_spacy_PA_keywords[
     lengths(gregexpr("\\d", complete_spacy_PA_keywords$text)) <= 1,
 ]
 
-# Geodata cleaning
+# Geodata cleaning.
+# IMPORTANT: decide each point's country/maritime category on its TRUE geocoded
+# coordinates FIRST, and only afterward snap to the one-degree grid (needed
+# downstream for dedup/clustering). Snapping before the spatial join pushes
+# coastal and small-island points across the coastline, mislabelling genuine land
+# places (e.g. Taipei, Hong Kong, Pearl River Delta) as "maritim" and inflating
+# the maritime residual.
 entities_osm_PA <- entities_osm_PA %>%
   filter(!text %in% sf_filter$X1) %>%
-  st_set_precision(1) %>%
   st_make_valid()
 
 complete_spacy_PA_geo <- st_as_sf(entities_osm_PA, crs = 4326)
 
+# (1) categorise on the accurate coordinates
 complete_spacy_PA_geo <- st_join(complete_spacy_PA_geo, sf_countries[, c("ADMIN")])
-
 complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
   mutate(ADMIN = if_else(lengths(st_within(complete_spacy_PA_geo, sf_countries)) == 0, "maritim", ADMIN))
+
+# (2) category is now fixed — snap coordinates to the one-degree grid for the
+# downstream dedup/merge (this no longer changes any ADMIN).
+st_geometry(complete_spacy_PA_geo) <-
+  st_make_valid(st_set_precision(st_geometry(complete_spacy_PA_geo), 1))
 
 complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
   mutate(text = str_to_title(text)) %>%
@@ -2905,14 +2936,23 @@ complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
   # that mentions it (one geo row per place-per-publication, for the map counts).
   left_join(entities_complete %>% filter(ent_type %in% c("GPE", "LOC")), by = "text",
             relationship = "many-to-many") %>%
-  mutate(ADMIN = ifelse(text == "Far East Asia" | text == "Southeast Asia" | text == "East Asia" |
-                          text == "Northeast Asia" | text == "South-East Asia", "Allgemein", ADMIN))
+  # Eastern China and Southwest China are macro-regions of the mainland: count them
+  # as China. The other broad regions carry no usable point and are marked
+  # "Allgemein" (kept, not plotted). Both groups have their geometry emptied below.
+  mutate(ADMIN = case_when(
+    text %in% c("Eastern China", "Southwest China") ~ "China",
+    text %in% c("Far East Asia", "Southeast Asia", "East Asia", "Northeast Asia",
+                "South-East Asia", "Eastern Asia", "Eastern Eurasia", "Southern Asia",
+                "Inner Asia", "Western Central Asia") ~ "Allgemein",
+    TRUE ~ ADMIN))
 
 complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
   mutate(
     geometry = case_when(
-      text %in% c("Far East Asia", "Southeast Asia", "East Asia",
-                  "Northeast Asia", "South-East Asia") ~ st_sfc(st_geometrycollection(), crs = st_crs(.)),
+      text %in% c("Far East Asia", "Southeast Asia", "East Asia", "Northeast Asia",
+                  "South-East Asia", "Eastern Asia", "Eastern Eurasia", "Southern Asia",
+                  "Inner Asia", "Western Central Asia", "Eastern China",
+                  "Southwest China") ~ st_sfc(st_geometrycollection(), crs = st_crs(.)),
       TRUE ~ geometry
     )
   ) %>%
@@ -2954,6 +2994,131 @@ complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
 .nonloc    <- setdiff(tolower(trimws(.nonloc)), tolower(trimws(.nonloc_co)))
 complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
   filter(!tolower(trimws(text)) %in% .nonloc)
+
+# Hong Kong, Macau and Singapore are cities, not sea. They fall into the "maritim"
+# residual because sf_countries_PA carries no Hong Kong or Macau polygon and
+# Singapore's geocode is displaced by the coordinate-precision grid. Assign each its
+# own ADMIN (matched on the toponym text) so the maritime residual holds only genuine
+# offshore places, and so a place that is only Hong Kong or Macau is not counted as China.
+city_hongkong  <- c("hong kong", "hongkong", "hong kong island", "kowloon",
+                    "kowloon peninsula", "hong kong observatory",
+                    "hong kong's", "hong kong’s", "hong kong special administrative region")
+city_macau     <- c("macau", "macao")
+city_singapore <- c("singapore")
+complete_spacy_PA_geo <- complete_spacy_PA_geo %>%
+  mutate(ADMIN = case_when(
+    str_to_lower(text) %in% city_hongkong  ~ "Hong Kong",
+    str_to_lower(text) %in% city_macau     ~ "Macau",
+    str_to_lower(text) %in% city_singapore ~ "Singapore",
+    TRUE ~ ADMIN
+  ))
+
+# Correct a known geocoding error: the bare toponym "Yunnan" resolves to a park of
+# that name in Singapore rather than the Chinese province, which places it outside
+# every land polygon. Move the point to the provincial centre and assign it to China.
+.yunnan <- which(str_to_lower(complete_spacy_PA_geo$text) == "yunnan")
+if (length(.yunnan)) {
+  st_geometry(complete_spacy_PA_geo)[.yunnan] <-
+    st_sfc(st_point(c(102.7, 25.0)), crs = st_crs(complete_spacy_PA_geo))[rep(1L, length(.yunnan))]
+  complete_spacy_PA_geo$ADMIN[.yunnan] <- "China"
+}
+
+# Correct the geocode for Taipei: its true position (~121.56 E, 25.04 N) is rounded
+# by the one-degree grid to 122 E, 25 N, which lands offshore east of the city and so
+# drops into the maritime residual instead of Taiwan. Move it to the city centre.
+.taipei <- which(str_to_lower(complete_spacy_PA_geo$text) == "taipei")
+if (length(.taipei)) {
+  st_geometry(complete_spacy_PA_geo)[.taipei] <-
+    st_sfc(st_point(c(121.56, 25.04)), crs = st_crs(complete_spacy_PA_geo))[rep(1L, length(.taipei))]
+  complete_spacy_PA_geo$ADMIN[.taipei] <- "Taiwan"
+}
+
+# Correct the geocode for "Japan Sea": Nominatim resolves the bare string to a point
+# east of Honshu (~142 E, 39 N), i.e. in the Pacific on the wrong side of Japan. Move
+# it to a representative point in the Sea of Japan, west of Honshu. It remains maritime
+# (open water outside every land polygon), so corpus membership is unchanged; only the
+# map marker moves to the correct side. ("Sea Of Japan" already resolves west of Japan.)
+.japansea <- which(str_to_lower(complete_spacy_PA_geo$text) == "japan sea")
+if (length(.japansea)) {
+  st_geometry(complete_spacy_PA_geo)[.japansea] <-
+    st_sfc(st_point(c(135, 40)), crs = st_crs(complete_spacy_PA_geo))[rep(1L, length(.japansea))]
+  complete_spacy_PA_geo$ADMIN[.japansea] <- "maritim"
+}
+
+# ── Fixed toponym corrections ─────────────────────────────────────────────────
+# Broad supranational regions → "Allgemein" (kept, not plotted). German, French,
+# possessive and official country-name variants → their canonical country with an
+# empty geometry, so they shade the country polygon. Standalone "Korea" → its own
+# bucket. A fixed set of sub-national toponyms that geocode offshore → an on-land
+# point. The stray Palau polygon hit → maritim. (db_sf_filter drops applied above.)
+.tl   <- function(x) tolower(trimws(as.character(x)))
+.crs  <- st_crs(complete_spacy_PA_geo)
+.empt <- function(n) st_sfc(rep(list(st_geometrycollection()), n), crs = .crs)
+
+.i <- which(.tl(complete_spacy_PA_geo$text) %in% .tl(c(
+  "South Asia", "Central Asia", "Asien", "Asie", "High Asia", "Ne Eurasia",
+  "South Asia's", "South Asia’s", "South Asia''")))
+if (length(.i)) {
+  complete_spacy_PA_geo$ADMIN[.i] <- "Allgemein"
+  st_geometry(complete_spacy_PA_geo)[.i] <- .empt(length(.i))
+}
+
+.variant <- c(
+  "chine" = "China", "japon" = "Japan", "volksrepublik china" = "China",
+  "volksrepublik" = "China", "people's republic of china" = "China",
+  "people’s republic of china" = "China", "people's republic" = "China",
+  "people’s republic" = "China", "nordkorea" = "North Korea",
+  "north korea's" = "North Korea", "north korea’s" = "North Korea",
+  "north korean's" = "North Korea", "north korean’s" = "North Korea",
+  "südkorea" = "South Korea", "south-korea" = "South Korea",
+  "south korea's" = "South Korea", "south korea’s" = "South Korea",
+  "sri lanka's" = "Sri Lanka", "sri lanka’s" = "Sri Lanka",
+  "philippinen" = "Philippines")
+.k <- .tl(complete_spacy_PA_geo$text); .i <- which(.k %in% names(.variant))
+if (length(.i)) {
+  complete_spacy_PA_geo$text[.i]  <- unname(.variant[.k[.i]])
+  complete_spacy_PA_geo$ADMIN[.i] <- unname(.variant[.k[.i]])
+  st_geometry(complete_spacy_PA_geo)[.i] <- .empt(length(.i))
+}
+
+.i <- which(.tl(complete_spacy_PA_geo$text) %in% c("korea", "corée", "coree"))
+if (length(.i)) {
+  complete_spacy_PA_geo$text[.i]  <- "Korea"
+  complete_spacy_PA_geo$ADMIN[.i] <- "Korea"
+  st_geometry(complete_spacy_PA_geo)[.i] <- .empt(length(.i))
+}
+
+.pts <- tibble::tribble(
+  ~text_l,               ~ADMIN,        ~lon,    ~lat,
+  "pearl river delta",   "China",       113.3,   23.1,
+  "pearl river estuary", "China",       113.3,   23.1,
+  "hangzhou",            "China",       120.2,   30.3,
+  "xiamen",              "China",       118.1,   24.6,
+  "hubei province",      "China",       114.3,   30.6,
+  "shenhu",              "China",       118.7,   24.7,
+  "north tianshan of",   "China",        86.0,   43.0,
+  "thai binh",           "Vietnam",     106.3,   20.4,
+  "red river delta",     "Vietnam",     105.8,   21.0,
+  "peninsular malaysia", "Malaysia",    101.7,    3.2,
+  "butterworth",         "Malaysia",    100.4,    5.4,
+  "puerto galera",       "Philippines", 121.0,   13.5,
+  "bandung district",    "Indonesia",   107.6,   -6.9)
+for (.r in seq_len(nrow(.pts))) {
+  .i <- which(.tl(complete_spacy_PA_geo$text) == .pts$text_l[.r])
+  if (length(.i)) {
+    st_geometry(complete_spacy_PA_geo)[.i] <-
+      st_sfc(st_point(c(.pts$lon[.r], .pts$lat[.r])), crs = .crs)[rep(1L, length(.i))]
+    complete_spacy_PA_geo$ADMIN[.i] <- .pts$ADMIN[.r]
+  }
+}
+
+complete_spacy_PA_geo$ADMIN[complete_spacy_PA_geo$ADMIN == "Palau"] <- "maritim"
+
+# collapse exact duplicates created by the relabelling above
+.key <- paste(complete_spacy_PA_geo$id, complete_spacy_PA_geo$text, complete_spacy_PA_geo$ADMIN,
+              st_as_text(st_geometry(complete_spacy_PA_geo)), sep = "\r")
+complete_spacy_PA_geo <- complete_spacy_PA_geo[!duplicated(.key), ]
+rm(.tl, .crs, .empt, .variant, .k, .i, .pts, .r, .key)
 
 
 # ══════════════════════════════════════════════
@@ -3055,6 +3220,17 @@ if (!is.null(cite_src) && all(c("id", "cited_by_count") %in% names(cite_src))) {
 } else {
   complete_works_PA$cited_by_count <- NA_integer_
 }
+
+# Drop work-less orphan researchers: keep only ORCIDs present in the works corpus.
+# Author-identity fragmentation (name/id variants across OpenAlex and ORCID) can
+# leave a Northern-German employment row whose publications are attributed to a
+# sibling id; such rows carry no work in the corpus, are invisible in the app, and
+# are absent from the analytic corpus. Removing them keeps the researcher tables
+# consistent with the works table.
+complete_researchers_PA <- complete_researchers_PA %>%
+  filter(orcid %in% complete_works_PA$orcid)
+complete_researchers_PA_latest <- complete_researchers_PA_latest %>%
+  filter(orcid %in% complete_works_PA$orcid)
 
 # Write final output files
 write_csv(complete_works_PA, "complete_works_PA.csv")
@@ -3266,6 +3442,26 @@ if (!dir.exists(app_dir)) {
     write_rds(read_sf("complete_spacy_PA_geo.geojson"),
               file.path(app_dir, "complete_spacy_PA_geo.rds"),
               compress = "gz")
+  }
+
+  # Country polygons for the app/figures = the Section-4 country reference PLUS a
+  # merged "Korea" polygon (North + South Korea union), so a standalone "Korea"
+  # mention shades the whole peninsula. The union goes ONLY into this app copy,
+  # never into the sf_countries used for the Section-19 spatial join (a Korea
+  # polygon there would double-match points already inside North or South Korea).
+  if (exists("sf_countries")) {
+    .cty <- sf_countries
+    if (!"Korea" %in% .cty$NAME) {
+      .pair <- .cty[.cty$NAME %in% c("North Korea", "South Korea"), ]
+      .kr <- .pair[1, ]
+      st_geometry(.kr) <- st_union(st_geometry(.pair))
+      .kr$NAME <- "Korea"
+      if ("ADMIN" %in% names(.kr)) .kr$ADMIN <- "Korea"
+      .cty <- rbind(.cty, .kr)
+    }
+    write_sf(.cty, file.path(app_dir, "sf_countries_PA.geojson"),
+             append = FALSE, delete_dsn = TRUE)
+    rm(.cty)
   }
 
   # Small Northern-German institution name set for the app (a few hundred

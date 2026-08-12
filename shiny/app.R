@@ -49,6 +49,7 @@ library(viridisLite)      # Color scales for visualization
 # Geospatial analysis
 library(sf)               # Simple features for spatial data
 library(leaflet)          # Interactive maps (Karte tab)
+library(leaflet.extras2)  # client-side PNG export of the map
 
 # File export
 library(writexl)          # Excel file export
@@ -92,8 +93,9 @@ region_mapping <- list(
   korea    = c("South Korea", "North Korea", "Korea"),
   taiwan   = "Taiwan",
   maritim  = "maritim",
+  hongkong = c("Hong Kong", "Macau"),
   sonstige = c("Bhutan","India", "Bangladesh", "Mongolia", "Russia", "Sri Lanka", "Nepal","Kyrgyzstan","Allgemein"),
-  sea      = c("Thailand", "Vietnam", "Philippines", "Indonesia", "Brunei", 
+  sea      = c("Thailand", "Vietnam", "Philippines", "Indonesia", "Brunei",
                "Myanmar", "Burma", "Laos", "Cambodia", "Malaysia", "Singapore")
 )
 
@@ -133,6 +135,7 @@ region_mapping_basic <- list(
   korea    = "Korea",
   taiwan   = "Taiwan",
   maritim  = "Meeren in Asien",
+  hongkong = "Hongkong & Macau",
   sea      = "Südostasien",
   sonstige = "sonstigen Gebieten"
 )
@@ -287,14 +290,12 @@ complete_prizes_PA <- read_rds("complete_funding_PA.rds")
 sf_countries <- read_sf("sf_countries_PA.geojson")   # pipeline input; not compacted
 complete_spacy_PA_geo <- local({
   g <- read_rds("complete_spacy_PA_geo.rds")
-  # Post-hoc coordinate fix (the data-generation script clean_mining.R is left
-  # unchanged by request): these regions were geocoded to bogus points — e.g.
+  # Coordinate corrections for a few regions geocoded to out-of-place points — e.g.
   # "Western China" on the east coast (~120E, 32N), "Central Asia" in the Indian
-  # Ocean (~102E, 3N), "South Asia" east of the Philippines (~125E, 11N).
-  # Reassign every occurrence to a representative location at app bootup only.
-  # All targets are kept inside the project bbox (clean_mining.R config: lon
-  # 80-150, lat 0-50). Central Asia's and South Asia's true centres lie at/near
-  # lon <80, so they are placed at their eastern, in-bbox extent.
+  # Ocean (~102E, 3N), "South Asia" east of the Philippines (~125E, 11N). Each
+  # occurrence is reassigned to a representative location inside the project bbox
+  # (lon 80-150, lat 0-50); Central Asia and South Asia have true centres near
+  # lon <80 and are placed at their eastern, in-bbox extent.
   fixes <- list(
     "western china" = c(90, 36),   # Qinghai / Tibetan Plateau (western interior China)
     "central asia"  = c(82, 45),   # eastern Kazakhstan (Central Asia's eastern, in-bbox edge)
@@ -1405,6 +1406,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                                         "🗾️ Japan" = "japan",
                                                         "⛰️️️ Korea" = "korea",
                                                         "🌊 Maritim" = "maritim",
+                                                        "🏙️ Hongkong & Macau" = "hongkong",
                                                         "🗺️ Sonstige" = "sonstige",
                                                         "🌏️️ Südostasien" = "sea",
                                                         "🏞️️️ Taiwan" = "taiwan"
@@ -1935,7 +1937,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                          <p>Mit den nun gewonnen Daten – Überschrift der Publikation und, wo vorhanden, Keywords und Abstract – wird auf zwei einander ergänzende Weisen ermittelt, welche geografischen Räume in den Texten besprochen werden. Zum einen durchsuchen sogenannte reguläre Ausdrücke („Regular expressions“, kurz Regex) die Metadaten nach einer vorab festgelegten Liste von Schlüsselbegriffen wie „China“ oder „Beijing“. Zum anderen kommt maschinelle Sprachverarbeitung („Natural language processing“, kurz NLP) zum Einsatz, genauer die Eigennamenerkennung („Named-entity recognition“, kurz NER); ihr Vorteil ist, dass keine Liste an relevanten Ortsnamen vordefiniert werden muss, sondern eine undefinierte Anzahl von Orten – klein wie groß, Städte wie Flüsse, bekannt oder unerwartet – gefunden werden kann. Die Eigennamenerkennung nutzt hierbei grammatikalische Regeln, beispielsweise Deklinationen und Pronomina, um die Funktion und den Inhalt einzelner Worte eines Satzes zu bestimmen. Die Treffer beider Verfahren werden anschließend zusammengeführt.</p>
                                          <p>Im letzten Schritt können dann alle mittels der Eigennamenerkennung erkannten Orte („Locations“, kurz LOC) und geopolitische Einheiten („Geopolitical entities“, kurz GPE) über die „<a href=\"https://nominatim.org/release-docs/develop/api/Overview/\" target=\"_blank\">Nominatim</a>“-API des Geolokalisationsdienstes OpenStreetMap (<a href=\"https://www.openstreetmap.org/\" target=\"_blank\">OSM</a>) geografisch verortet werden. Das heißt, die die OSM-Suchfunktion ermittelt die wahrscheinlichsten geografischen Koordinaten für alle auftauchenden Raumbezeichnungen. Diese können dann auf einer Karte verzeichnet werden und eine Raumanalyse filtert die Ergebnisse so, dass am Ende nur noch jene Publikationen übrigbleiben, die von Orten sprechen, welche sich in der Region Asien-Pazifik befinden.</p>
                                          <p>Nach der ausgiebigen Datenschürfung und -verarbeitung bleibt also ein Korpus aller Forschender in Norddeutschland übrig, die nachweislich zu Ostasien gearbeitet haben bzw. deren Publikationen zumindest prominent in Überschrift oder Abstract Orte in der Region benennen.</p>
-                                         <p>Die Einteilung der Forschenden in einen von acht Fachbereichen erfolgte zunächst manuell auf Basis der letztgemeldeten Einrichtung der Forschenden. Wo sich auf diesem Weg kein Fachbereich ergab, wurde ergänzend ein lokal betriebenes KI-Sprachmodell (das quelloffene Modell „Qwen“) herangezogen, das aus den Publikationstiteln einer Person einen Fachbereich vorschlägt; die manuelle Zuordnung hat dabei stets Vorrang. Die Taxonomie orientiert sich an den <a href=\"https://www.uni-kiel.de/de/universitaet/einrichtungen-fakultaeten/fakultaeten-gemeinsame-einrichtungen\">Fakultäten der CAU</a>, muss mit diesen aber nicht kongruent sein.</p>
+                                         <p>Die Einteilung der Forschenden in einen von acht Fachbereichen beruht auf einer kuratierten Zuordnung von Einrichtung und Abteilung zum jeweiligen Fachbereich; wo diese nicht greift, wird der Fachbereich einer Person unmittelbar aus ihren Publikationen bestimmt. Für die im Artikel ausgewertete Kerngruppe wurde jede Zuordnung von Hand anhand der Publikationen geprüft. Nur wo sich auch auf diesem Weg kein Fachbereich ergibt, schlägt ergänzend ein lokal betriebenes KI-Sprachmodell (das quelloffene Modell „Qwen“) aus den Publikationstiteln einen Fachbereich vor; die kuratierte bzw. von Hand geprüfte Zuordnung hat dabei stets Vorrang. Die Taxonomie orientiert sich an den <a href=\"https://www.uni-kiel.de/de/universitaet/einrichtungen-fakultaeten/fakultaeten-gemeinsame-einrichtungen\">Fakultäten der CAU</a>, muss mit diesen aber nicht kongruent sein.</p>
                                          <p>Über die Publikationen hinaus werden zudem die Literaturverzeichnisse (Referenzen) der erfassten Beiträge ausgewertet, soweit sie über OpenAlex vorliegen. Sie bilden die Grundlage für die Zitationsnetzwerke des Atlas – etwa die Frage, welche Autor:innen oder Werke häufig gemeinsam zitiert werden.</p>
                                          <p>Mit dem gefilterten Korpus können die eigentlichen Analysen angestellt werden.</p>"
                                        )))),
@@ -2307,7 +2309,7 @@ server <- function(input, output, session) {
   }, ignoreInit = TRUE)  # <-- this prevents firing on load
   
   observeEvent(input$select_all_regions, {
-    all_choices <- c("japan", "korea", "maritim", "sonstige", "china", 
+    all_choices <- c("japan", "korea", "maritim", "hongkong", "sonstige", "china",
                      "sea", "taiwan")
     
     updateCheckboxGroupButtons(
@@ -2350,11 +2352,15 @@ server <- function(input, output, session) {
     if(nrow(plotted_points)>0){
       
       # Round coordinates to 1 decimal place for geographic clustering
-      # This groups nearby locations together to reduce visual clutter
+      # This groups nearby locations together to reduce visual clutter.
+      # Note: pipeline points are already snapped to whole degrees by
+      # st_set_precision(1), so 1-decimal rounding leaves them unchanged; it only
+      # preserves the finer position of hand-corrected points (e.g. Taipei), which
+      # whole-degree rounding would push back offshore.
       coords_rounded <- st_cast(plotted_points, "POINT") %>%
         st_coordinates() %>%
         as.data.frame() %>%
-        mutate(X = round(X, 0), Y = round(Y, 0))
+        mutate(X = round(X, 1), Y = round(Y, 1))
       
       # Build one st_point per rounded coordinate
       rounded_geometry <- lapply(seq_len(nrow(coords_rounded)), function(i) {
@@ -2400,7 +2406,13 @@ server <- function(input, output, session) {
       # western tip (~68-70°E) and Sri Lanka's south sit just outside the initial
       # frame, but the polygons are complete now — pan/zoom out to see them.
       fitBounds(70, 8, 146, 49) %>%
-      addControl(HTML(title_html), position = "topright")
+      addControl(HTML(title_html), position = "topright") %>%
+      # Download the current map view as a PNG (client-side; see library note).
+      addEasyprint(options = easyprintOptions(
+        title      = "Karte als Bild speichern",
+        position   = "topleft",
+        exportOnly = TRUE,
+        filename   = "atlas-ostasienforschung-karte"))
 
     # Whole countries that are named, shaded by mention frequency.
     has_countries <- nrow(plotted_points_countries) > 0 &&
@@ -2861,6 +2873,10 @@ server <- function(input, output, session) {
       count(text) %>%
       arrange(-n)
     
+    # Split into country polygons (text is a country name) and point markers.
+    # A standalone "Korea" mention colours the whole peninsula via the merged
+    # "Korea" polygon in sf_countries_PA.geojson; "South Korea" / "North Korea"
+    # mentions colour their own polygons.
     plotted_points_countries <- plotted_points %>%
       filter(text %in% sf_countries$NAME) %>%
       st_drop_geometry() %>%
@@ -2868,7 +2884,7 @@ server <- function(input, output, session) {
       left_join(sf_countries,by="NAME") %>%
       arrange(n) %>%
       st_as_sf()
-    
+
     plotted_points <- plotted_points %>%
       filter(!text %in% sf_countries$NAME)
     
