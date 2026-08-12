@@ -3176,6 +3176,21 @@ complete_works_PA <- complete_works_PA %>%
   ungroup() %>%
   select(-temp)
 
+# Drop a preprint (Vorabdruck) when the SAME author already holds a non-preprint
+# publication sharing the first four title words — i.e. its published version is
+# already in the corpus, so the preprint is a duplicate. Reuses the same
+# first-4-words-per-author key as the OpenAlex dedup above, extended across type.
+# (Robust to the trivial title changes between a preprint and its published form
+#  — "Part 1." vs "Part 1:", typo fixes, minor rewording — that a full-title
+#  match would miss; the same-author constraint prevents generic-opener collisions.)
+complete_works_PA <- complete_works_PA %>%
+  mutate(.pp_f4 = tolower(title_title_value) %>% str_split("\\s+") %>%
+           map_chr(~ str_c(head(.x, 4), collapse = " "))) %>%
+  group_by(orcid, .pp_f4) %>%
+  filter(!(type == "preprint" & any(type != "preprint"))) %>%
+  ungroup() %>%
+  select(-.pp_f4)
+
 complete_works_PA <- complete_works_PA %>%
   filter(orcid %in% complete_researchers_PA_latest$orcid)
 

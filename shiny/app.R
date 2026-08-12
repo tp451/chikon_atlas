@@ -3169,7 +3169,16 @@ server <- function(input, output, session) {
     }
 
     region_counts$region <- factor(region_counts$region, levels = region_counts$region)
-    pal <- viridisLite::plasma(nrow(region_counts), begin = 0.1, end = 0.9, direction = -1)
+    # Qualitative palette: distinct hues so adjacent pie slices are easy to tell
+    # apart. A sequential palette (e.g. plasma) blurs neighbouring slices into
+    # near-identical shades. Brand magenta first, then Okabe-Ito-style colours
+    # (colour-blind friendly); the long-tail "Sonstige" slice is always grey.
+    qual <- c("#9b0a7d", "#0072B2", "#E69F00", "#009E73", "#D55E00",
+              "#56B4E9", "#CC79A7", "#8C6D31")
+    .lv <- levels(region_counts$region)
+    pal <- setNames(rep("#B0AAA2", length(.lv)), .lv)          # grey default (Sonstige)
+    .real <- setdiff(.lv, "Sonstige")
+    pal[.real] <- qual[seq_along(.real)]
 
     ggplot(region_counts, aes(x = "", y = n, fill = region)) +
       geom_col(width = 1, color = "white", linewidth = 0.4) +
@@ -3317,10 +3326,15 @@ server <- function(input, output, session) {
     if (!is.null(clicked_node) && nrow(clicked_node) > 0) {
       # Ensure clicked_node has a valid path
       path_value <- clicked_node$id
-      # The publication's (filtered) authors, for clickable author links.
-      authors_df <- filtered_pubs() %>%
-        filter(id == path_value) %>%
-        distinct(last, first, name_value)
+      # The publication's corpus co-authors — ALL of them, from the global works
+      # and researcher tables, for clickable author links. Deriving these from
+      # filtered_pubs() (as before) meant an author-name search — e.g. arriving via
+      # a co-author link — shrank the list to just that author, so genuine
+      # co-authors vanished depending on the navigation path.
+      authors_df <- complete_researchers_PA_latest %>%
+        filter(orcid %in% complete_works_PA$orcid[complete_works_PA$id == path_value]) %>%
+        distinct(last, first, name_value) %>%
+        filter(!is.na(name_value))
       keywords <- complete_spacy_PA_keywords %>%
         filter(id == path_value)
 
