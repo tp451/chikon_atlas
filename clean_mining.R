@@ -1,7 +1,7 @@
 ############################################################
 #  Atlas der Ostasien-Forschung in Norddeutschland         #
 #  Mining von ORCiD, Crossref, & OpenAlex                  #
-#  Thorben Pelzer 2025                                     #
+#  Thorben Pelzer 2025-2026                                #
 #  CC BY-SA 4.0                                            #
 ############################################################
 #
@@ -15,6 +15,7 @@
 #   - universities.csv        : org-name harmonisation table
 #   - departments.csv         : dept-name harmonisation table
 #   - faculties.csv           : faculty classification table
+#   - researcher_faculties.csv: per-researcher faculty overrides (optional)
 #   - faculties_ollama.csv    : cached LLM faculty predictions (auto-generated)
 #   - org_merges_ollama.csv   : cached LLM same-org verdicts (auto-generated, Section 16a)
 #   - org_hierarchy_ollama.csv: cached LLM parent/child verdicts (auto-generated, Section 16b)
@@ -30,6 +31,10 @@
 #   - complete_funding_PA.csv            : funding information
 #   - years_normal.csv                   : pub counts by year
 #   - counted_coop_countries.csv         : co-author countries
+#   - references_edges.csv               : paper -> reference edges
+#   - references_meta.csv                : labels/metadata for those references
+#   - citation_edges_direct.csv          : intra-corpus citation edges
+#   - shiny/*.rds                        : all of the above, compacted for the app
 #
 # Workflow:
 #   1. Configure  -->  2. Load libraries  -->  3. Define keywords
@@ -51,18 +56,21 @@
 #  18. Data cleaning: publications
 #  19. Data cleaning: keywords & geodata
 #  20. Final outputs & exports
+#  21. Citation networks (co-citation, coupling, direct)
+#  22. Compact outputs to .rds for the Shiny app
 #
 # Dependencies:
 #   tidyverse, anytime, lubridate, janitor, usethis, pbapply,
 #   stringr, stringi, stringdist, xml2, htmltools, spacyr, cld3,
 #   openalexR, rcrossref, rorcid, synthesisr, sf, tidygeocoder,
-#   httr2, jsonlite
+#   httr2, jsonlite, reticulate
 #
 # Usage:
 #   Source the script section-by-section, using the
 #   checkpoint .rds/.csv files to restart after expensive
-#   API operations. Each section reads its own checkpoint
-#   at the top and writes one at the bottom.
+#   API operations. Most sections read a checkpoint at the
+#   top and write one at the bottom; the cleaning sections
+#   (17-19) work in memory on the tables loaded at Section 17.
 ############################################################
 
 
@@ -76,13 +84,29 @@
 config <- list(
   openalex_email   = Sys.getenv("OPENALEX_EMAIL", ""),
   openalex_apikey  = Sys.getenv("OPENALEX_APIKEY", ""),
-  # spaCy Python: managed by spacyr in its own "r-spacyr" virtualenv (provision
-  # it with setup_python.R). To use a different Python, set the RETICULATE_PYTHON
-  # env var (spacyr honours it); SPACY_PYTHON overrides just the virtualenv name.
   year_range       = 2000:2025,
   bbox             = c(xmin = 80, xmax = 150, ymin = 0, ymax = 50),
-  api_retry_tries  = 3,
-  api_retry_wait   = 30,
+  # OpenAlex returns transient 504s under load (measured 2026-08-25: a trivial
+  # 1-institution, 6-day query took 1.6-9.9 s and failed 1 in 12). Retries are
+  # therefore generous and backed off exponentially rather than fixed.
+  api_retry_tries  = 5,
+  api_retry_wait   = 10,
+  # Section 6 re-harvests only years whose .rds is missing. TRUE forces every
+  # year to be fetched again.
+  refetch_years    = FALSE,
+  # Institution RORs per works query. OpenAlex rejects request URLs over
+  # 8190 bytes; openalexR spends ~36 bytes per ROR, so 100 keeps the URL near
+  # 4 KB with room for the date filters. See the Section 6 note.
+  ror_chunk_size   = 100L,
+  min_window_days  = 7L,
+  # Target works per fetched slice. openalexR discards a whole call when any
+  # page fails, so P(success) = p^pages; at 200 works per page a 400-work window
+  # is two pages, which lands ~85% of the time even at the degraded ~92%
+  # per-request rate — and effectively always within the retry budget.
+  max_works_per_window = 400,
+  # Completed windows are cached here so a failed year does not throw away the
+  # work already done. Cleared automatically once a year is assembled.
+  harvest_cache    = ".harvest_cache",
   output_dir       = ".",
   # Ollama LLM faculty classifier
   ollama_url       = "http://localhost:11434/api/generate",
@@ -90,6 +114,9 @@ config <- list(
   ollama_cache     = "faculties_ollama.csv",
   # Org auto-merging (Section 16a) and hierarchy detection (Section 16b)
   org_fuzzy_threshold   = 0.85,
+  # City tokens: two org names sharing one are candidates for the same
+  # institution, and the shared token itself is excluded from the substantive
+  # token-overlap test that qualifies the pair.
   org_place_tokens      = c("Bremen", "Clausthal", "Clausthal-Zellerfeld",
                             "Flensburg", "Greifswald", "Hamburg", "Kiel",
                             "Lübeck", "Luebeck", "Lüneburg", "Lueneburg",
@@ -97,7 +124,7 @@ config <- list(
   org_merge_cache       = "org_merges_ollama.csv",
   org_hierarchy_cache   = "org_hierarchy_ollama.csv",
   org_llm_batch_size    = 20L,
-  # City patterns shared by merge + hierarchy (lowercased, used for skip-list)
+  # Structural words dropped before an org name is tokenised (both sections)
   org_stopwords         = c("of", "the", "der", "die", "das", "den", "des",
                             "zu", "in", "im", "am", "auf", "and", "und",
                             "for", "für", "fur", "an", "von", "vom", "to")
@@ -111,14 +138,27 @@ if (nzchar(config$openalex_apikey)) {
           "Get one free at https://openalex.org/settings/api and set OPENALEX_APIKEY env var.")
 }
 
+# openalexR 2.x cannot parse the current OpenAlex works schema: oa2df builds a
+# duplicated `id` column and EVERY works fetch dies. That is permanent, not
+# transient, so unguarded it burns the whole Section 6 retry budget on every
+# year and leaves the harvest silently empty.
+if (packageVersion("openalexR") < "3.0.0") {
+  stop("openalexR ", packageVersion("openalexR"), " is too old: it cannot parse the ",
+       "current OpenAlex works schema (oa2df: 'Column name `id` must not be ",
+       "duplicated'). Run install.packages(\"openalexR\") to get >= 3.0.0, then ",
+       "restart R.")
+}
+
 # ── spaCy Python (Windows DLL fix) ─────────────────────────────────────────
-# spacyr loads spaCy from its "r-spacyr" virtualenv. On Windows that venv is
-# layered on the r-miniconda base, and reticulate does NOT activate conda's
-# DLL directories for a *virtualenv*, so python3xx.dll's conda dependencies
-# fail to resolve — a failed native load that aborts the R session with a
-# 0xC0000005 access violation (it surfaces on whatever line is running, often
-# the first read_csv). Prepending the conda DLL dirs to PATH here, before spaCy
-# is ever initialised (Sections 8, 14), makes those dependencies resolvable.
+# spacyr loads spaCy from its own "r-spacyr" virtualenv; provision that venv
+# (Python, spaCy and the four language models) with setup_python.R before the
+# first run. On Windows the venv is layered on the r-miniconda base, and
+# reticulate does NOT activate conda's DLL directories for a *virtualenv*, so
+# python3xx.dll's conda dependencies fail to resolve — a failed native load
+# that aborts the R session with a 0xC0000005 access violation (it surfaces on
+# whatever line is running, often the first read_csv). Prepending the conda DLL
+# dirs to PATH here, before spaCy is ever initialised (Sections 8, 14), makes
+# those dependencies resolvable.
 # Harmless if the venv is not conda-based: the dirs simply won't exist.
 if (.Platform$OS.type == "windows") {
   conda_base <- tryCatch(reticulate::miniconda_path(), error = function(e) "")
@@ -181,10 +221,8 @@ library(tidygeocoder) # Geocoding using various APIs
 # ══════════════════════════════════════════════
 # SECTION 3: Keyword Dictionaries
 # ──────────────────────────────────────────────
-# Purpose: Define country/region keyword vectors used
+# Purpose: Define the country/region keyword vectors used
 #          for regex matching of publication titles.
-#          unique() is applied when building the combined
-#          vector to guard against accidental duplicates.
 # ══════════════════════════════════════════════
 
 institutions <- c("Kiel",
@@ -959,45 +997,226 @@ expected_cols <- c("title", "authorships", "doi", "publication_year", "type",
                     "referenced_works", "referenced_works_count",
                     "is_oa", "is_oa_anywhere", "oa_status", "language")
 
+# Backfill any key this section needs but does not find in `config`, so it can
+# be sourced on its own without failing mid-year - an absent key reaches
+# dir.exists(NULL), which raises "invalid filename argument". Report which ones
+# were missing rather than substituting silently.
+.s6_defaults <- list(refetch_years        = FALSE,
+                     ror_chunk_size       = 100L,
+                     min_window_days      = 7L,
+                     max_works_per_window = 400,
+                     harvest_cache        = ".harvest_cache",
+                     api_retry_tries      = 5L,
+                     api_retry_wait       = 10)
+for (.k in names(.s6_defaults)) {
+  if (is.null(config[[.k]])) {
+    message("config$", .k, " is missing - using ", format(.s6_defaults[[.k]]),
+            " (re-source Section 1 to set it explicitly)")
+    config[[.k]] <- .s6_defaults[[.k]]
+  }
+}
+rm(.s6_defaults, .k)
+
+ror_all <- unique(insts_chikon$ror_long)
+
+# ---- Section 6 fetch helpers -------------------------------------------------
+# openalexR raises on the FIRST failed page and throws the whole call away, so a
+# slice of P pages lands with probability p^P. At the ~92% per-request success
+# seen while the API is degraded, a 347-page year (~69k works) never completes,
+# no matter how often it is retried. Two things follow.
+#
+# 1. Size slices by COUNT, not by failure. `count_only = TRUE` is one cheap
+#    request that says how big a slice is; split it into ceil(n / max) windows
+#    up front. Deciding from a count instead of from a 504 also avoids the
+#    cascade a failure-driven split causes on a flaky API, where one unlucky
+#    timeout splits into windows that each fail again.
+# 2. Make progress DURABLE. Even at 400 works per window a year needs ~200
+#    requests, so sooner or later one exhausts its retries and, without a cache,
+#    discards the whole year. Every completed window is therefore written to
+#    config$harvest_cache and reused on the next run, so repeated runs converge
+#    instead of starting over.
+
+harvest_cache_dir <- function() {
+  d <- config$harvest_cache
+  if (!dir.exists(d)) dir.create(d, recursive = TRUE)
+  d
+}
+
+# Works in a slice, or NULL if the count itself could not be obtained.
+oa_count <- function(rors, from, to) {
+  for (attempt in seq_len(config$api_retry_tries)) {
+    n <- tryCatch(
+      oa_fetch(entity = "works",
+               from_publication_date = as.character(from),
+               to_publication_date   = as.character(to),
+               authorships.institutions.ror = rors,
+               count_only = TRUE, verbose = FALSE)$count[1],
+      error = function(e) NULL)
+    if (!is.null(n) && !is.na(n)) return(as.numeric(n))
+    if (attempt < config$api_retry_tries) {
+      Sys.sleep(min(config$api_retry_wait * 2^(attempt - 1L), 120) * runif(1, 0.8, 1.2))
+    }
+  }
+  NULL
+}
+
+# One window: served from cache when possible, else fetched and retried, and on
+# exhaustion halved and retried recursively — down to a single day — as a
+# backstop.
+fetch_leaf <- function(rors, from, to, label, key) {
+  cf <- file.path(harvest_cache_dir(), sprintf("%s_%s_%s.rds", key, from, to))
+  if (file.exists(cf)) {
+    cached <- tryCatch(readRDS(cf), error = function(e) NULL)
+    if (!is.null(cached)) return(cached)
+    unlink(cf)
+  }
+  for (attempt in seq_len(config$api_retry_tries)) {
+    result <- tryCatch(
+      oa_fetch(entity = "works",
+               from_publication_date = as.character(from),
+               to_publication_date   = as.character(to),
+               authorships.institutions.ror = rors),
+      error = function(e) {
+        message("  ", label, " ", from, "..", to, " attempt ", attempt, "/",
+                config$api_retry_tries, ": ", conditionMessage(e))
+        structure(list(), class = "oa_fetch_error")
+      })
+    if (!inherits(result, "oa_fetch_error")) {
+      if (is.null(result)) result <- tibble()
+      tmp <- paste0(cf, ".tmp")
+      saveRDS(result, tmp)
+      if (file.exists(cf)) unlink(cf)
+      if (!file.rename(tmp, cf)) unlink(tmp)
+      return(result)
+    }
+    if (attempt < config$api_retry_tries) {
+      Sys.sleep(min(config$api_retry_wait * 2^(attempt - 1L), 120) * runif(1, 0.8, 1.2))
+    }
+  }
+  span <- as.integer(as.Date(to) - as.Date(from))
+  if (span < 1L) return(structure(list(), class = "oa_fetch_error"))
+  mid <- as.Date(from) + span %/% 2L
+  message("  ", label, ": retries exhausted, halving ", from, "..", to)
+  left <- fetch_leaf(rors, as.Date(from), mid, label, key)
+  if (inherits(left, "oa_fetch_error")) return(left)
+  right <- fetch_leaf(rors, mid + 1L, as.Date(to), label, key)
+  if (inherits(right, "oa_fetch_error")) return(right)
+  bind_rows(left, right)
+}
+
+# One (institution-chunk, year): count once, split proportionally, then fetch
+# each window through the cache.
+fetch_window <- function(rors, from, to, label, key) {
+  from <- as.Date(from); to <- as.Date(to)
+  # Cache the count as well as the windows. It saves a request per re-run, but
+  # mainly it keeps the window boundaries STABLE: a count that fails falls back
+  # to a different split, and the cached windows from the previous run would
+  # then no longer line up and be refetched.
+  nf <- file.path(harvest_cache_dir(), paste0(key, "_count.rds"))
+  n  <- if (file.exists(nf)) tryCatch(readRDS(nf), error = function(e) NULL) else NULL
+  if (is.null(n)) {
+    n <- oa_count(rors, from, to)
+    if (!is.null(n)) saveRDS(n, nf)
+  }
+  if (is.null(n)) {
+    message("  ", label, ": count unavailable, assuming a large slice")
+    n <- Inf
+  } else if (n == 0) {
+    return(NULL)                       # nothing here: skip the fetch entirely
+  }
+  span  <- as.integer(to - from)
+  parts <- if (is.finite(n)) ceiling(n / config$max_works_per_window) else 8
+  parts <- max(1L, min(as.integer(parts), span + 1L))
+  if (parts > 1L) {
+    message("  ", label, ": ",
+            if (is.finite(n)) format(n, big.mark = ",") else "many",
+            " works -> ", parts, " windows")
+  }
+  edges <- as.Date(floor(seq(as.numeric(from), as.numeric(to) + 1,
+                             length.out = parts + 1L)), origin = "1970-01-01")
+  out <- NULL
+  for (k in seq_len(parts)) {
+    a <- edges[k]; b <- edges[k + 1L] - 1L
+    if (b < a) next
+    piece <- fetch_leaf(rors, a, b, label, key)
+    if (inherits(piece, "oa_fetch_error")) return(piece)
+    out <- bind_rows(out, piece)
+  }
+  out
+}
+
+# Years that errored on every attempt vs years that fetched cleanly but held
+# nothing. Only the first kind is a hole in the corpus.
+failed_years <- integer(0)
+empty_years  <- integer(0)
+skipped_years <- integer(0)
+
 for (i in years) {
+  year_file <- paste0("alex_all_pubs_", i, ".rds")
+  # Resume support. A year file is written only after that year fetched
+  # completely (and atomically, below), so an existing one is a finished year.
+  # Without this a re-run re-harvests gigabytes just to reach the year that
+  # failed, which on a throttled connection makes the next failure more likely.
+  if (file.exists(year_file) && !isTRUE(config$refetch_years)) {
+    skipped_years <- c(skipped_years, i)
+    message("Skipping year ", i, ": ", year_file, " already present ",
+            "(set config$refetch_years = TRUE to re-harvest)")
+    next
+  }
   message("Fetching year: ", i)
 
+  # OpenAlex rejects request URLs over 8190 bytes:
+  #   {"error":"Request URL too long", "message":"... Split a large Boolean
+  #    query into smaller chunks, request each separately, and combine the
+  #    returned IDs client-side."}
+  # All institution RORs OR'd into one filter build a ~15.6 KB URL, so the
+  # whole-year query is structurally invalid. Enforcement is uneven across
+  # their fleet, so an oversized query fails unpredictably — as a 400 (which
+  # jsonlite surfaces as "Argument 'txt' must be a JSON string, URL or file"),
+  # as a 504 gateway timeout, or occasionally not at all. So fetch each year in
+  # ROR chunks and stitch. A work affiliated with institutions in two chunks
+  # comes back from both, hence the dedup on the OpenAlex work id; dedup runs
+  # per chunk to keep peak memory near one chunk rather than all of them.
+  #
   # Retry transient API failures. A real error returns a sentinel so we retry;
   # a successful-but-empty fetch (NULL/0 rows) is a legitimate "no records"
   # result and must NOT be retried — distinguish the two via the sentinel.
+  ror_chunks    <- split(ror_all, ceiling(seq_along(ror_all) / config$ror_chunk_size))
   alex_all_pubs <- NULL
-  for (attempt in seq_len(config$api_retry_tries)) {
-    result <- tryCatch(
-      oa_fetch(
-        entity = "works",
-        from_publication_date = paste0(i, "-01-01"),
-        to_publication_date = paste0(i, "-12-31"),
-        authorships.institutions.ror = insts_chikon$ror_long
-      ),
-      error = function(e) {
-        message("  Attempt ", attempt, "/", config$api_retry_tries,
-                " failed for year ", i, ": ", conditionMessage(e))
-        structure(list(), class = "oa_fetch_error")
-      }
-    )
-    if (!inherits(result, "oa_fetch_error")) {
-      alex_all_pubs <- result  # may be NULL = legitimately no records
-      break
+  fetch_ok      <- TRUE
+  for (ci in seq_along(ror_chunks)) {
+    part <- fetch_window(ror_chunks[[ci]],
+                         paste0(i, "-01-01"), paste0(i, "-12-31"),
+                         sprintf("Year %d chunk %d/%d", i, ci, length(ror_chunks)),
+                         key = sprintf("y%d_c%02d", i, ci))
+    if (inherits(part, "oa_fetch_error")) { fetch_ok <- FALSE; break }
+    if (!is.null(part) && nrow(part) > 0) {
+      alex_all_pubs <- if (is.null(alex_all_pubs)) part else
+        bind_rows(alex_all_pubs, part)
+      # Dedup after every chunk, not once at the end, so peak memory stays near
+      # one chunk. This also drops the duplicates openalexR's cursor pagination
+      # emits on its own (~2.7% of rows in a single-chunk 2000 harvest), so it
+      # must run even when there is only one chunk.
+      alex_all_pubs <- distinct(alex_all_pubs, id, .keep_all = TRUE)
     }
-    if (attempt < config$api_retry_tries) Sys.sleep(config$api_retry_wait)
   }
+  if (!fetch_ok) alex_all_pubs <- NULL
 
+  if (!fetch_ok) {
+    failed_years <- c(failed_years, i)
+    warning("All ", config$api_retry_tries, " attempts failed for year ", i, ".")
+    next
+  }
   if (is.null(alex_all_pubs) || nrow(alex_all_pubs) == 0) {
-    warning("No records found (or all retries failed) for year ", i,
-            " — skipping.")
+    empty_years <- c(empty_years, i)
+    message("  No records for year ", i, " (fetched cleanly).")
     next
   }
 
   # Preserve the OpenAlex work-ID as a bare W-id BEFORE the DOI-based `id` is
   # created in Section 7 (which would otherwise overwrite it). This is what lets
   # references (also OpenAlex W-ids) be matched back to corpus papers — i.e. it
-  # enables a direct intra-corpus citation network (Section 21). Requires a
-  # re-harvest to populate for already-fetched years.
+  # enables a direct intra-corpus citation network (Section 21).
   if ("id" %in% names(alex_all_pubs)) {
     alex_all_pubs <- alex_all_pubs %>%
       mutate(openalex_id = sub(".*/", "", id))
@@ -1007,7 +1226,36 @@ for (i in years) {
   alex_all_pubs <- alex_all_pubs %>%
     select(any_of(c(expected_cols, "openalex_id")))
 
-  write_rds(alex_all_pubs, paste0("alex_all_pubs_", i, ".rds"))
+  # Atomic write: an interrupted write_rds would leave a truncated .rds that the
+  # resume check above would then trust as a finished year.
+  tmp_file <- paste0(year_file, ".tmp")
+  write_rds(alex_all_pubs, tmp_file)
+  if (file.exists(year_file)) unlink(year_file)
+  if (!file.rename(tmp_file, year_file)) {
+    unlink(tmp_file)
+    stop("Could not finalise ", year_file, " - check disk space and permissions.")
+  }
+  # The year is safe on disk; its window cache is no longer needed.
+  unlink(list.files(harvest_cache_dir(), pattern = sprintf("^y%d_c", i),
+                    full.names = TRUE))
+}
+
+# A year that never fetched is a hole in the corpus, and every downstream section
+# reads the per-year files without noticing one is missing. Fail loudly: a
+# systemic break (schema change, expired key, network) otherwise looks exactly
+# like "no records found" and the run completes having harvested nothing.
+if (length(failed_years) > 0) {
+  stop("Harvest incomplete: ", length(failed_years), " of ", length(years),
+       " years failed every attempt (", paste(failed_years, collapse = ", "),
+       "). Fix the cause and re-run; do not continue with a partial corpus.")
+}
+if (length(skipped_years) > 0) {
+  message("Years already present, not re-fetched: ", length(skipped_years),
+          " of ", length(years))
+}
+if (length(empty_years) > 0) {
+  message("Years with no records (fetched cleanly): ",
+          paste(empty_years, collapse = ", "))
 }
 
 # Read and combine all year-files. Skip any years whose fetch was skipped or
@@ -1106,7 +1354,7 @@ rm(matched_keywords_df, pre_filtered)
 # ──────────────────────────────────────────────
 # Purpose: Run spaCy NER on all abstracts to find
 #          Asia-related geographic entities missed by regex.
-# Input:   alex_all_pubs.rds
+# Input:   alex_all_pubs (Section 7), alex_matched_by_regex.rds
 # Output:  entities_alex_abstracts.rds
 # ══════════════════════════════════════════════
 
@@ -1171,7 +1419,7 @@ geo_entities_complete_alex <- entities_alex_abstracts %>%
 chunks <- split(geo_entities_complete_alex,
                 ceiling(seq_along(geo_entities_complete_alex$text) / 1000))
 
-# Auto-detect resume point: skip chunks that already have output files
+# Auto-detect the resume point: continue after the highest chunk already written
 existing_chunks <- list.files(pattern = "geo_entities_chunk_\\d+\\.csv$") %>%
   str_extract("\\d+") %>% as.integer()
 start_chunk <- if (length(existing_chunks) > 0) max(existing_chunks) + 1L else 1L
@@ -1310,15 +1558,98 @@ chikon_pubs_unnest$ror <- sub(".*org/", "", chikon_pubs_unnest$authorships_affil
 chikon_pubs_unnest$orcid <- sub(".*org/", "", chikon_pubs_unnest$authorships_orcid)
 chikon_pubs_unnest$doi <- sub(".*org/", "", chikon_pubs_unnest$doi)
 
+# Stable per-person key: ORCiD where present, else the display name. Both guards
+# below need one, and neither may key on `authorships_orcid` directly: that pools
+# EVERY ORCiD-less author into a single NA group, which inflates org_count and
+# blanks far more raw affiliations than intended.
+chikon_pubs_unnest <- chikon_pubs_unnest %>%
+  mutate(author_key = case_when(
+    !is.na(orcid) & nzchar(orcid) ~ orcid,
+    !is.na(authorships_display_name) & nzchar(authorships_display_name) ~
+      str_c("name::", authorships_display_name),
+    TRUE ~ str_c("row::", row_number())))
+
 # When an author's raw affiliation maps to multiple orgs, set raw to NA
 chikon_pubs_unnest <- chikon_pubs_unnest %>%
-  group_by(authorships_orcid, authorships_affiliation_raw) %>%
+  group_by(author_key, authorships_affiliation_raw) %>%
   mutate(
     org_count = n_distinct(authorships_affiliations_display_name),
     authorships_affiliation_raw = if_else(org_count > 1, NA_character_, authorships_affiliation_raw)
   ) %>%
   select(-org_count) %>%
   ungroup()
+
+# ── Guard: co-author affiliation leakage ("shared affiliation blob") ────────
+# Many publishers print all author affiliations as ONE undifferentiated footnote
+# block. Where OpenAlex cannot split that block per author it attaches the WHOLE
+# set of raw strings and institutions to EVERY authorship, so every author
+# inherits their co-authors' employers. Example: "Der Reis und das Wasser"
+# (10.1002/fors.200490031, Forschung 2004) hands its Kiel agronomist both Kiel
+# (their own institution) and China Agricultural University (their Beijing
+# co-author's) — the sole origin of a phantom CAU-Beijing affiliation.
+#
+# The API still pairs each raw string with its own institution ids under
+# authorships[].affiliations, but openalexR drops that pairing: its `affiliations`
+# sub-df is the flat institutions list, and `affiliation_raw` keeps only ONE
+# arbitrary raw string (in the example above, the CO-AUTHOR's line). The true
+# affiliation therefore cannot be reconstructed here — only detected and removed.
+#
+# Signature: a work with >= 2 authors where EVERY author carries the IDENTICAL set
+# of >= 2 institutions. Genuine dual affiliations are essentially never uniform
+# across a whole author list.
+#
+# Repair: on such a work keep only the institutions corroborated by that author's
+# OTHER (non-blob) rows, and drop the rest — but ONLY for authors we have such
+# independent evidence for. One-paper co-authors are left untouched: their real
+# employer is indistinguishable from their neighbour's, and blanking them would
+# strip genuine affiliations (above, the Beijing co-author's CAU post is real).
+# Where the drop would leave an author with no row at all on that work, the row
+# is kept and the institution blanked instead, so the publication is never lost.
+.has_org <- function(x) !is.na(x) & nzchar(x)
+
+.blob_works <- chikon_pubs_unnest %>%
+  filter(.has_org(authorships_affiliations_display_name)) %>%
+  group_by(id, author_key) %>%
+  summarise(orgset = str_c(sort(unique(authorships_affiliations_display_name)),
+                           collapse = " |#| "),
+            n_org  = n_distinct(authorships_affiliations_display_name),
+            .groups = "drop") %>%
+  group_by(id) %>%
+  summarise(n_auth = n(), n_sets = n_distinct(orgset), n_org = max(n_org),
+            .groups = "drop") %>%
+  filter(n_auth >= 2L, n_sets == 1L, n_org >= 2L) %>%
+  pull(id)
+
+.non_blob <- chikon_pubs_unnest %>%
+  filter(!id %in% .blob_works, .has_org(authorships_affiliations_display_name))
+.org_corrob <- .non_blob %>%
+  distinct(author_key, authorships_affiliations_display_name) %>%
+  mutate(org_corroborated = TRUE)
+.author_evidence <- .non_blob %>%
+  distinct(author_key) %>%
+  mutate(author_has_evidence = TRUE)
+
+chikon_pubs_unnest <- chikon_pubs_unnest %>%
+  left_join(.org_corrob, by = c("author_key", "authorships_affiliations_display_name")) %>%
+  left_join(.author_evidence, by = "author_key") %>%
+  mutate(is_leaked = id %in% .blob_works &
+                     .has_org(authorships_affiliations_display_name) &
+                     is.na(org_corroborated) & !is.na(author_has_evidence)) %>%
+  group_by(id, author_key) %>%
+  mutate(keeps_a_row = any(!is_leaked)) %>%
+  ungroup()
+message(sprintf(paste0("Section 11: %d shared-blob works -> removed %d leaked co-author ",
+                       "affiliations from %d researchers"),
+                length(.blob_works),
+                sum(chikon_pubs_unnest$is_leaked),
+                n_distinct(chikon_pubs_unnest$author_key[chikon_pubs_unnest$is_leaked])))
+chikon_pubs_unnest <- chikon_pubs_unnest %>%
+  filter(!(is_leaked & keeps_a_row)) %>%       # drop the phantom institution row …
+  mutate(                                      # … unless it is the author's only row
+    authorships_affiliations_display_name =    #     on that work: blank it instead
+      if_else(is_leaked, NA_character_, authorships_affiliations_display_name),
+    ror = if_else(is_leaked, NA_character_, ror)) %>%
+  select(-author_key, -org_corroborated, -author_has_evidence, -is_leaked, -keeps_a_row)
 
 # ── Guard: reject unreliable OpenAlex institution assignments ────────────────
 # Two OpenAlex disambiguation failures attach phantom employers to researchers:
@@ -1340,12 +1671,12 @@ chikon_pubs_unnest <- chikon_pubs_unnest %>%
 #          address, "Planton GmbH", dairy research and an economics centre, and
 #          NONE name a clinical/molecular-biology unit. It is the origin of the
 #          spurious "Institute of Clinical Molecular Biology" affiliations that
-#          Section 17 then produces (economists Görg/Loy/Revilla Diez, etc.).
-#          Real IKMB biologists reach Kiel via other RORs, so they are unaffected.
+#          Section 17 then produces — economists filed under a molecular-biology
+#          institute. Real IKMB biologists reach Kiel via other RORs, so they
+#          are unaffected.
 #
 # Rows that genuinely name an institution, or carry no raw string at all (a
 # structured match to a trustworthy ROR), are left untouched.
-# Ref: db-kiel affiliation audit 2026-08.
 bad_rors <- c("05sw1mq09")   # verified OpenAlex catch-all RORs — see note above
 if (!exists("insts_de")) insts_de <- readRDS("insts_de.rds")
 .aff_country <- c("germany","deutschland","usa","us","uk","china","prc","england","scotland",
@@ -1581,9 +1912,9 @@ complete_researchers_PA_alex <- read_csv("complete_researchers_PA_alex.csv", sho
 results_list <- list()
 
 for (i in c(insts_chikon$display_name, institutions)) {
-  # Remove any literal double quotes from institution names to prevent
-
-  # breaking the quoted ORCID API query (e.g. 'Cluster of Excellence "Inflammation at Interfaces"')
+  # Remove any literal double quotes from institution names to prevent breaking
+  # the quoted ORCID API query (e.g. 'Cluster of Excellence "Inflammation at
+  # Interfaces"')
   i <- gsub('"', '', i)
   cat("\n=== Institution:", i, "===\n")
 
@@ -1821,6 +2152,9 @@ abstracts_crossref <- map_dfr(seq_len(nrow(dois)), function(i) {
 
     if (!is.na(abstract_get) && abstract_get != "") break
 
+    # Single attempt by default: most misses are DOIs for which Crossref simply
+    # holds no abstract, so retrying them only costs time. Widen the loop above
+    # and restore this line if Crossref starts rate-limiting instead.
     # if (attempt < config$api_retry_tries) Sys.sleep(config$api_retry_wait)
   }
 
@@ -1865,8 +2199,6 @@ entities_orcid_abstracts <- purrr::map2_dfr(
   .counter_env = .counter_env
 )
 
-# FIX: was write_csv(..., "entities_orcid_abstracts.rds") — CSV with .rds extension.
-# Now correctly writes as .csv.
 write_csv(entities_orcid_abstracts, "entities_orcid_abstracts.csv")
 
 
@@ -2288,7 +2620,7 @@ distinct_orgs <- complete_researchers_PA %>%
   distinct(organization_name) %>%
   pull(organization_name)
 
-# Optional: fold confirmed Step-16a merges so canonical names are used everywhere
+# Optional: fold confirmed Section-16a merges so canonical names are used throughout
 if (file.exists(config$org_merge_cache)) {
   merges <- read_csv(config$org_merge_cache, show_col_types = FALSE) %>%
     filter(llm_confirmed %in% TRUE) %>%
@@ -2467,7 +2799,7 @@ complete_researchers_PA <- complete_researchers_PA %>%
 # Combine manual universities.csv with auto-confirmed pairs from Section 16a;
 # the manual file always wins on conflict.
 #
-# GUARD (2026-08): the Section-16a fuzzy/acronym generators occasionally link
+# GUARD: the Section-16a fuzzy/acronym generators occasionally link
 # two unrelated institutions that merely share a name fragment (e.g. the acronym
 # prefix "UM" of "University of Münster" matches "University Medical Center …").
 # Because the lookup below is iterated to a FIXED POINT, one bad edge lets whole
@@ -2501,9 +2833,9 @@ if (file.exists(config$org_merge_cache)) {
     filter(mapply(.org_share, organization_name, organization_name_harmonised))
   if (nrow(auto_merges) > 0) {
     # Manual file wins, and keep exactly ONE mapping per org key. Without the
-    # distinct(), universities_combined held ~600 duplicate keys and the join
-    # below (many-to-many) fanned every researcher row out across them, exploding
-    # the table and SCATTERING org names instead of merging them.
+    # distinct(), universities_combined carries ~600 duplicate keys and the
+    # many-to-many join below fans every researcher row out across them,
+    # exploding the table and SCATTERING org names instead of merging them.
     universities_combined <- bind_rows(universities, auto_merges) %>%
       distinct(organization_name, .keep_all = TRUE)
     message(sprintf("Section 17: %d auto-confirmed merges added (universities.csv had %d)",
@@ -2624,17 +2956,6 @@ complete_researchers_PA <- complete_researchers_PA %>%
       (str_count(xt, "\\S+") > 10 | grepl("(^|\\s)[b-df-hj-np-tv-z](\\s|$)", xt))
     ifelse(bad, NA_character_, department_name)
   })
-
-# Latest affiliation snapshot. Rows whose organisation is blank/"NA" are sorted
-# last within each ORCID, so slice(1) takes the most recent employment that
-# actually carries an organisation (falling back to a blank one only if none
-# exists) — otherwise the "letztdokumentierte Einrichtung" can come out empty.
-complete_researchers_PA_latest <- complete_researchers_PA %>%
-  group_by(orcid) %>%
-  arrange(is.na(organization_name) | organization_name == "NA" | trimws(organization_name) == "",
-          -start_date_year_value, desc(organization_address_city)) %>%
-  slice(1) %>%
-  ungroup()
 
 # Faculty assignment chain: manual lookup -> backfill within orcid -> Ollama LLM
 complete_researchers_PA <- complete_researchers_PA %>%
@@ -2766,9 +3087,6 @@ if (file.exists("researcher_faculties.csv")) {
 complete_researchers_PA[] <- lapply(complete_researchers_PA, function(x) {
   if (is.character(x)) iconv(x, from = "UTF-8", to = "UTF-8") else x
 })
-complete_researchers_PA_latest[] <- lapply(complete_researchers_PA_latest, function(x) {
-  if (is.character(x)) iconv(x, from = "UTF-8", to = "UTF-8") else x
-})
 
 # City-based institution filter
 city_mapping <- list(
@@ -2790,19 +3108,6 @@ filtered_researchers <- complete_researchers_PA %>%
            grepl(pattern, organization_name, ignore.case = TRUE))
 complete_researchers_PA <- complete_researchers_PA %>%
   filter(orcid %in% filtered_researchers$orcid)
-
-# Derive employment windows: start = this row's year, end = next row's year
-# Sorted by orcid and start year so lead() gives the next position's start
-complete_researchers_PA <- complete_researchers_PA %>%
-  arrange(orcid, start_date_year_value) %>%
-  group_by(orcid) %>%
-  mutate(
-    employment_start = start_date_year_value,
-    employment_end   = lead(start_date_year_value, default = Inf)
-  ) %>%
-  ungroup() %>%
-  mutate(employment_start = ifelse(is.na(employment_start), 0, employment_start)) %>%
-  mutate(employment_end = ifelse(is.na(employment_end), Inf, employment_end))
 
 # Try to assign ORCIDs to researchers without known ORCIDs:
 # If name+org matches a known ORCID holder, use that ORCID
@@ -2828,6 +3133,27 @@ complete_researchers_PA <- complete_researchers_PA %>%
 
 complete_researchers_PA <- complete_researchers_PA %>%
   filter(last != "AUTHOR_ID")
+
+# Latest-affiliation snapshot. Computed HERE, not earlier: it must be sliced
+# from the FINAL researcher table. Taken before the faculty chain it would
+# carry ~3500 of 6300 rows with an empty faculty, and taken before the
+# Northern-German filter and the placeholder-ORCiD merge it would keep some
+# thirty researchers the main table drops.
+# Rows whose organisation is blank/"NA" sort last within each ORCID, so slice(1)
+# takes the most recent employment that actually carries an organisation (falling
+# back to a blank one only if none exists) — otherwise the app's
+# "letztdokumentierte Einrichtung" field can come out empty.
+complete_researchers_PA_latest <- complete_researchers_PA %>%
+  group_by(orcid) %>%
+  arrange(is.na(organization_name) | organization_name == "NA" | trimws(organization_name) == "",
+          -start_date_year_value, desc(organization_address_city)) %>%
+  slice(1) %>%
+  ungroup()
+
+# Re-assert valid UTF-8 on the snapshot (the parent table was normalised above).
+complete_researchers_PA_latest[] <- lapply(complete_researchers_PA_latest, function(x) {
+  if (is.character(x)) iconv(x, from = "UTF-8", to = "UTF-8") else x
+})
 
 
 # ══════════════════════════════════════════════
@@ -3158,7 +3484,14 @@ rm(.tl, .crs, .empt, .variant, .k, .i, .pts, .r, .rank, .ispt, .xy, .ongrid)
 # Requires: alex_all_pubs.rds (Section 6), my_orcid_works.rds (Section 13),
 #           chikon_pubs_unnest.rds, chikon_pubs_unnest_ror.rds (Section 11)
 alex_all_pubs        <- read_rds("alex_all_pubs.rds")
-complete_works_orcid <- read_rds("my_orcid_works.rds")
+complete_works_orcid <- read_rds("my_orcid_works.rds") %>%
+  rename(url_value = `url.value`) %>%
+  mutate(
+    doi = ifelse(grepl("doi\\.org/", url_value),
+                 sub(".*doi\\.org/", "", url_value), NA),
+    id  = ifelse(!is.na(doi) & doi != "",
+                 doi, paste0("orcid_", cumsum(is.na(doi) | doi == "")))
+  )
 chikon_pubs_unnest     <- read_rds("chikon_pubs_unnest.rds")
 chikon_pubs_unnest_ror <- read_rds("chikon_pubs_unnest_ror.rds")
 
@@ -3197,7 +3530,9 @@ complete_works_PA <- complete_works_PA %>%
 # Get full pub count per year (for graph)
 years_normal <- alex_all_pubs %>%
   select(id, publication_year) %>%
-  rbind(complete_works_orcid %>% rename(publication_year = `publication-date.year.value`) %>% select(id, publication_year)) %>%
+  rbind(complete_works_orcid %>%
+          mutate(publication_year = as.integer(`publication-date.year.value`)) %>%
+          select(id, publication_year)) %>%
   unique() %>%
   count(publication_year)
 
@@ -3265,6 +3600,23 @@ complete_researchers_PA <- complete_researchers_PA %>%
 complete_researchers_PA_latest <- complete_researchers_PA_latest %>%
   filter(orcid %in% complete_works_PA$orcid)
 
+# Derive employment windows LAST: start = this row's year, end = next row's year.
+# This must run after every step that removes rows or rewrites `orcid`, because
+# lead() is taken within ORCID. Computed earlier — before the placeholder-ORCiD
+# merge, the AUTHOR_ID filter and the work-less-orphan filter — it leaves some
+# 90 rows pointing at years that no longer exist, skewing the app's time filter.
+# Sorted by orcid and start year so lead() gives the next position's start
+complete_researchers_PA <- complete_researchers_PA %>%
+  arrange(orcid, start_date_year_value) %>%
+  group_by(orcid) %>%
+  mutate(
+    employment_start = start_date_year_value,
+    employment_end   = lead(start_date_year_value, default = Inf)
+  ) %>%
+  ungroup() %>%
+  mutate(employment_start = ifelse(is.na(employment_start), 0, employment_start)) %>%
+  mutate(employment_end = ifelse(is.na(employment_end), Inf, employment_end))
+
 # Write final output files
 write_csv(complete_works_PA, "complete_works_PA.csv")
 write_csv(complete_researchers_PA, "complete_researchers_PA.csv")
@@ -3274,7 +3626,7 @@ write_csv(unique(funding_alex %>% filter(id %in% complete_works_PA$id)), "comple
 write_sf(complete_spacy_PA_geo, "complete_spacy_PA_geo.geojson", append = FALSE)
 
 
-# ──────────────────────────────────────────────
+# ══════════════════════════════════════════════
 # SECTION 21: Citation Networks (co-citation & bibliographic coupling)
 # ──────────────────────────────────────────────
 # Purpose: Extract paper -> reference edges from the OpenAlex `referenced_works`
@@ -3284,7 +3636,10 @@ write_sf(complete_spacy_PA_geo, "complete_spacy_PA_geo.geojson", append = FALSE)
 #            * bibliographic coupling — papers that share references
 # Output:  references_edges.csv  (paper_id, ref_id)
 #          references_meta.csv   (ref_id, ref_label, ref_title, ref_year,
-#                                 ref_cited_by, ref_doi)
+#                                 ref_cited_by, ref_doi, ref_first_author)
+#          citation_edges_direct.csv (from_id, to_id) — direct intra-corpus
+#                                 citations, where a reference is itself a
+#                                 corpus paper
 # Notes:   - paper_id matches complete_works_PA$id (the DOI-based key the app
 #            already uses), so the app joins the edge list to filtered pubs by id.
 #          - References cited by only ONE corpus paper are dropped: they can form
@@ -3332,8 +3687,6 @@ message("Citation edges: ", nrow(references_edges), " (",
 
 # 3. Fetch metadata for the kept references so the app can label co-citation
 #    nodes. Cached in references_meta.csv: re-runs only fetch new references.
-#    NOTE: `identifier =` is openalexR's by-id fetch argument — verify it against
-#    your installed openalexR version on first run.
 meta_targets <- keep_refs %>%
   filter(corpus_cites >= cocit_meta_min_cites) %>%
   pull(ref_id)
@@ -3346,8 +3699,8 @@ references_meta <- if (file.exists(meta_cache)) {
          ref_year = integer(), ref_cited_by = integer(), ref_doi = character(),
          ref_first_author = character())
 }
-# Older caches may lack ref_first_author (added later) or have read it back as a
-# logical all-NA column — normalise to character so the backfill below can
+# A cache may carry no ref_first_author column at all, or readr may have typed
+# an all-empty one as logical — normalise to character so the backfill below can
 # detect the gaps.
 if (!"ref_first_author" %in% names(references_meta)) {
   references_meta$ref_first_author <- NA_character_
@@ -3355,8 +3708,8 @@ if (!"ref_first_author" %in% names(references_meta)) {
   references_meta$ref_first_author <- as.character(references_meta$ref_first_author)
 }
 # Fetch references new to the cache, PLUS any cached rows still missing a first
-# author (e.g. cached before the authorships extraction was fixed) so the
-# Author-Co-Citation data backfills on the next run instead of staying all-NA.
+# author, so the Author-Co-Citation data backfills on the next run instead of
+# staying all-NA.
 missing_fa <- references_meta$ref_id[is.na(references_meta$ref_first_author)]
 to_fetch <- union(setdiff(meta_targets, references_meta$ref_id),
                   intersect(meta_targets, missing_fa))
@@ -3423,9 +3776,9 @@ if (length(to_fetch) > 0) {
 
 # 4. Direct intra-corpus citation edges: a reference that is itself a corpus
 #    paper (citing DOI -> cited DOI). Requires the OpenAlex W-id retained in
-#    Section 6 (`openalex_id`); present only after a re-harvest, so this is
-#    skipped gracefully on older data. Uses the FULL edge set (a citation is
-#    valid even if the cited paper is referenced only once).
+#    Section 6 (`openalex_id`); skipped gracefully if the harvested data does
+#    not carry it. Uses the FULL edge set (a citation is valid even if the
+#    cited paper is referenced only once).
 if ("openalex_id" %in% names(alex_all_pubs_PA)) {
   corpus_wid <- alex_all_pubs_PA %>%
     filter(!is.na(openalex_id), nzchar(openalex_id)) %>%
@@ -3444,7 +3797,7 @@ if ("openalex_id" %in% names(alex_all_pubs_PA)) {
 }
 
 
-# ──────────────────────────────────────────────
+# ══════════════════════════════════════════════
 # SECTION 22: Compact outputs to .rds
 # ──────────────────────────────────────────────
 # Re-save each generated CSV/GeoJSON as a gzip binary .rds written straight into

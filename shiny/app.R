@@ -286,6 +286,16 @@ complete_spacy_PA_keywords <- read_rds("complete_spacy_PA_keywords.rds") %>%
 # Funding and award data
 complete_prizes_PA <- read_rds("complete_funding_PA.rds")
 
+# Version stamp for the offline basemap assets, appended to their URLs (see the
+# tags$script call in the UI head) so that browsers fetch them again after a
+# rebuild rather than serving a cached copy. Derived from the files' own
+# modification times, so build_basemap.R never needs a version bumped by hand.
+basemap_version <- local({
+  f <- c("www/basemap.js", list.files("www/basemap", full.names = TRUE))
+  f <- f[file.exists(f)]
+  if (length(f) == 0) 0L else as.integer(max(file.mtime(f)))
+})
+
 # Geospatial data
 sf_countries <- read_sf("sf_countries_PA.geojson")   # pipeline input; not compacted
 complete_spacy_PA_geo <- local({
@@ -823,7 +833,13 @@ ui <- fluidPage(
     tags$link(rel = "apple-touch-icon", sizes = "180x180", href = "apple-touch-icon.png"),
     tags$link(rel = "icon", type = "image/png", sizes = "32x32", href = "favicon-32x32.png"),
     tags$link(rel = "icon", type = "image/png", sizes = "16x16", href = "favicon-16x16.png"),
-    
+
+    # Offline vector basemap for the Karte tab; defines window.atlasBasemap, which
+    # the leaflet widget calls once its map exists. The ?v= stamp is the newest
+    # modification time across the script and its GeoJSON, and basemap.js passes it
+    # on to the files it fetches, so a rebuilt basemap always reaches the browser.
+    tags$script(src = sprintf("basemap.js?v=%d", basemap_version)),
+
     tags$script(HTML("
     $(document).on('shown.bs.collapse', function (e) {
       $(e.target).prev('.panel-heading').find('i.fa').removeClass('fa-plus').addClass('fa-minus');
@@ -1320,6 +1336,77 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
     font-size: 0.9em;
     color: #444;
 }
+/* --- Offline basemap (Karte tab): drawn by www/basemap.js --- */
+/* Open Sans, the typeface of the CARTO Positron style the basemap follows. It is
+   served from the app itself: loading it from fonts.gstatic.com would introduce
+   exactly the third-party request the offline basemap avoids. build_basemap.R
+   fetches the two Latin subsets into www/fonts/. */
+@font-face {
+    font-family: 'Open Sans Local';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/open-sans-400-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                   U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+                   U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Open Sans Local';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/open-sans-400-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                   U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                   U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Water colour, so the map is not a white flash before the script paints the
+   land. Must match STYLE.water in basemap.js, which also fills the lakes. */
+.leaflet-container {
+    background: #d4dadc;
+}
+.atlas-place {
+    pointer-events: none;
+}
+/* A place is marked with a small square rather than a dot, drawn a shade darker
+   than the name beside it. */
+.atlas-place i {
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    width: 3px;
+    height: 3px;
+    background: #5f6a74;
+}
+/* Place names: 10px Open Sans, a 7px cap height. The light grey and greyscale
+   antialiasing are deliberate — browsers render small text heavier than the map
+   style calls for, and both together bring it back to the intended weight. */
+.atlas-place span {
+    position: absolute;
+    /* The name hangs to the left of the square, so the square itself sits on
+       the place's coordinates. */
+    right: 6px;
+    top: -6px;
+    white-space: nowrap;
+    font-family: 'Open Sans Local', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1;
+    color: #99a0a5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Halo so labels stay readable where they cross a coastline or a marker. */
+    text-shadow: 0 0 3px #fafaf8, 0 0 3px #fafaf8, 0 0 2px #fafaf8;
+}
+/* The most prominent cities — Tokyo, Beijing, Seoul, Chengdu, Ürümqi and the like
+   — are set in letterspaced capitals, and darker than the ordinary labels.
+   build_basemap.R decides which places these are. */
+.atlas-place--major span {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7278;
+}
     "))
   ),
   title = "Atlas der Ostasien-Forschung in Norddeutschland",
@@ -1341,7 +1428,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
       tags$p(
         "Diese Datenbank bündelt Forschungsaktivitäten zu Ostasien an Universitäten in ",
         "Norddeutschland und macht sie durchsuchbar und visualisierbar. Die zugrundeliegenden ",
-        "Daten stammen aus ORCiD, OpenAlex und Crossref (Stand: Juni 2026)."
+        "Daten stammen aus ORCiD, OpenAlex und Crossref (Stand: 25. August 2026)."
       ),
       tags$p("Sie können hier:"),
       tags$ul(
@@ -1412,7 +1499,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                                         "🏞️️️ Taiwan" = "taiwan"
                                             ),
                                             size = "sm",
-                                            selected=c("china","maritim"),
+                                            selected = c("china", "maritim", "hongkong"),
                                             status = "custom",
                                             checkIcon = list(
                                               yes = icon("ok",
@@ -1898,8 +1985,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                          dass sich jede/r Forschende nur einmal in ihrer/seiner Karriere für eine ORCiD registriert und es sich hier
                                          im Zweifelsfall im Namensvettern handelt.</p>
                                          <p><i>Wird die Datenbank permanent aktualisiert?</i></p>
-                                         <p>Nein, es handelt sich um ein statisches Datenset, das den Stand von öffentlich zugänglichen Datenbanken im
-                                         Juni 2026 repräsentiert. Unter Umständen wird es in der Zukunft neue Auflagen des <i>Atlas</i> geben,
+                                         <p>Nein, es handelt sich um ein statisches Datenset, das den Stand von öffentlich zugänglichen Datenbanken
+                                         vom 25. August 2026 repräsentiert. Unter Umständen wird es in der Zukunft neue Auflagen des <i>Atlas</i> geben,
                                          die dann eine aktualisierte Zeitspanne behandeln.</p>"
                                       )))),
                                       div(style = "height: 12px;"),
@@ -1920,7 +2007,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                         column(12, div(class = "dynamic-height scrollable-content",
                                        wellPanel(tags$small(HTML(paste0(
                                          "<p><h4>Technische Dokumentation</h4>Text: <a href=\"https://pelzer.blog\" target=\"_blank\">Thorben Pelzer</a><br>
-                                         September 2025, aktualisiert Juni 2026</p>
+                                         September 2025, aktualisiert 25. August 2026</p>
                                          <p>Die Datenerhebung fasst zehn universitäre Standorte ins Auge, die für den Raum Norddeutschland fächerübergreifend von besonderer Relevanz sind. Die Liste dieser Standorte ergibt sich aus der Kombination aller deutscher Universitäten, die Mitglied des Verbunds Norddeutscher Universitäten (<a href=\"https://www.uni-nordverbund.de/\">VNU</a>) sind und/oder als Partner des Projekts „Chinakompetenz im Norden“ (<a href=\"https://www.uni-kiel.de/de/international/chikon\">ChiKoN</a>), in dessen Kontext diese Erhebung entstanden ist, auftreten. Die Liste der Standorte spiegelt also nicht die vollständige Hochschullandschaft Norddeutschlands wieder, jedoch wäre dies auch kaum realisierbar, da sich das Netz aus teils stark spezialisierten kleineren Fachhochschulen, Privatuniversitäten und Kunstakademien selbst für den begrenzten norddeutschen Raum als sehr unübersichtlich erweist.</p>
                                          <div style=\"float: right; margin-left: 15px; margin-bottom: 15px;\">
                                          <span class='tooltip-image tooltip-right'>
@@ -1932,13 +2019,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                                          <p>Die kombinierte Erhebung über OpenAlex und ORCiD eignet sich insofern, als dass (1.) es sich um weitverbreitete Plattformen für Forschungsprofile mit auslesbarer API handelt, (2.) die Kombination aus externen und eigenen Publikationsinformationen Lücken der beiden Datenbanken gegenseitig schließt, und (3.) der Bezug auf eine universelle Plattform institutionsunabhängige Vergleichsmöglichkeiten schafft, die bei der Auslesung von universitätseigenen Forschungsinformationssystemen nicht möglich wäre, da die Akzeptanz dieser von Institution zu Institution schwankt.</p>
                                          <p>Im zweiten Schritt wurden dann alle Publikationen und alle Förderungen, die entweder über bibliografische Informationen öffentlich sind oder zu denen die Forschenden selbst Informationen auf ihrem Profil hinterlegt haben bzw., falls diese Berechtigung durch die Forschenden erteilt wurde, Drittanbieter wie <a href=\"https://search.crossref.org/\" target=\"_blank\">Crossref</a> oder <a href=\"https://www.scopus.com/\" target=\"_blank\">Scopus</a> Informationen auf dem ORCiD-Profil hinterlegt haben, geschürft. Die so gewonnenen Metadaten können je nach Eintrag leicht variieren, beinhalten aber in der Regel Informationen wie den Publikations- bzw. Förderzeitpunkt, das Publikationsformat (Journalbeitrag, Monografie, etc.), Name des Journals bzw. Verlags und ähnliche zitationsrelevante Datenpunkte.</p>
                                          <p>Im Sinne der übergeordneten Fragestellung interessiert sich die Datenanalyse für all jene katalogisierten Publikationen und Förderprojekte, die einen Ostasien-Bezug aufweisen. Dabei sollen, wie in der Einleitung herausgestellt, bewusst disziplinenübergreifend alle Beiträge mit regionalem bzw. thematischen Ostasien-Bezug gesammelt werden, ganz gleich, ob sich diese bewusst und gezielt mit den Ländern – etwa ihrer Kultur oder Gesellschaft – als Schwerpunkt ihrer Analyse auseinandersetzen oder sich der eigentliche Fokus der Arbeit lediglich geografisch in diesen Ländern befindet. Schließlich interessiert sich die vorliegende Arbeit für jegliche Formen der Landesexpertise an deutschen Hochschulen und damit auch jener China- und Ostasienkompetenz, die sich gar nicht aktiv als solche wahrnimmt bzw. sich selbst nicht als solche identifiziert.</p>
-                                         <p>Um also aus den 320.000 (ORCiD) bzw. 460.000 (OpenAlex) norddeutschen Publikationen jene Einträge herauszufiltern, die sich mit Ostasien auseinandersetzen, müssen die Einträge inhaltlich geprüft werden. Eine Prüfung der Volltexte ist nicht durchführbar, da die Volltexte bei den Verlange nicht einheitlich hinterlegt sind und ohnehin oftmals hinter einer Bezahlschranke liegen. Stattdessen sollen als Mittelweg die Zusammenfassungen (Abstracts) der Einträge geschürft werden, um diese danach inhaltlich zu analysieren.</p>
+                                         <p>Um also aus den rund 510.000 (ORCiD) bzw. 670.000 (OpenAlex) norddeutschen Publikationen jene Einträge herauszufiltern, die sich mit Ostasien auseinandersetzen, müssen die Einträge inhaltlich geprüft werden. Eine Prüfung der Volltexte ist nicht durchführbar, da die Volltexte bei den Verlagen nicht einheitlich hinterlegt sind und ohnehin oftmals hinter einer Bezahlschranke liegen. Stattdessen sollen als Mittelweg die Zusammenfassungen (Abstracts) der Einträge geschürft werden, um diese danach inhaltlich zu analysieren.</p>
                                          <p>Während die Mehrheit der OpenAlex-Einträge ein Abstract beinhaltet, beinhalten nur die wenigsten ORCiD-Einträge ein Abstract, welches in der Regel händisch durch den Forschenden hinterlegt werden müsste. Über die Organisation Crossref dagegen, die verlagsübergreifend Publikations-Metadaten verwaltet und bereitstellt, sind in vielen, aber nicht allen, Fällen Abstracts mit den <a href=\"https://www.doi.org/\" target=\"_blank\">DOIs</a> („Digital object identifiers“), also mit den eindeutigen Identifikationsnummern der Publikationen, verknüpft. Da Crossref eine frei zugängliche API anbietet, können die Publikations-Metadaten von ORCiD so um zusätzliche Abstracts erweitert werden – Gesetz dem Fall, dass in den ORCiD-Publikationsdaten eine DOI korrekt hinterlegt ist. Die Verbindung des ORCiD-Katalogs mit den Crossref-Metadaten ermöglicht es daher, Details über den Inhalt einer Publikation zu erlangen, die über die Überschrift und, wenn vorhanden, einzelne Keywords hinausgehen.</p>
                                          <p>Mit den nun gewonnen Daten – Überschrift der Publikation und, wo vorhanden, Keywords und Abstract – wird auf zwei einander ergänzende Weisen ermittelt, welche geografischen Räume in den Texten besprochen werden. Zum einen durchsuchen sogenannte reguläre Ausdrücke („Regular expressions“, kurz Regex) die Metadaten nach einer vorab festgelegten Liste von Schlüsselbegriffen wie „China“ oder „Beijing“. Zum anderen kommt maschinelle Sprachverarbeitung („Natural language processing“, kurz NLP) zum Einsatz, genauer die Eigennamenerkennung („Named-entity recognition“, kurz NER); ihr Vorteil ist, dass keine Liste an relevanten Ortsnamen vordefiniert werden muss, sondern eine undefinierte Anzahl von Orten – klein wie groß, Städte wie Flüsse, bekannt oder unerwartet – gefunden werden kann. Die Eigennamenerkennung nutzt hierbei grammatikalische Regeln, beispielsweise Deklinationen und Pronomina, um die Funktion und den Inhalt einzelner Worte eines Satzes zu bestimmen. Die Treffer beider Verfahren werden anschließend zusammengeführt.</p>
                                          <p>Im letzten Schritt können dann alle mittels der Eigennamenerkennung erkannten Orte („Locations“, kurz LOC) und geopolitische Einheiten („Geopolitical entities“, kurz GPE) über die „<a href=\"https://nominatim.org/release-docs/develop/api/Overview/\" target=\"_blank\">Nominatim</a>“-API des Geolokalisationsdienstes OpenStreetMap (<a href=\"https://www.openstreetmap.org/\" target=\"_blank\">OSM</a>) geografisch verortet werden. Das heißt, die die OSM-Suchfunktion ermittelt die wahrscheinlichsten geografischen Koordinaten für alle auftauchenden Raumbezeichnungen. Diese können dann auf einer Karte verzeichnet werden und eine Raumanalyse filtert die Ergebnisse so, dass am Ende nur noch jene Publikationen übrigbleiben, die von Orten sprechen, welche sich in der Region Asien-Pazifik befinden.</p>
+                                         <p>Die so ermittelten Koordinaten werden anschließend auf ein Gitter ganzer Breiten- und Längengrade gerundet. Das ist eine bewusste Vergröberung: Ein im Text genannter Ortsname lässt sich nicht genauer verorten, als die Nennung selbst es hergibt, und die Rundung fasst die vielen Nennungen desselben Raumes zu lesbaren Häufungen zusammen. Auf der Karte liegen die Punkte deshalb auf einem regelmäßigen Raster. Ergänzend wird eine Liste jener Ortsbezeichnungen von Hand korrigiert, die die Suchfunktion erwartbar falsch verortet – etwa Sammelbegriffe wie „Westchina“ oder „Zentralasien“, für die es keinen eindeutigen Punkt gibt.</p>
+                                         <p>Da ORCiD und OpenAlex einander überschneiden, verzeichnen beide Quellen vielfach dieselbe Arbeit. Die zusammengeführten Einträge werden deshalb entdoppelt: Publikationen werden über ihre DOI und, wo diese fehlt, über eine vereinheitlichte Fassung des Titels abgeglichen und zu einem Datensatz verschmolzen. Die im Atlas ausgewiesenen Publikationszahlen liegen daher unter der Summe der Treffer beider Datenbanken.</p>
                                          <p>Nach der ausgiebigen Datenschürfung und -verarbeitung bleibt also ein Korpus aller Forschender in Norddeutschland übrig, die nachweislich zu Ostasien gearbeitet haben bzw. deren Publikationen zumindest prominent in Überschrift oder Abstract Orte in der Region benennen.</p>
-                                         <p>Die Einteilung der Forschenden in einen von acht Fachbereichen beruht auf einer kuratierten Zuordnung von Einrichtung und Abteilung zum jeweiligen Fachbereich; wo diese nicht greift, wird der Fachbereich einer Person unmittelbar aus ihren Publikationen bestimmt. Für die im Artikel ausgewertete Kerngruppe wurde jede Zuordnung von Hand anhand der Publikationen geprüft. Nur wo sich auch auf diesem Weg kein Fachbereich ergibt, schlägt ergänzend ein lokal betriebenes KI-Sprachmodell (das quelloffene Modell „Qwen“) aus den Publikationstiteln einen Fachbereich vor; die kuratierte bzw. von Hand geprüfte Zuordnung hat dabei stets Vorrang. Die Taxonomie orientiert sich an den <a href=\"https://www.uni-kiel.de/de/universitaet/einrichtungen-fakultaeten/fakultaeten-gemeinsame-einrichtungen\">Fakultäten der CAU</a>, muss mit diesen aber nicht kongruent sein.</p>
+                                         <p>Institutionsnamen erscheinen in den Metadaten in zahlreichen Schreibweisen – als Abkürzung, in deutscher oder englischer Fassung, mit oder ohne übergeordnete Einrichtung. Damit Auswertungen nach Einrichtung nicht an bloßen Schreibvarianten scheitern, werden ähnliche Namenspaare zunächst automatisch als Kandidaten vorgeschlagen – über Zeichenähnlichkeit, Akronyme und gemeinsame Ortsangaben – und anschließend einzeln von einem lokal betriebenen KI-Sprachmodell daraufhin geprüft, ob sie tatsächlich dieselbe Einrichtung bezeichnen. In einem zweiten Durchgang wird auf demselben Weg bestimmt, ob eine Einrichtung Teil einer anderen ist, etwa ein Institut Teil seiner Universität, sodass sich Angaben auf der jeweils passenden Ebene bündeln lassen.</p>
+                                         <p>Die Einteilung der Forschenden in einen von acht Fachbereichen beruht auf einer kuratierten Zuordnung von Einrichtung und Abteilung zum jeweiligen Fachbereich; wo diese nicht greift, wird der Fachbereich einer Person unmittelbar aus ihren Publikationen bestimmt. Für die im Artikel ausgewertete Kerngruppe wurde jede Zuordnung von Hand anhand der Publikationen geprüft. Nur wo sich auch auf diesem Weg kein Fachbereich ergibt, schlägt ergänzend ein lokal betriebenes KI-Sprachmodell (das quelloffene Modell „Qwen 3.5“) aus den Publikationstiteln einen Fachbereich vor; die kuratierte bzw. von Hand geprüfte Zuordnung hat dabei stets Vorrang. Die Taxonomie orientiert sich an den <a href=\"https://www.uni-kiel.de/de/universitaet/einrichtungen-fakultaeten/fakultaeten-gemeinsame-einrichtungen\">Fakultäten der CAU</a>, muss mit diesen aber nicht kongruent sein.</p>
                                          <p>Über die Publikationen hinaus werden zudem die Literaturverzeichnisse (Referenzen) der erfassten Beiträge ausgewertet, soweit sie über OpenAlex vorliegen. Sie bilden die Grundlage für die Zitationsnetzwerke des Atlas – etwa die Frage, welche Autor:innen oder Werke häufig gemeinsam zitiert werden.</p>
+                                         <p>Für die Zuordnung einer Publikation zu einem Standort ist schließlich auch der Zeitpunkt entscheidend. Aus den Beschäftigungsangaben der Profile werden die Zeiträume abgeleitet, in denen eine Person an einem der zehn Standorte tätig war. Die Filteroption „Auf Publikationen während der Anstellung am Standort begrenzen“ blendet damit jene Arbeiten aus, die zwar von einer erfassten Person stammen, aber vor oder nach ihrer dortigen Tätigkeit entstanden sind.</p>
                                          <p>Mit dem gefilterten Korpus können die eigentlichen Analysen angestellt werden.</p>"
                                        )))),
                                        
@@ -2087,11 +2178,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
                         column(12, div(class = "dynamic-height scrollable-content",
                                        wellPanel(tags$small(HTML(paste0(
                                          "<p><b>Autor:innenschaft</b></p><p>
-                                  Konzeption, Programmierung, Realisierung: <a href=\"https://pelzer.blog\" target=\"_blank\">Jun.-Prof. Dr. Thorben Pelzer</a> (<a href=\"https://huma.hkust.edu.hk/people/thorben-pelzer-0\">HKUST</a>)</br>
+                                  Konzeption, Programmierung, Realisierung: <a href=\"https://pelzer.blog\" target=\"_blank\">Jun.-Prof. Dr. Thorben Pelzer</a> (<a href=\"https://facultyprofiles.hkust.edu.hk/profiles.php?profile=thorben-pelzer-pelzer#publications\">HKUST</a>)</br>
                                   Ideen und Förderung: <a href=\"https://www.chinazentrum.uni-kiel.de/de/\" target=\"_blank\">Chinazentrum CAU Kiel</a></br>
                                   Zitationsvorschlag: Pelzer, Thorben. „Atlas der Ostasien-Forschung in Norddeutschland.“ Kiel: CAU Chinazentrum, 2025. <a href=\"citation.bib\"  download=\"citation.bib\">📚</a></p>
                                   
-                                  <p><b>Verwendete Daten und Bibliotheken</b></p><p>Datengrundlage: Crossref, OpenAlex, ORCiD (Stand: Juni 2026)<br>
+                                  <p><b>Verwendete Daten und Bibliotheken</b></p><p>Datengrundlage: Crossref, OpenAlex, ORCiD (Stand: 25. August 2026)<br>
                                   Realisiert mit u.a. <a href=\"https://doi.org/10.32614/RJ-2023-089\" target=\"_blank\">openalexR</a>, <a href=\"https://doi.org/10.32614/CRAN.package.rorcid\" target=\"_blank\">rOrcid</a>, <a href=\"https://doi.org/10.32614/CRAN.package.rcrossref\" target=\"_blank\">rCrossref</a>,
                                   <a href=\"https://doi.org/10.32614/CRAN.package.spacyr\" target=\"_blank\">SpacyR</a>, <a href=\"https://doi.org/10.21105/joss.03544\" target=\"_blank\">TidyGeocoder</a>, <a href=\"https://shiny.posit.co/\" target=\"_blank\">Shiny</a></p>
                                  
@@ -2398,18 +2489,22 @@ server <- function(input, output, session) {
       formatC(nrow(datatable_pubs), format = "d", big.mark = ".", decimal.mark = ","),
       " gefilterte Publikationen · Markergröße = Häufigkeit</span>")
 
-    m <- leaflet(options = leafletOptions(minZoom = 2)) %>%
-      # Base map served from the CAU Kiel tile cache (a CARTO-light proxy) rather
-      # than d.basemaps.cartocdn.com directly: client IPs no longer reach CARTO's
-      # CDN, so no separate Auftragsdatenverarbeitung/Datenschutzhinweis is needed
-      # for that host. Same look as the former providers$CartoDB.Positron tiles.
-      addTiles(
-        urlTemplate = "https://osm-tilecache.rz.uni-kiel.de/cartodb-light/{z}/{x}/{y}.png",
-        attribution = paste0(
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ',
-          'contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'),
-        options = tileOptions(maxZoom = 20)
-      ) %>%
+    # The map has no raster tile layer. Its basemap is drawn client-side from the
+    # Natural Earth GeoJSON in www/basemap/ (built by build_basemap.R, drawn by
+    # www/basemap.js), which the app serves itself: no part of the map reaches a
+    # third-party host, so it needs neither an Auftragsverarbeitung nor an entry
+    # in the Datenschutzhinweis.
+    #
+    # maxZoom 8 is where the map stops carrying information: the basemap geometry
+    # is 1:50m, and the marker coordinates above are rounded to 0.1 degrees.
+    #
+    # worldCopyJump re-centres the view on the middle copy of the world when the
+    # user pans past the antimeridian. Vector layers do not repeat the way tile
+    # layers do, so basemap.js draws a copy of the world either side; the jump
+    # lands on identical geography and keeps panning endless.
+    m <- leaflet(options = leafletOptions(minZoom = 2, maxZoom = 8,
+                                          worldCopyJump = TRUE)) %>%
+      htmlwidgets::onRender("function(el, x) { window.atlasBasemap(this); }") %>%
       # Default view zoomed on the East/Southeast-Asia + India core. India's far
       # western tip (~68-70°E) and Sri Lanka's south sit just outside the initial
       # frame, but the polygons are complete now — pan/zoom out to see them.
@@ -2430,6 +2525,13 @@ server <- function(input, output, session) {
       m <- m %>% addPolygons(
         data = plotted_points_countries,
         layerId = ~NAME,
+        # These polygons share their coastlines with the basemap land layer, which
+        # draws the same outlines underneath. smoothFactor 0 keeps both exact:
+        # leaflet's default thins each path by up to a pixel as it draws, and can
+        # resolve one coastline differently in each layer, leaving a hairline of
+        # bare land or sea along the shore. Only the drawing is affected, not the
+        # geometry. basemap.js sets the same option on its side.
+        smoothFactor = 0,
         weight = 1.2, color = ~pal_c(n), fillColor = ~pal_c(n), fillOpacity = 0.2,
         label = ~lapply(paste0("<b>", htmltools::htmlEscape(NAME), "</b>: ", n,
                                " Nennung(en)<br><i>Klicken: zu Suchbegriffen hinzufügen</i>"), HTML))
@@ -2653,7 +2755,7 @@ server <- function(input, output, session) {
 
   # Reset all filters to their defaults and re-run the (default) search.
   observeEvent(input$reset, {
-    updateCheckboxGroupButtons(session, "regions", selected = c("china", "maritim"))
+    updateCheckboxGroupButtons(session, "regions", selected = c("china", "maritim", "hongkong"))
     updateCheckboxGroupButtons(session, "places",  selected = c("kiel"))
     updateCheckboxGroupButtons(session, "faculties",
                                selected = c("agrar", "mint", "med", "phil",

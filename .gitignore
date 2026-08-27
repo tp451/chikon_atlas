@@ -1,12 +1,52 @@
-# The repository ships the R data pipeline, its input/output data, and the Shiny
-# app (+ app data and flag SVGs) only. Manuscript analysis, figures, drafts and
-# notes are kept out.
+# The repository ships the R scripts, the hand-maintained input tables they read,
+# and the Shiny app together with the compacted data it loads at startup.
+# Everything the pipeline generates in the project root — checkpoints, per-year
+# harvests, intermediate CSVs, caches — is reproducible from those scripts and is
+# kept out (it currently runs to ~14 GB). Manuscript analysis, figures, drafts and
+# notes are kept out as well.
+
+# ── Pipeline artefacts in the project root ───────────────────────────────────
+# Deny by default, then re-admit the hand-maintained inputs below. A blanket rule
+# is deliberate: Section 6 alone writes one .rds per year, and a new output must
+# never be able to slip into a commit unnoticed.
+#
+# NOTE: these patterns are root-anchored ("/"), so they do NOT touch shiny/.
+# When you add a NEW input table that clean_mining.R reads, add a matching "!"
+# line below or it will be silently ignored.
+/*.rds
+/*.csv
+/*.geojson
+/*.tmp
+
+# Hand-maintained pipeline inputs (see README → Input Files)
+!/db_sf_countries.csv
+!/db_sf_filter.csv
+!/departments.csv
+!/faculties.csv
+!/researcher_faculties.csv
+!/universities.csv
+!/sf_countries_PA.geojson
+
+# LLM verdict caches (Sections 16a, 16b, 17). Script output, but shipped on
+# purpose: they freeze the organisation merges, the parent/child hierarchy and
+# the faculty assignments this dataset was actually built with. With them in
+# place the pipeline reproduces those decisions exactly and needs no Ollama
+# server; delete one to have that stage classified again from scratch.
+!/faculties_ollama.csv
+!/org_merges_ollama.csv
+!/org_hierarchy_ollama.csv
+
+# Section 6 window cache (completed date windows, cleared per year on success)
+.harvest_cache/
+
+# Stale copy of the root-level Section 20 output. app.R reads the compacted
+# complete_spacy_PA_geo.rds that Section 22 writes; nothing reads this GeoJSON.
+shiny/complete_spacy_PA_geo.geojson
 
 # ── Article analysis & figure scripts (not part of the pipeline / app) ────────
 article_results_analysis.R
 article_figures.R
 article_figures_spatial.R
-figure_data.rds
 figures/
 
 # ── Manuscript drafts, notes, and audits ──────────────────────────────────────
@@ -15,7 +55,6 @@ beyond_area_studies_article_draft.md
 beyond_area_studies_article_draft.copyedit.md
 journal_targeting_note.md
 pipeline_method.md
-south_china_sea_relevance_audit.csv
 south_china_sea_relevance_audit_note.md
 
 # ── R / editor session junk ───────────────────────────────────────────────────
@@ -23,3 +62,5 @@ south_china_sea_relevance_audit_note.md
 **/.Rhistory
 .RData
 .Rproj.user/
+rsconnect/
+shiny/rsconnect/
