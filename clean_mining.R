@@ -2957,7 +2957,10 @@ complete_researchers_PA <- complete_researchers_PA %>%
     ifelse(bad, NA_character_, department_name)
   })
 
-# Faculty assignment chain: manual lookup -> backfill within orcid -> Ollama LLM
+# Faculty assignment. Precedence, strongest first: the per-researcher override
+# table -> the Ollama LLM's reading of the publication titles -> the
+# organisation-department concordance (joined and backfilled here, and used only
+# where the model has no verdict).
 complete_researchers_PA <- complete_researchers_PA %>%
   select(-faculties) %>%
   left_join(faculties, by = c("organization_name", "department_name"), relationship = "many-to-many")
@@ -2976,9 +2979,10 @@ complete_researchers_PA$faculties[complete_researchers_PA$faculties == "tecvh"] 
 
 # ── Ollama LLM faculty classification ──────────────────────────────────────────
 # Classify every researcher with the LLM based on their publication titles,
-# regardless of whether they already have a manually-assigned faculty.
-# The prediction is kept in `predicted_faculties` (separate column) so it
-# can later be compared against the existing `faculties` value.
+# regardless of whether the concordance already produced a faculty. The
+# prediction is kept in `predicted_faculties` (separate column) as well as
+# taken as the primary `faculties` value below, so the concordance-derived
+# value remains available for comparison.
 # Previously predicted ORCIDs are cached in faculties_ollama.csv so the
 # LLM is only called for genuinely new researchers.
 
@@ -3048,17 +3052,18 @@ if (nrow(to_predict) > 0) {
   message(sprintf("Saved %d total cached predictions to %s", nrow(cached_predictions), config$ollama_cache))
 }
 
-# Merge predictions into researchers table as a SEPARATE column AND
-# supplement `faculties` with the LLM prediction where the manual / lookup
-# value is missing. Both columns are kept so the manual vs. predicted values
-# can still be diffed downstream.
+# Merge predictions into the researchers table as a SEPARATE column AND take the
+# model's verdict as the primary value for `faculties`. The concordance is the
+# FALLBACK, reached only where the model has no verdict; it keys on organisation
+# + department rather than on the individual researcher. Both columns are kept
+# so the two can be diffed downstream.
 complete_researchers_PA <- complete_researchers_PA %>%
   left_join(
     cached_predictions %>% select(orcid, predicted_faculties, prediction_confidence),
     by = "orcid"
   ) %>%
   mutate(faculties = ifelse(
-    (is.na(faculties) | faculties %in% c("NA", "NA.")) & !is.na(predicted_faculties),
+    !is.na(predicted_faculties),
     predicted_faculties,
     faculties
   ))
@@ -3068,10 +3073,10 @@ complete_researchers_PA$faculties[is.na(complete_researchers_PA$faculties)] <- "
 
 # ── Per-researcher manual faculty override ──────────────────────────────────────
 # A curated researcher-level faculty table, each entry assigned from the
-# researcher's own publication record. It takes priority over both the
-# organisation-department concordance and the title-model fallback, and is the
-# appropriate source where a researcher has no department or the organisation
-# name resolves ambiguously across faculties.
+# researcher's own publication record. It outranks both the title model and the
+# organisation-department concordance, and is the appropriate place to correct a
+# researcher the model reads wrongly, or one whose organisation name resolves
+# ambiguously across faculties.
 if (file.exists("researcher_faculties.csv")) {
   researcher_faculties <- read_csv("researcher_faculties.csv", show_col_types = FALSE) %>%
     filter(!is.na(orcid), !is.na(faculties), faculties != "") %>%
@@ -3622,7 +3627,15 @@ write_csv(complete_works_PA, "complete_works_PA.csv")
 write_csv(complete_researchers_PA, "complete_researchers_PA.csv")
 write_csv(complete_researchers_PA_latest, "complete_researchers_PA_latest.csv")
 write_csv(entities_complete, "complete_spacy_PA_keywords.csv")
-write_csv(unique(funding_alex %>% filter(id %in% complete_works_PA$id)), "complete_funding_PA.csv")
+# Funding carries the work, the author and the funder. The remaining columns are
+# either constant or duplicate complete_works_PA.csv, which joins on `id`, so
+# they are dropped here — after counted_coop_countries above has taken its
+# country codes from chikon_pubs_unnest. Every publication-author-funder link
+# survives; unique() collapses rows separated only by a dropped column.
+write_csv(unique(funding_alex %>%
+                   filter(id %in% complete_works_PA$id) %>%
+                   select(id, orcid, organization)),
+          "complete_funding_PA.csv")
 write_sf(complete_spacy_PA_geo, "complete_spacy_PA_geo.geojson", append = FALSE)
 
 

@@ -204,11 +204,11 @@ config <- list(
 | 16a | 2434 | Auto-detect Same-Organisation Variants | Generate candidate org-name pairs (Jaro-Winkler, acronym signature, shared place token), verify every pair with the LLM |
 | 16b | 2595 | Auto-detect Organisation Hierarchy | Find orgs whose token sequence is contained in another's, verify each parent/child pair with the LLM |
 | 17 | 2733 | Data Cleaning — Researchers | Harmonise names, orgs and departments; apply merges and hierarchy; assign faculties |
-| 18 | 3160 | Data Cleaning — Publications | Deduplicate and normalise publication records |
-| 19 | 3218 | Data Cleaning — Keywords & Geodata | Clean entity keywords, categorise points on true coordinates before snapping to the one-degree grid, apply toponym corrections |
-| 20 | 3469 | Final Outputs & Exports | Apply final filters, derive employment windows, write the output CSVs and GeoJSON |
-| 21 | 3630 | Citation Networks | Unnest `referenced_works` into edge lists, fetch reference metadata, derive direct intra-corpus citations |
-| 22 | 3801 | Compact Outputs to .rds | Repair text encoding and re-save every output as a gzip `.rds` in the `shiny/` app folder |
+| 18 | 3166 | Data Cleaning — Publications | Deduplicate and normalise publication records |
+| 19 | 3224 | Data Cleaning — Keywords & Geodata | Clean entity keywords, categorise points on true coordinates before snapping to the one-degree grid, apply toponym corrections |
+| 20 | 3475 | Final Outputs & Exports | Apply final filters, derive employment windows, write the output CSVs and GeoJSON |
+| 21 | 3644 | Citation Networks | Unnest `referenced_works` into edge lists, fetch reference metadata, derive direct intra-corpus citations |
+| 22 | 3815 | Compact Outputs to .rds | Repair text encoding and re-save every output as a gzip `.rds` in the `shiny/` app folder |
 
 Line numbers are current as of this revision. The section banners are greppable if they drift — e.g. `grep -n "^# SECTION 21:" clean_mining.R`.
 
@@ -308,19 +308,25 @@ Each researcher is assigned to one of 8 German university faculties based on the
 
 ### How It Works
 
-The assignment chain runs in Section 17, in this order:
+Precedence, strongest first: per-researcher override → LLM → organisation–department concordance.
 
-1. **Manual lookup** — join `faculties.csv` by organisation + department name
-2. **Backfill** — within each ORCID group, propagate any known faculty to the researcher's other rows
-3. **LLM classification** — for **every** distinct ORCID, not only those still missing a faculty:
+The assignment runs in Section 17, in this order:
+
+1. **Concordance lookup** — join `faculties.csv` by organisation + department name
+2. **Backfill** — within each ORCID group, propagate any concordance value to the researcher's other rows
+3. **LLM classification** — for every distinct ORCID, not only those the concordance left empty:
    - Load cached predictions from `faculties_ollama.csv`
    - Identify ORCIDs not yet in the cache
    - Aggregate their publication titles from the works table
    - Send each researcher's titles to Ollama as a zero-shot classification prompt
    - Parse the JSON response (`{"faculty": "<code>", "confidence": <0-1>}`)
    - Append new predictions to the cache CSV
-4. **Merge** — the prediction is kept in its own `predicted_faculties` column (with `prediction_confidence`) so manual and predicted values stay comparable; `faculties` is filled from the prediction only where the manual/lookup value is missing
-5. **Per-researcher override** — if `researcher_faculties.csv` is present, its entries overwrite `faculties` outright. Curated from each researcher's own publication record, it takes priority over both the organisation-department concordance and the title model, and is the right place to fix researchers with no department or an organisation that spans faculties.
+4. **Merge** — the prediction becomes the value of `faculties` and is also kept in `predicted_faculties`. The concordance applies only where the model has no verdict.
+5. **Per-researcher override** — if `researcher_faculties.csv` is present, its entries overwrite `faculties` outright, outranking both the model and the concordance.
+
+`faculties.csv` keys on organisation and department rather than on the individual researcher.
+
+`prediction_confidence` is the model's own self-assessment, not a calibrated probability.
 
 ### Setup
 
@@ -446,7 +452,7 @@ Written in Section 20:
 | `complete_researchers_PA_latest.csv` | One row per researcher (latest affiliation that carries an organisation) |
 | `complete_spacy_PA_keywords.csv` | NLP-extracted entities (keywords) |
 | `complete_spacy_PA_geo.geojson` | Geocoded entities as spatial features |
-| `complete_funding_PA.csv` | Funding information for the final publication set |
+| `complete_funding_PA.csv` | Publication–author–funder links (`id`, `orcid`, `organization`); publication metadata joins from `complete_works_PA.csv` on `id` |
 | `years_normal.csv` | Publication counts by year (full corpus, for the baseline graph) |
 | `counted_coop_countries.csv` | Co-authorship country counts by publication and year |
 
